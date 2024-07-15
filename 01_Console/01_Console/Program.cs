@@ -234,29 +234,21 @@
             // 2. 점수를 입력 받아서 90점 이상이면 A, 80이상 B, 70이상 C, 60이상 D, 나머지 F를 출력
 
             Console.Write("성적을 입력하세요 : ");
-            int score;
-            GradeCategory category;
-            if (int.TryParse(Console.ReadLine(), out score))
+            GradeCategory category = GradeCategory.F;
+            if (int.TryParse(Console.ReadLine(), out int score))
             {
-                if (score < 60)
-                {
-                    category = GradeCategory.F;
-                }
-                else if (score < 70)
-                {
-                    category = GradeCategory.D;
-                }
-                else if (score < 80)
-                {
-                    category = GradeCategory.C;
-                }
-                else if (score < 90)
-                {
-                    category = GradeCategory.B;
-                }
-                else
+                if (score > 89)
                 {
                     category = GradeCategory.A;
+                } else if (score > 79)
+                {
+                    category = GradeCategory.B;
+                } else if (score > 69)
+                {
+                    category = GradeCategory.C;
+                } else if (score > 59)
+                {
+                    category = GradeCategory.D;
                 }
 
                 Console.WriteLine($"당신의 점수는 {score} 등급은 {category} 입니다.");
