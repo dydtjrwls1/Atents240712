@@ -233,28 +233,92 @@
             // 1. 성적용 enum 만들기 (A, B, C, D, F)
             // 2. 점수를 입력 받아서 90점 이상이면 A, 80이상 B, 70이상 C, 60이상 D, 나머지 F를 출력
 
-            Console.Write("성적을 입력하세요 : ");
-            GradeCategory category = GradeCategory.F;
-            if (int.TryParse(Console.ReadLine(), out int score))
-            {
-                if (score > 89)
-                {
-                    category = GradeCategory.A;
-                } else if (score > 79)
-                {
-                    category = GradeCategory.B;
-                } else if (score > 69)
-                {
-                    category = GradeCategory.C;
-                } else if (score > 59)
-                {
-                    category = GradeCategory.D;
-                }
+            //Console.Write("성적을 입력하세요 : ");
+            //GradeCategory category = GradeCategory.F;
+            //if (int.TryParse(Console.ReadLine(), out int score))
+            //{
+            //    if (score > 89)
+            //    {
+            //        category = GradeCategory.A;
+            //    } else if (score > 79)
+            //    {
+            //        category = GradeCategory.B;
+            //    } else if (score > 69)
+            //    {
+            //        category = GradeCategory.C;
+            //    } else if (score > 59)
+            //    {
+            //        category = GradeCategory.D;
+            //    }
 
-                Console.WriteLine($"당신의 점수는 {score} 등급은 {category} 입니다.");
+            //    Console.WriteLine($"당신의 점수는 {score} 등급은 {category} 입니다.");
+            //}
+            //else { Console.WriteLine("error."); }
+
+            //int a = 123;
+            //a = 0b_0111_1011; // 2진수로 쓴 123
+
+            //int b1 = 0b_1010;
+            //int b2 = 0b_1100;
+
+            //int c1 = b1 & b2; // 0b_1000.
+            //int c2 = b1 | b2; // 0b_1110.
+
+
+            // 7/16 ----------------------------------------------------------------------------------
+
+            //int count = 0;
+            //while(count < 5)
+            //{
+            //    Console.WriteLine("Hello");
+            //    count++;
+            //}
+
+            //count = 0;
+            //do
+            //{
+            //    Console.WriteLine("Hello");
+            //    count++;
+            //} while(count < 3);
+
+            //for(int i = 0; i < 3; i++)
+            //{
+            //    Console.WriteLine("Hello");
+            //}
+
+            //int[] intArray;
+            //intArray = new int[3];
+            //intArray[0] = 1;
+            //intArray[1] = 2;
+            //intArray[2] = 3;
+
+            //foreach( int i in intArray )
+            //{
+            //    Console.WriteLine($"hello - {i}");
+            //}
+
+            // 실습 . 구구단 출력하기
+
+            Console.Write("숫자를 입력하세요 : ");
+
+            int input;
+            while(!int.TryParse(Console.ReadLine(), out input))
+            {
+                Console.Write("다시 입력하세요 : ");
             }
-            else { Console.WriteLine("error."); }
+
+            PrintMulty(input);
+            Console.WriteLine("==========================");
+
+            
         }
         
+        static void PrintMulty(int input)
+        {
+            for(int i = 1; i < 10; i++)
+            {
+                Console.WriteLine($"{input} * {i} = {input * i}");
+            }
+        }
     }
 }
