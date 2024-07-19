@@ -13,6 +13,9 @@ public class Bullet : MonoBehaviour
     // 총알의 수명
     public float lifeTime = 10.0f;
 
+    // 총알이 맞았을 때 이펙트
+    public GameObject hitEffect;
+
     private void Start()
     {
         Destroy(gameObject, lifeTime);
@@ -33,4 +36,42 @@ public class Bullet : MonoBehaviour
         transform.Translate(Time.deltaTime * speed * Vector3.right);
 
     }
+
+    // 충돌이 시작 되었을 때 실행
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("충돌 시작");
+        Instantiate(hitEffect, transform.position, Quaternion.identity);
+
+        Destroy(gameObject); // 자기자신 제거하기
+    }
+
+    //// 충돌이 된 상태에서 움직임이 있을 때 실행
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    // Debug.Log("충돌 중");
+    //}
+
+    //// 충돌이 끝났을 때 실행
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    // Debug.Log("충돌 종료");
+    //}
+
+    // 겹침이 시작 되었을 때
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+        
+    //}
+
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+        
+    //}
+
+    //// 겹침이 끝났을 때
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+        
+    //}
 }

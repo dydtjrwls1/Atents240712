@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
 
     private void OnFireEnd(UnityEngine.InputSystem.InputAction.CallbackContext _)
     {
-        Debug.Log("Stop Fire");
+        // Debug.Log("Stop Fire");
         // StopAllCoroutines(); // 모든 코루틴 정지 시키기
         StopCoroutine(fireCoroutine);
     }
