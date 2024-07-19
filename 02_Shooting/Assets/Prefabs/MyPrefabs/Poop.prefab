@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallSpeed: 2
   rotationSpeed: 100
+  explosion: {fileID: 7048904745060140315, guid: 7349d051b0d04b948ad2e440b707a96d, type: 3}
 --- !u!50 &-3217448627608090930
 Rigidbody2D:
   serializedVersion: 4

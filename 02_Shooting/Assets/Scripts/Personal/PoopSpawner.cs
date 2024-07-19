@@ -11,7 +11,7 @@ public class PoopSpawner : MonoBehaviour
     public GameObject poopPrefab;
 
     // 스폰 Y 좌표
-    const float yPos = 5.5f;
+    const float yPos = 5.3f;
 
     // 스폰 X 좌표
     float xPos;
@@ -23,7 +23,7 @@ public class PoopSpawner : MonoBehaviour
     Vector2 spawnPos;
 
     // 스폰 간격
-    float spawnInterval = 1.0f;
+    public float spawnInterval = 1.0f;
     private void Awake()
     {
         spawnCoroutine = SpawnPoop();
