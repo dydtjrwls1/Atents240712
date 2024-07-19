@@ -12,10 +12,10 @@ public class Enemy : MonoBehaviour
     float init_Y;
 
     // 위 아래 방향 결정
-    float direction_Y = 1.0f;
+    // float direction_Y = 1.0f;
 
     // 위 아래 y축 경계선
-    float limit_Y = 3.0f;
+    // float limit_Y = 3.0f;
 
     float elapsedTime = 0.0f;
 
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 
     public float amplitude = 3.0f;
 
-    float spawnY = 0.0f;
+    // float spawnY = 0.0f;
     private void Awake()
     {
         init_Y = transform.position.y;

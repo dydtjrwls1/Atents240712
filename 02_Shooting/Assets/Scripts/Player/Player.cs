@@ -5,8 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
+    // 총알 발사 간격
+    public float fireInterval = 0.5f;
+
     //총알 프리팹
     public GameObject bulletPrefab;
+
+    // 총알 발사 이펙트 게임 오브젝트
+    GameObject fireFlash;
 
     // 이동속도 
     public float moveSpeed = 10.0f;
@@ -14,12 +20,20 @@ public class Player : MonoBehaviour
     PlayerInputActions playerInputActions;
 
     Vector3 inputDirection;
+
     // 애니메이터 컴포넌트를 저장할 변수.
     Animator animator;
 
     readonly int InputY_String = Animator.StringToHash("InputY");
 
+    // 총알 발사 위치
     Transform fireTransform;
+
+    // 총알 발사용 코루틴
+    IEnumerator fireCoroutine;
+
+    // 총알 발사 이펙트가 보이는 시간.
+    WaitForSeconds flashWait;
 
     private void Awake()
     {
@@ -28,7 +42,12 @@ public class Player : MonoBehaviour
         playerInputActions = new PlayerInputActions();
 
         // 총알 발사용 트랜스폼
-        fireTransform = transform.GetChild(0);
+        fireTransform = transform.GetChild(0); // 첫 번째 자식 찾기
+        fireFlash = transform.GetChild(1).gameObject; // 두 번째 자식을 찾아서 그 자식의 게임 오브젝트 저장하기
+
+        fireCoroutine = FireCoroutine();
+
+        flashWait = new WaitForSeconds(0.1f);
     }
 
     private void OnEnable()
@@ -36,23 +55,31 @@ public class Player : MonoBehaviour
         playerInputActions.Enable();
         playerInputActions.Player.Move.performed += Move;
         playerInputActions.Player.Move.canceled += MoveCanceled;
-        playerInputActions.Player.Fire.performed += OnFire;
+        playerInputActions.Player.Fire.performed += OnFireStart;
+        playerInputActions.Player.Fire.canceled += OnFireEnd;
         
     }
 
     private void OnDisable()
     {
-        playerInputActions.Player.Fire.performed -= OnFire;
+        playerInputActions.Player.Fire.canceled -= OnFireEnd;
+        playerInputActions.Player.Fire.performed -= OnFireStart;
         playerInputActions.Player.Move.canceled -= MoveCanceled;
         playerInputActions.Player.Move.performed -= Move;
         playerInputActions.Disable();
     }
 
     
-    private void OnFire(UnityEngine.InputSystem.InputAction.CallbackContext _)
+    private void OnFireStart(UnityEngine.InputSystem.InputAction.CallbackContext _)
     {
-        Fire();
-        Debug.Log("Fire!!");
+        StartCoroutine(fireCoroutine);
+    }
+
+    private void OnFireEnd(UnityEngine.InputSystem.InputAction.CallbackContext _)
+    {
+        Debug.Log("Stop Fire");
+        // StopAllCoroutines(); // 모든 코루틴 정지 시키기
+        StopCoroutine(fireCoroutine);
     }
 
     private void Move(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -79,9 +106,35 @@ public class Player : MonoBehaviour
 
     void Fire()
     {
+        // 플래시 이펙트 잠깐 켜기
+        StartCoroutine(FlashEffect());
+
         // Instantiate(bulletPrefab, transform);  자식은 부모를 따라다니므로 이렇게 하면 안됨
         // Instantiate(bulletPrefab, transform.position, Quaternion.identity);  총알이 비행기 가운데에서 생성됨
         // Instantiate(bulletPrefab, transform.position + Vector3.right, Quaternion.identity);  총알 발사 위치를 확인하기 힘들다
         Instantiate(bulletPrefab, fireTransform.position, fireTransform.rotation); // 총알을 fireTransform 의 위치와 회전에 따라 생성한다.
+    }
+
+    IEnumerator FireCoroutine()
+    {
+        while (true)
+        {
+            // Debug.Log("Fire!");
+            Fire();
+            yield return new WaitForSeconds(fireInterval); // fireInterval 초 만큼 기다렸다가 다시 시작하기
+        }
+
+        // 프레임 종료시까지 대기
+        // yield return null;
+        // yield return new WaitForEndOfFrame();
+    }
+
+    IEnumerator FlashEffect()
+    {
+        fireFlash.SetActive(true); // 게임 오브젝트 활성화 하기
+
+        yield return flashWait;
+
+        fireFlash.SetActive(false);
     }
 }
