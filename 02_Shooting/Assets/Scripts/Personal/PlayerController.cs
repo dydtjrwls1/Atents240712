@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
     // 피격 시 투명해지는 정도
     float transperancy = 0.1f;
 
+    // 목숨 변수
+    int life = 5;
+
     private void Awake()
     {
         inputActions = new PlayerInputActions();
@@ -76,7 +79,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            sr. flipX = false;
+            sr.flipX = false;
         }
     }
 
@@ -89,12 +92,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        life--;
+        Debug.Log($"Life : {life}");
         // 피격 시 HitState 코루틴 실행
-        StartCoroutine(HitState());
+        StartCoroutine(HitBlink());
+
+        if (life == 0) { Time.timeScale = 0.0f; }
     }
 
     // 캐릭터가 두번 점멸하는 코루틴
-    IEnumerator HitState()
+    IEnumerator HitBlink()
     {
         sr.material.color = hitColor;
         yield return blinkIntervalWait;

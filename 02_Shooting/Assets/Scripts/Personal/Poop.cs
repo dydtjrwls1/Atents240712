@@ -30,8 +30,13 @@ public class Poop : MonoBehaviour
     // destroy 까지의 시간
     const float destroyInterval = 8.0f;
 
+    // 회전 방향
+    float rotationDirect = 1.0f;
+
     private void Start()
     {
+        int randomInt = UnityEngine.Random.Range(0, 2);
+        if (randomInt == 0) { rotationDirect = -1.0f; }
         accelSpeed = UnityEngine.Random.Range(minAccel, maxAccel);
         Destroy(gameObject, destroyInterval);
     }
@@ -40,7 +45,7 @@ public class Poop : MonoBehaviour
     {
         lerpSpeed = Mathf.Lerp(lerpSpeed, accelSpeed, _inter);
         transform.Translate(Time.deltaTime * fallSpeed * lerpSpeed * Vector2.down, Space.World);
-        transform.Rotate(Time.deltaTime * rotationSpeed * Vector3.forward, Space.World);
+        transform.Rotate(Time.deltaTime * rotationDirect * rotationSpeed * accelSpeed * Vector3.forward, Space.World);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

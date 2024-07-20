@@ -601,6 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poopPrefab: {fileID: 1523836073868268799, guid: 37cc4a6964dd9504b818f5299e4cb009, type: 3}
+  largePoopPrefab: {fileID: 4523230682849579741, guid: bc7ff43a032e9e24ba4e28581db4194e, type: 3}
   spawnInterval: 0.1
 --- !u!4 &1776680014
 Transform:
