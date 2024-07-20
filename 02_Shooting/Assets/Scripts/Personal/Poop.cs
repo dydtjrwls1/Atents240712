@@ -48,7 +48,7 @@ public class Poop : MonoBehaviour
         transform.Rotate(Time.deltaTime * rotationDirect * rotationSpeed * accelSpeed * Vector3.forward, Space.World);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
         Instantiate(explosion, transform.position, Quaternion.identity);

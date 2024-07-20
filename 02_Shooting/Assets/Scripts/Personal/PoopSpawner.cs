@@ -13,8 +13,11 @@ public class PoopSpawner : MonoBehaviour
     // 거대 똥 프리펩
     public GameObject largePoopPrefab;
 
+    // 적 비행체 프리펩
+    public GameObject EnemyPrefab;
+
     // 프리펩 array
-    GameObject[] poopArray = new GameObject[2];
+    GameObject[] poopArray = new GameObject[3];
 
     // 스폰 Y 좌표
     const float yPos = 5.3f;
@@ -37,6 +40,7 @@ public class PoopSpawner : MonoBehaviour
 
         poopArray[0] = poopPrefab;
         poopArray[1] = largePoopPrefab;
+        poopArray[2] = EnemyPrefab;
     }
 
     // Start is called before the first frame update
@@ -50,10 +54,12 @@ public class PoopSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(spawnInterval);
-            int index = Random.Range(0, 2);
+
             xPos = Random.Range(-xRange, xRange);
             spawnPos = new Vector2(xPos, yPos);
-            Instantiate(poopArray[index], spawnPos, Quaternion.identity);
+            int index = Random.Range(0, 3);
+            GameObject spawnEnemy = poopArray[index];
+            Instantiate(spawnEnemy, spawnPos, spawnEnemy.transform.rotation);
         }
     }
 }

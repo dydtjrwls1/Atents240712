@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEditor;
 using UnityEngine;
 
@@ -88,6 +89,15 @@ public class PlayerController : MonoBehaviour
     {
         // 캐릭터 이동
         transform.Translate(Time.deltaTime * speed * input * Vector2.right);
+
+        if (transform.position.x > 9.5f)
+        {
+            transform.position = new Vector3(9.5f, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.x < -9.5f)
+        {
+            transform.position = new Vector3(-9.5f, transform.position.y, transform.position.z);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
