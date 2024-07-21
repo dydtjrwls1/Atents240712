@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2009222331211881884}
   - component: {fileID: 2937919369813768075}
   - component: {fileID: 7682560583753909911}
-  - component: {fileID: 2657398461244658602}
   - component: {fileID: 2932286402735037453}
   - component: {fileID: 2717794152265623934}
+  - component: {fileID: -466198620801751993}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -109,22 +109,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2657398461244658602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4040231419762848974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 674e7f06d078f53468f8ca2d7c5342cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallSpeed: 2
-  rotationSpeed: 30
-  explosion: {fileID: 7048904745060140315, guid: 7349d051b0d04b948ad2e440b707a96d, type: 3}
-  speed: 4
 --- !u!50 &2932286402735037453
 Rigidbody2D:
   serializedVersion: 4
@@ -187,3 +171,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.6
+--- !u!114 &-466198620801751993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4040231419762848974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8be8fd20973fb64d82e0a2a24d87df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosion: {fileID: 7048904745060140315, guid: 7349d051b0d04b948ad2e440b707a96d, type: 3}

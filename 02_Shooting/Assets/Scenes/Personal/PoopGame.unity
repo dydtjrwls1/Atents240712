@@ -700,7 +700,7 @@ MonoBehaviour:
   poopPrefab: {fileID: 1523836073868268799, guid: 37cc4a6964dd9504b818f5299e4cb009, type: 3}
   largePoopPrefab: {fileID: 4523230682849579741, guid: bc7ff43a032e9e24ba4e28581db4194e, type: 3}
   EnemyPrefab: {fileID: 4040231419762848974, guid: 1ae6081566aac75498f4a5fc04c35923, type: 3}
-  spawnInterval: 0.3
+  spawnInterval: 0.2
 --- !u!4 &1776680014
 Transform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     // 적의 이동속도
-    public float speed = 5.0f;
+    protected float speed = 5.0f;
 
     // awake 시 y 위치
     float init_Y;

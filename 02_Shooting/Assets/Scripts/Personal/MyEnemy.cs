@@ -2,23 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyEnemy : Poop
+public class MyEnemy : MonoBehaviour 
 {
-    public float speed = 2.0f;
+    // 낙하 속도
+    protected float fallSpeed;
 
-    float elapsedTime;
+    public GameObject explosion;
 
-    float frequency = 2.0f;
+    // destroy 까지의 시간
+    protected const float destroyInterval = 8.0f;
 
-    float spawnX;
-    private void Awake()
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
-        spawnX = transform.position.x;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        elapsedTime += Time.deltaTime * frequency;
-        transform.position = new Vector3(spawnX + Mathf.Sin(elapsedTime), transform.position.y - Time.deltaTime * speed);
+        Destroy(gameObject);
+        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 }
