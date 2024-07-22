@@ -23,6 +23,9 @@ public class Enemy : MonoBehaviour
 
     public float amplitude = 3.0f;
 
+    // 적 기 격추 시 터지는 모션
+    public GameObject explosion;
+
     // float spawnY = 0.0f;
     private void Awake()
     {
@@ -62,5 +65,21 @@ public class Enemy : MonoBehaviour
         // transform.Translate(deltaTime * speed * Vector3.left);
 
         transform.position = new Vector3(transform.position.x - deltaTime * speed, init_Y + MathF.Sin(elapsedTime) * amplitude, 0.0f);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        OnDie();
+    }
+
+    /// <summary>
+    /// 적 개체가 터질 때 실행될 함수.
+    /// </summary>
+    void OnDie()
+    {
+        // 터지는 이펙트
+        // 자기 자신 삭제
+        Destroy(gameObject);
+        Instantiate(explosion, transform.position, Quaternion.identity);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
     // 총알 발사 간격
@@ -35,9 +36,13 @@ public class Player : MonoBehaviour
     // 총알 발사 이펙트가 보이는 시간.
     WaitForSeconds flashWait;
 
+    Rigidbody2D rigid;
+
+
     private void Awake()
     {
         animator = GetComponent<Animator>(); // 자신과 같은 게임오브젝트 내부에 있는 컴포넌트 찾기
+        rigid = GetComponent<Rigidbody2D>();
 
         playerInputActions = new PlayerInputActions();
 
@@ -69,7 +74,21 @@ public class Player : MonoBehaviour
         playerInputActions.Disable();
     }
 
-    
+    private void FixedUpdate()
+    {
+        // 항상 일정 시간 간격으로 호출된다.
+        // Debug.Log(Time.fixedDeltaTime); // 0.02초
+        
+        rigid.MovePosition(rigid.position + Time.fixedDeltaTime * moveSpeed * (Vector2)inputDirection);
+    }
+
+    //private void Update()
+    //{
+    //    // 업데이트 함수가 호출되는 시간 간격(Time.deltaTime)은 매번 다르다.
+    //    // transform.position += Time.fixedDeltaTime * moveSpeed * inputDirection; // 초당 inputDirection 방향으로 moveSpeed 의 속도로 이동한다. // 한번은 파고 들어간다.
+    //    // transform.position += (inputDirection * moveSpeed * Time.deltaTime); 위는 4번곱하고 아래는 6번 곱한다! vector * float * float 이기 때문에! 매우 중요!
+    //}
+
     private void OnFireStart(UnityEngine.InputSystem.InputAction.CallbackContext _)
     {
         StartCoroutine(fireCoroutine);
@@ -97,12 +116,10 @@ public class Player : MonoBehaviour
         inputDirection = Vector3.zero;
     }
 
-    private void Update()
-    {
-        transform.position += Time.deltaTime * moveSpeed * inputDirection; // 초당 inputDirection 방향으로 moveSpeed 의 속도로 이동한다.
-        // transform.position += (inputDirection * moveSpeed * Time.deltaTime); 위는 4번곱하고 아래는 6번 곱한다! vector * float * float 이기 때문에! 매우 중요!
+   
 
-    }
+
+   
 
     void Fire()
     {
@@ -136,5 +153,14 @@ public class Player : MonoBehaviour
         yield return flashWait;
 
         fireFlash.SetActive(false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // if(collision.gameObject.tag == "Enemy") string 비교 절대 금지!
+        if (collision.gameObject.CompareTag("Enemy")) // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
+        {
+            Debug.Log("적과 부딪혔다.");      
+        }
     }
 }
