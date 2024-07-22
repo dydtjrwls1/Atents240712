@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
     // 충돌이 시작 되었을 때 실행
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("충돌 시작");
+        // Debug.Log("충돌 시작");
         Instantiate(hitEffect, transform.position, Quaternion.identity);
 
         Destroy(gameObject); // 자기자신 제거하기

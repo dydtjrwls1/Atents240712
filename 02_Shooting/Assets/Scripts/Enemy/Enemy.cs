@@ -26,10 +26,33 @@ public class Enemy : MonoBehaviour
     // 적 기 격추 시 터지는 모션
     public GameObject explosion;
 
-    // float spawnY = 0.0f;
-    private void Awake()
+    // 적의 HP
+    int hp = 2;
+
+    /// <summary>
+    /// 적의 HP 를 get/set 할 수 있는 프로퍼티
+    /// </summary>
+    public int HP
     {
-        init_Y = transform.position.y;
+        // get { return hp; }
+        get => hp;      // 읽기는 public
+        private set     // 쓰기는 private
+        {
+            hp = value;
+            if (hp < 1) // 0이 되면
+            {
+                OnDie(); // 사망 처리 수행
+            }
+        }
+    }
+
+    // 이 적을 죽였을 때 얻는 점수
+    public int point = 10;
+
+    // float spawnY = 0.0f;
+    private void Start()
+    {
+        init_Y = transform.position.y;  
     }
 
     // Update is called once per frame
@@ -52,6 +75,16 @@ public class Enemy : MonoBehaviour
         MoveUpdate(Time.deltaTime);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //hp--;
+        //if (hp <= 0) 
+        //{
+        //    OnDie();
+        //} 
+        HP--; // HP = HP - 1 // HP를 get 한 다음 -1 을 처리하고 다시 set하기
+    }
+
 
     //void Move(float direction)
     //{
@@ -65,11 +98,6 @@ public class Enemy : MonoBehaviour
         // transform.Translate(deltaTime * speed * Vector3.left);
 
         transform.position = new Vector3(transform.position.x - deltaTime * speed, init_Y + MathF.Sin(elapsedTime) * amplitude, 0.0f);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        OnDie();
     }
 
     /// <summary>
