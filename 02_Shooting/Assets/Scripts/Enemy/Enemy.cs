@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Enemy : MonoBehaviour
 {
@@ -45,6 +46,9 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    // 살아 있는 여부
+    bool isAlive = true;
 
     // 이 적을 죽였을 때 얻는 점수
     public int point = 10;
@@ -105,9 +109,16 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void OnDie()
     {
-        // 터지는 이펙트
-        // 자기 자신 삭제
-        Destroy(gameObject);
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        if (isAlive) // 살아 있을 때만 죽일 수 있음
+        {
+            isAlive = false; // 죽었다고 표시
+
+            ScoreText scoreText = FindAnyObjectByType<ScoreText>();
+            scoreText.AddScore(point);
+
+            Destroy(gameObject); // 자기 자신 삭제
+            SimpleFactory.Instance.GetExplosion(transform.position);
+            // Instantiate(explosion, transform.position, Quaternion.identity); // 터지는 이펙트 나오기
+        }
     }
 }

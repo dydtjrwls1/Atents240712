@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Text06_UI : TestBase
 {
@@ -22,6 +23,13 @@ public class Text06_UI : TestBase
         //FindFirstObjectByType<ScoreText>(); // 첫 번째것 찾기(속도는 느림, 순서가 중요할 때 사용)
 
         ScoreText scoreText = FindAnyObjectByType<ScoreText>();
-        scoreText.Score += score;
+        scoreText.AddScore(score);
+    }
+
+    protected override void Test2_performed(InputAction.CallbackContext context)
+    {
+        int score = 1000;
+        ScoreText scoreText = FindAnyObjectByType<ScoreText>();
+        scoreText.AddScore(score);
     }
 }

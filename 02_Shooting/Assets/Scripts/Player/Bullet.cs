@@ -41,7 +41,8 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Debug.Log("충돌 시작");
-        Instantiate(hitEffect, transform.position, Quaternion.identity);
+        // Instantiate(hitEffect, transform.position, Quaternion.identity);
+        SimpleFactory.Instance.GetHit(transform.position);
 
         Destroy(gameObject); // 자기자신 제거하기
     }

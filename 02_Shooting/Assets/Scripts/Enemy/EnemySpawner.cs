@@ -79,7 +79,8 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     void Spawn()
     {
-        Instantiate(enemyPrefab, GetSpawnPosition(), Quaternion.identity);
+        SimpleFactory.Instance.GetEnemy(GetSpawnPosition());
+        // Instantiate(enemyPrefab, GetSpawnPosition(), Quaternion.identity);
     }
 
 
