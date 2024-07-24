@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class Enemy : MonoBehaviour
+public class Enemy : RecycleObject
 {
     // 적의 이동속도
     public float speed = 5.0f;
@@ -113,11 +113,21 @@ public class Enemy : MonoBehaviour
         {
             isAlive = false; // 죽었다고 표시
 
-            ScoreText scoreText = FindAnyObjectByType<ScoreText>();
-            scoreText.AddScore(point);
+            //ScoreText scoreText = FindAnyObjectByType<ScoreText>();
+            //scoreText.AddScore(point);
 
-            Destroy(gameObject); // 자기 자신 삭제
+            // Destroy(gameObject); // 자기 자신 삭제
             SimpleFactory.Instance.GetExplosion(transform.position);
+
+            if (GetComponent<RecycleObject>() != null)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
             // Instantiate(explosion, transform.position, Quaternion.identity); // 터지는 이펙트 나오기
         }
     }

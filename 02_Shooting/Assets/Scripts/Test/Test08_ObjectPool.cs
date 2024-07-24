@@ -6,11 +6,17 @@ using UnityEngine.InputSystem;
 public class Test08_ObjectPool : TestBase
 {
     public BulletPool bulletPool;
+    public EffectPool explosionEffectPool;
+    public EffectPool hitEffectPool;
+    public EnemyPool enemyPool;
 
     // Start is called before the first frame update
     void Start()
     {
         bulletPool.Initialize();
+        explosionEffectPool.Initialize();
+        hitEffectPool.Initialize();
+        enemyPool.Initialize();
     }
 
 
@@ -43,7 +49,7 @@ public class Test08_ObjectPool : TestBase
     {
         while(true)
         {
-            SimpleFactory.Instance.Getbullet();
+            SimpleFactory.Instance.GetEnemy();
             yield return null;
         }
     }

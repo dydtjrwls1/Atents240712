@@ -5,7 +5,7 @@ using UnityEngine;
 // Factory 타입의 싱글톤
 public class SimpleFactory : SingleTon<SimpleFactory>
 {
-    public GameObject enemyPrefab;
+    public EnemyPool enemyPool;
     public GameObject bulletPrefab;
     public GameObject hitPrefab;
     public GameObject explosionEffectPrefab;
@@ -17,7 +17,9 @@ public class SimpleFactory : SingleTon<SimpleFactory>
 
     public GameObject GetEnemy(Vector3? position = null, float angle = 0.0f)
     {
-        return Instantiate(enemyPrefab, position.GetValueOrDefault() , Quaternion.Euler(0,0,angle));
+        Enemy enemy = enemyPool.GetObject();
+        return enemy.gameObject;
+        // return Instantiate(enemyPrefab, position.GetValueOrDefault() , Quaternion.Euler(0,0,angle));
     }
     public GameObject Getbullet(Vector3? position = null, float angle = 0.0f)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class explosion : MonoBehaviour
+public class explosion : RecycleObject
 {
     Animator animator;
 
@@ -16,6 +16,7 @@ public class explosion : MonoBehaviour
 
         AnimatorClipInfo info = animator.GetCurrentAnimatorClipInfo(0)[0]; // 하나만 존재하는 것을 알고 있어서 첫 번째 것 가져오기
 
-        Destroy(gameObject, info.clip.length); // 애니메이션 클립 재생 시간이 끝나면 삭제
+        // Destroy(gameObject, info.clip.length); // 애니메이션 클립 재생 시간이 끝나면 삭제
+        gameObject.SetActive(false);
     }
 }
