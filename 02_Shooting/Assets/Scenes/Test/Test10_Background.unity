@@ -603,6 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5cee30f07218a44a137c2da54cfab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lerpSpeed: 0.01
   scrollingSpeed: 2.5
 --- !u!1 &1221781853
 GameObject:
@@ -809,6 +810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffb484d0ebd496d4ca15f1edbf971bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lerpSpeed: 0.01
   scrollingSpeed: 2.5
 --- !u!4 &1609207612
 Transform:

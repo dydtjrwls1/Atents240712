@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
+    Player player;
+
+    float upperBoundY = 0.0f;
+    float lowerBoundY = 0.0f;
+
+    float currentY = 0.0f;
+    float defaultY = 0.0f;
+
+    public float lerpSpeed = 0.01f;
+
     // 자식으로 있는 슬롯(bgSlots)을 일정한 속도로 계속 왼쪽으로 이동시키다가, 슬롯이 화면을 벗어나면 오른쪽 끝(SlotWidth * 3)으로 보낸다.
 
     // 배경 슬롯
@@ -20,6 +30,12 @@ public class Background : MonoBehaviour
 
     protected virtual void Awake()
     {
+        player = FindAnyObjectByType<Player>();
+        defaultY = transform.position.y;
+        currentY = transform.position.y;
+        upperBoundY = currentY + 1.0f;
+        lowerBoundY = currentY - 1.0f;
+
         bgSlots = new Transform[transform.childCount]; // 슬롯의 트랜스폼을 저장하기 위한 배열 만들기
         for (int i = 0; i < bgSlots.Length; i++)
         {
@@ -34,11 +50,27 @@ public class Background : MonoBehaviour
         for(int i = 0;i < bgSlots.Length;i++)       // 모든 슬롯을 순서대로 처리
         {
             bgSlots[i].Translate(Time.deltaTime * scrollingSpeed * -transform.right);   // 왼쪽으로 이동하기(초당 srollingSpeed 만큼)
+            
             if (bgSlots[i].position.x < baseLineX)  // 충분히 왼쪽으로 갔는지 확인 (기준선을 넘었는지 확인)
             {
                 MoveRight(i);   // 오른쪽으로 이동시킨다.
             }
         }
+
+        if (player.inputDirection.y > 0.01f)
+        {
+            currentY = Mathf.Lerp(currentY, upperBoundY, lerpSpeed);
+            transform.position = new Vector3(transform.position.x, currentY);
+        } else if (player.inputDirection.y < -0.01f)
+        {
+            currentY = Mathf.Lerp(currentY, lowerBoundY, lerpSpeed);
+            transform.position = new Vector3(transform.position.x, currentY);
+        } else
+        {
+            currentY = Mathf.Lerp(currentY, defaultY, lerpSpeed);
+            transform.position = new Vector3(transform.position.x, currentY);
+        }
+            
     }
 
     /// <summary>

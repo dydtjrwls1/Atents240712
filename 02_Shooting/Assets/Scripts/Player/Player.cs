@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     PlayerInputActions playerInputActions;
 
-    Vector3 inputDirection;
+    public Vector3 inputDirection;
 
     // 애니메이터 컴포넌트를 저장할 변수.
     Animator animator;
