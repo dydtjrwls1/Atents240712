@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class Enemy : MonoBehaviour
+public class Enemy : RecycleObject
 {
+    // 적의 수명
+    public float lifeTime = 30.0f;
+
     // 적의 이동속도
     public float speed = 5.0f;
 
@@ -89,6 +92,11 @@ public class Enemy : MonoBehaviour
         HP--; // HP = HP - 1 // HP를 get 한 다음 -1 을 처리하고 다시 set하기
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        DisableTimer(lifeTime);
+    }
 
     //void Move(float direction)
     //{
@@ -115,9 +123,10 @@ public class Enemy : MonoBehaviour
 
             ScoreText scoreText = FindAnyObjectByType<ScoreText>();
             scoreText.AddScore(point);
-
-            Destroy(gameObject); // 자기 자신 삭제
             SimpleFactory.Instance.GetExplosion(transform.position);
+
+            // Destroy(gameObject); // 자기 자신 삭제
+            DisableTimer();
             // Instantiate(explosion, transform.position, Quaternion.identity); // 터지는 이펙트 나오기
         }
     }
