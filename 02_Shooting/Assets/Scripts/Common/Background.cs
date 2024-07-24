@@ -29,7 +29,7 @@ public class Background : MonoBehaviour
         baseLineX = transform.position.x - SlotWidth;   // 기준선 계산(현위치에서 슬롯 크기만큼 왼쪽으로 간 x위치)
     }
 
-    private void Update()
+    void Update()
     {
         for(int i = 0;i < bgSlots.Length;i++)       // 모든 슬롯을 순서대로 처리
         {
