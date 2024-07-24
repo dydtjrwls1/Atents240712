@@ -17,12 +17,30 @@ public class RecycleObject : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        transform.localPosition = Vector3.zero;         // 위치와 회전 초기화
+        transform.localRotation = Quaternion.identity;  
 
+        StopAllCoroutines();    // 이전에 실행중이던 코루틴 모두 정지
     }
 
     protected virtual void OnDisable()
     {
         onDisable?.Invoke();    // onDisable 이 null 이 아니면 실행하라.
 
+    }
+
+    /// <summary>
+    /// 일정 시간 후에 게임 오브젝트를 자동으로 비활성화시키는 함수
+    /// </summary>
+    /// <param name="time">기다릴 시간</param>
+    protected void DisableTimer(float time = 0.0f)
+    {
+        StartCoroutine(LifeOver(time));
+    }
+
+    IEnumerator LifeOver(float time = 0.0f)
+    {
+        yield return new WaitForSeconds(time);
+        gameObject.SetActive(false);
     }
 }

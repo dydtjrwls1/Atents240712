@@ -19,6 +19,7 @@ public class Bullet : RecycleObject
     private void Start()
     {
         // Destroy(gameObject, lifeTime);
+        DisableTimer(lifeTime);
     }
     // Update is called once per frame
     void Update()
