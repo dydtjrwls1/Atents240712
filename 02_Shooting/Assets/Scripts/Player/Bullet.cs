@@ -5,7 +5,7 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Bullet : MonoBehaviour
+public class Bullet : RecycleObject
 {
     // 총알의 이동속도
     public float speed = 10.0f;
@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, lifeTime);
+        // Destroy(gameObject, lifeTime);
     }
     // Update is called once per frame
     void Update()
@@ -44,7 +44,8 @@ public class Bullet : MonoBehaviour
         // Instantiate(hitEffect, transform.position, Quaternion.identity);
         SimpleFactory.Instance.GetHit(transform.position);
 
-        Destroy(gameObject); // 자기자신 제거하기
+        // Destroy(gameObject); // 자기자신 제거하기
+        gameObject.SetActive(false);
     }
 
     //// 충돌이 된 상태에서 움직임이 있을 때 실행
