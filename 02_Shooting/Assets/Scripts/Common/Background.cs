@@ -7,7 +7,7 @@ public class Background : MonoBehaviour
     // 자식으로 있는 슬롯(bgSlots)을 일정한 속도로 계속 왼쪽으로 이동시키다가, 슬롯이 화면을 벗어나면 오른쪽 끝(SlotWidth * 3)으로 보낸다.
 
     // 배경 슬롯
-    Transform[] bgSlots;
+    protected Transform[] bgSlots;
 
     // 슬롯들의 이동 속도
     public float scrollingSpeed = 2.5f;
@@ -18,7 +18,7 @@ public class Background : MonoBehaviour
     // 화면 밖을 벗어났다는 것을 확인하기 위한 기준선(x좌표값)
     float baseLineX;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         bgSlots = new Transform[transform.childCount]; // 슬롯의 트랜스폼을 저장하기 위한 배열 만들기
         for (int i = 0; i < bgSlots.Length; i++)
