@@ -55,8 +55,8 @@ public class EnemySpawner : MonoBehaviour
     public float spawnInterval = 1.0f;
 
     // 최소 높이 최대 높이
-    const float MinY = -4.0f;
-    const float MaxY = 4.0f;
+    protected const float MinY = -4.0f;
+    protected const float MaxY = 4.0f;
 
     const float MinX = -0.5f;
     const float MaxX = 0.5f;
@@ -77,7 +77,7 @@ public class EnemySpawner : MonoBehaviour
     /// <summary>
     /// 적을 스폰하는 함수
     /// </summary>
-    void Spawn()
+    protected virtual void Spawn()
     {
         Factory.Instance.GetEnemy(GetSpawnPosition());
         // Instantiate(enemyPrefab, GetSpawnPosition(), Quaternion.identity);
@@ -101,7 +101,7 @@ public class EnemySpawner : MonoBehaviour
     /// 스폰 될 위치를 계산하는 함수
     /// </summary>
     /// <returns>스폰 될 위치</returns>
-    Vector3 GetSpawnPosition()
+    protected Vector3 GetSpawnPosition()
     {
         Vector3 result = transform.position;
         result.y = Random.Range(MinY, MaxY);
@@ -109,7 +109,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Vector3 p0 = transform.position + Vector3.up * MaxY;
@@ -119,7 +119,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // 선택 됐을 때만 그리기
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
 
