@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
         // Instantiate(bulletPrefab, transform.position, Quaternion.identity);  총알이 비행기 가운데에서 생성됨
         // Instantiate(bulletPrefab, transform.position + Vector3.right, Quaternion.identity);  총알 발사 위치를 확인하기 힘들다
         // Instantiate(bulletPrefab, fireTransform.position, fireTransform.rotation); // 총알을 fireTransform 의 위치와 회전에 따라 생성한다.
-        SimpleFactory.Instance.Getbullet(fireTransform.position);
+        Factory.Instance.GetBullet(fireTransform.position);
     }
 
     IEnumerator FireCoroutine()
