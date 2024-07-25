@@ -123,7 +123,7 @@ public class Enemy : RecycleObject
 
             ScoreText scoreText = FindAnyObjectByType<ScoreText>();
             scoreText.AddScore(point);
-            SimpleFactory.Instance.GetExplosion(transform.position);
+            Factory.Instance.GetExplosion(transform.position);
 
             // Destroy(gameObject); // 자기 자신 삭제
             DisableTimer();
