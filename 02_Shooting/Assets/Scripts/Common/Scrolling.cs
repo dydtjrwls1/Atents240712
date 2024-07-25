@@ -32,8 +32,9 @@ public class Scrolling : MonoBehaviour
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();    // 슬롯들에 들어있는 모든 랜더러 찾기
         if(spriteRenderers.Length > 0 )
         {
-            Sprite sprite = spriteRenderers[0].sprite;
-            slotWidth = sprite.bounds.size.x; // 아래와 같은 결과이다.
+            // Sprite sprite = spriteRenderers[0].sprite;
+            // slotWidth = sprite.bounds.size.x; // 아래와 같은 결과이다.
+            slotWidth = spriteRenderers[0].size.x;
             // slotWidth = sprite.rect.width / sprite.pixelsPerUnit; // 스프라이트의 가로길이와 pixelPerUnit 을 이용해, UnityUnit 으로 길이가 얼마가 되는지 계산
         }
 

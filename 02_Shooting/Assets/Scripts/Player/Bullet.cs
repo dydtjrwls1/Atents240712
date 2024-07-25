@@ -43,7 +43,7 @@ public class Bullet : RecycleObject
     {
         // Debug.Log("충돌 시작");
         // Instantiate(hitEffect, transform.position, Quaternion.identity);
-        SimpleFactory.Instance.GetHit(transform.position);
+        Factory.Instance.GetHit(transform.position);
 
         // Destroy(gameObject); // 자기자신 제거하기
         gameObject.SetActive(false);

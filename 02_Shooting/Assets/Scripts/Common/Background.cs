@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Background : Scrolling
@@ -18,6 +19,8 @@ public class Background : Scrolling
         //spriteRenderers[index].flipX = (rand % 2) != 0; // 홀수면 true, 짝수면 false
 
         float rand2 = Random.value; // 0 ~ 1 사이의 float 값
-        spriteRenderers[index].flipX = rand2 > 0.5f;
+        spriteRenderers[index * 2].flipX = rand2 > 0.5f;
+        rand2 = Random.value; 
+        spriteRenderers[index * 2 + 1].flipX = rand2 > 0.5f;
     }
 }
