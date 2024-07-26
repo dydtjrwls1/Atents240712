@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Asteroid : RecycleObject
@@ -12,12 +13,12 @@ public class Asteroid : RecycleObject
 
     public AnimationCurve rotateSpeedCurve;
 
-    float moveSpeed;
-    float rotateSpeed;
+    protected float moveSpeed;
+    protected float rotateSpeed;
 
-    Vector3 direction;
+    protected Vector3 direction;
 
-    private void Start()
+    protected virtual void Start()
     {
         moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
 
@@ -25,7 +26,7 @@ public class Asteroid : RecycleObject
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {   // Rotate 함수 활용법 : 원래 회전에서 추가로 회전
         // transform.Rotate(0, 0, Time.deltaTime * 360);                // x,y,x 따로 받기
         // transform.Rotate(Time.deltaTime * 360 * Vector3.forward);    // vector3 로 받기
@@ -53,5 +54,28 @@ public class Asteroid : RecycleObject
     {
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + direction);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Factory.Instance.GetExplosion(transform.position);
+
+        int randAngle = Random.Range(0, 90);
+
+        for (int i = 0; i < 4; i++)
+        {
+            
+            float angle = 90.0f;
+            Quaternion rotation = Quaternion.Euler(0, 0, randAngle + i * angle);
+            SpawnAsteroidSmall(rotation * new Vector3(1, 1));
+        }
+
+        gameObject.SetActive(false);
+    }
+
+    private void SpawnAsteroidSmall(Vector3 fragmentDirection)
+    {
+        AsteroidSmall asteroidSmall = Factory.Instance.GetAsteroidSmall(transform.position);
+        asteroidSmall.SetDestination(transform.position + fragmentDirection);
     }
 }

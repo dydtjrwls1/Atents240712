@@ -9,6 +9,7 @@ public class Factory : SingleTon<Factory>
     HitEffectPool hit;
     ExplosionEffectPool explosion;
     AsteroidPool asteroid;
+    AsteroidSmallPool asteroidSmall;
 
     protected override void OnInitialize()
     {
@@ -32,6 +33,10 @@ public class Factory : SingleTon<Factory>
         asteroid = GetComponentInChildren<AsteroidPool>();
         if (asteroid != null)
             asteroid.Initialize();
+
+        asteroidSmall = GetComponentInChildren<AsteroidSmallPool>();
+        if (asteroidSmall != null)
+            asteroidSmall.Initialize();
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -58,5 +63,10 @@ public class Factory : SingleTon<Factory>
     public Asteroid GetAsteroid(Vector3? position)
     {
         return asteroid.GetObject(position);
+    }
+
+    public AsteroidSmall GetAsteroidSmall(Vector3? position)
+    {
+        return asteroidSmall.GetObject(position);
     }
 }

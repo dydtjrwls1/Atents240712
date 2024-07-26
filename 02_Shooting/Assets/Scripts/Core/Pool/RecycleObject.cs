@@ -38,7 +38,7 @@ public class RecycleObject : MonoBehaviour
         StartCoroutine(LifeOver(time));
     }
 
-    IEnumerator LifeOver(float time = 0.0f)
+    protected IEnumerator LifeOver(float time = 0.0f)
     {
         yield return new WaitForSeconds(time);
         gameObject.SetActive(false);
