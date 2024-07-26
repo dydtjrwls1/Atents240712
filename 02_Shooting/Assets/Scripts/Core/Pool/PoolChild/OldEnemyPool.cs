@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OldEnemyPool : ObjectPool<EnemyOld>
+public class OldEnemyPool : ObjectPool<OldEnemy>
 {
     // Start is called before the first frame update
     void Start()

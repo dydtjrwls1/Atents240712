@@ -15,4 +15,9 @@ public class Test12_EnemyBase : TestBase
     {
         Factory.Instance.GetEnemyWave(target.position);
     }
+
+    protected override void Test2_performed(InputAction.CallbackContext context)
+    {
+        Factory.Instance.GetEnemyAsteroidBig(target.position, Vector3.up);
+    }
 }

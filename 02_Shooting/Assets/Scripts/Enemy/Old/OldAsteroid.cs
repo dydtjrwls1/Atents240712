@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AsteroidOld : RecycleObject
+public class OldAsteroid : RecycleObject
 {
     public float minRotateSpeed = 30.0f;
     public float maxRotatespeed = 720.0f;

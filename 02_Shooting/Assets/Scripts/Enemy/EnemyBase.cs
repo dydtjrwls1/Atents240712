@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class EnemyBase : RecycleObject
 {
+    [Header("적 기본 데이터")]
     // 적의 수명
     public float lifeTime = 30.0f;
 
@@ -87,7 +88,7 @@ public class EnemyBase : RecycleObject
 
             onDie?.Invoke(point); // 죽었다고 등록된 객체들에게 알리기(등록된 함수 실행)
             
-            Factory.Instance.GetExplosion(transform.position);
+            // Factory.Instance.GetExplosion(transform.position);
 
             DisableTimer(); // 자기 자신을 비활성화 시키기
         }

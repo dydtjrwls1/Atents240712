@@ -1,5 +1,97 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &827478962813061015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 923689952345926677}
+  - component: {fileID: 8168998901841773819}
+  m_Layer: 0
+  m_Name: EnemyAsteroidBigPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &923689952345926677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827478962813061015}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4225958326313155397}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8168998901841773819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827478962813061015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a60ad7093ffa7d4283689d93ead95fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6896786852001949711, guid: c9257fc568dfc414d8009f18b670eda9, type: 3}
+  poolSize: 64
+--- !u!1 &3354321376438463725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4916535973179032767}
+  - component: {fileID: 7461857908071328355}
+  m_Layer: 0
+  m_Name: EnemyWavePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4916535973179032767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354321376438463725}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4225958326313155397}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7461857908071328355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354321376438463725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15979acf37cbcbf49bdf4514ba330f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4734648440667369399, guid: fe769c08b2a9cae4e881b8ae82a3bb0c, type: 3}
+  poolSize: 64
 --- !u!1 &3803591957935838017
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,6 +126,8 @@ Transform:
   - {fileID: 2072945323273806361}
   - {fileID: 6037411930286203926}
   - {fileID: 7840638882173493164}
+  - {fileID: 4916535973179032767}
+  - {fileID: 923689952345926677}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3252177576170437105
@@ -103,9 +197,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6948658315821841783}
-  - component: {fileID: 1778453594694659871}
+  - component: {fileID: 7062502204158835540}
+  - component: {fileID: 6737402062801701457}
   m_Layer: 0
-  m_Name: EnemyPool
+  m_Name: OldEnemyPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +221,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4225958326313155397}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1778453594694659871
+--- !u!114 &7062502204158835540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,11 +230,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6295865548268433322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98224a16bbda22a45aa7f2632a0c379c, type: 3}
+  m_Script: {fileID: 11500000, guid: 1665096ce3c07c346a797c90b0786971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5347015206151135159, guid: eeae41f2b0b3c714d8e00d899fe3bb06, type: 3}
-  poolSize: 32
+  poolSize: 64
+--- !u!114 &6737402062801701457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295865548268433322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1665096ce3c07c346a797c90b0786971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 5347015206151135159, guid: eeae41f2b0b3c714d8e00d899fe3bb06, type: 3}
+  poolSize: 64
 --- !u!1 &7957134051490453180
 GameObject:
   m_ObjectHideFlags: 0

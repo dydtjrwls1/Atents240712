@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyWave : EnemyBase
 {
+    [Header("웨이브 적 데이터")]
     // awake 시 y 위치
     float init_Y;
 
