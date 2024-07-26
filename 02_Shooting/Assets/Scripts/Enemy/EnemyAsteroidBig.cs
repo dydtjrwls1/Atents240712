@@ -47,6 +47,8 @@ public class EnemyAsteroidBig : EnemyBase
     // 운석 스프라이트 렌더러
     SpriteRenderer sr;
 
+    int numFragment;
+
     private void Awake()
     {
         orgPoint = point; // 자폭 대비 원점수 미리 저장
@@ -56,6 +58,7 @@ public class EnemyAsteroidBig : EnemyBase
     protected override void OnReset()
     {
         base.OnReset();
+        numFragment = 4;
         point = orgPoint; // 원래 점수로 복원
         speed = Random.Range(minMoveSpeed, maxMoveSpeed); // 이동 속도 랜덤
         rotateSpeed = minRotateSpeed + rotateSpeedCurve.Evaluate(Random.value) * maxRotatespeed; // 회전속도 랜덤
@@ -106,9 +109,18 @@ public class EnemyAsteroidBig : EnemyBase
         explosiveTime = Random.Range(minExplosiveTime, maxExplosiveTime);
         yield return new WaitForSeconds(explosiveTime);
 
+        Vector3 initFragmentAngle = new Vector3(Random.value, Random.value);
+        for (int i = 0; i < numFragment; i++)
+        {
+            float angle = (360.0f / numFragment) * i;
+            EnemyAsteroidSmall small =  Factory.Instance.GetEnemyAsteroidSmall(transform.position, Quaternion.Euler(0,0,angle) * (transform.position + initFragmentAngle));
+            Debug.Log($"{small.gameObject.name} : {small.direction}");
+        }
+
         point = 0;
         OnDie();
     }
+
 }
 
 // 기본 기능 필요

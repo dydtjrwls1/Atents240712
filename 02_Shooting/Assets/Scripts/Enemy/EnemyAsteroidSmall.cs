@@ -18,7 +18,7 @@ public class EnemyAsteroidSmall : EnemyBase
     float rotateSpeed;
 
     // 이동 방향
-    Vector3 direction;
+    public Vector3 direction;
 
     protected override void OnReset()
     {

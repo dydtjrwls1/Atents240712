@@ -15,4 +15,9 @@ public class Test13_AsteroidBigSmall : TestBase
     {
         Factory.Instance.GetEnemyAsteroidSmall(target.position, target.position + Vector3.left);
     }
+
+    protected override void Test3_performed(InputAction.CallbackContext context)
+    {
+        Debug.Log(Quaternion.Euler(0, 0, 90.0f) * new Vector3(1, 1));
+    }
 }
