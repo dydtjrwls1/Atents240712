@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class Enemy : RecycleObject
+public class EnemyOld : RecycleObject
 {
     // 적의 수명
     public float lifeTime = 30.0f;

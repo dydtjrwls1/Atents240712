@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public class ObjectPool<T> : MonoBehaviour where T : RecycleObject // T 는 반�
     /// <summary>
     /// 초기화용 함수
     /// </summary>
-    public void Initialize()
+    public virtual void Initialize()
     {
         if (pool == null)
         {
@@ -60,12 +59,21 @@ public class ObjectPool<T> : MonoBehaviour where T : RecycleObject // T 는 반�
             {
                 readyQueue.Enqueue(comp); // 레디큐에 컴포넌트 추가해 놓기
             };
+            OnGenerateObject(comp);
 
             result[i] = comp; // 배열에 만들어진 것을 모두 저장
             obj.SetActive(false);
         }
     }
 
+    /// <summary>
+    /// 오브젝트 하나가 생성되었을 때 실행될 함수
+    /// </summary>
+    /// <param name="comp">컴포넌트</param>
+    protected virtual void OnGenerateObject(T comp)
+    {
+
+    }
     //void DisableAction()
     //{
     //    readyQueue.Enqueue(comp); // 스코프가 맞지 않다

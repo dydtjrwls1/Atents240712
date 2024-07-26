@@ -16,7 +16,7 @@ public class Test08_ObjectPool : TestBase
     public BulletPool bulletPool;
     public HitEffectPool hitEffectPool;
     public ExplosionEffectPool expsionEffectPool;
-    public EnemyPool enemyPool;
+    public OldEnemyPool enemyPool;
 
     public ObjectType spawnType;
 

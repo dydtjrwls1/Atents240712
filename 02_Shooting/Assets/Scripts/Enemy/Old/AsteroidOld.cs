@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Asteroid : RecycleObject
+public class AsteroidOld : RecycleObject
 {
     public float minRotateSpeed = 30.0f;
     public float maxRotatespeed = 720.0f;

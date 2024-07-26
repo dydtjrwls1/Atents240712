@@ -5,10 +5,11 @@ using UnityEngine;
 public class Factory : SingleTon<Factory>
 {
     BulletPool bullet;
-    EnemyPool enemy;
+    OldEnemyPool enemy;
     HitEffectPool hit;
     ExplosionEffectPool explosion;
-    AsteroidPool asteroid;
+    OldAsteroidPool asteroid;
+    EnemyWavePool enemyWave;
 
     protected override void OnInitialize()
     {
@@ -17,7 +18,7 @@ public class Factory : SingleTon<Factory>
         if(bullet != null) 
             bullet.Initialize();
 
-        enemy = GetComponentInChildren<EnemyPool>();
+        enemy = GetComponentInChildren<OldEnemyPool>();
         if (enemy != null)
             enemy.Initialize();
 
@@ -29,9 +30,13 @@ public class Factory : SingleTon<Factory>
         if (explosion != null) 
             explosion.Initialize();
 
-        asteroid = GetComponentInChildren<AsteroidPool>();
+        asteroid = GetComponentInChildren<OldAsteroidPool>();
         if (asteroid != null)
             asteroid.Initialize();
+
+        enemyWave = GetComponentInChildren<EnemyWavePool>();
+        if (enemyWave != null)
+            enemyWave.Initialize();
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -40,7 +45,7 @@ public class Factory : SingleTon<Factory>
         return bullet.GetObject(position, new Vector3(0, 0, angle)); // = Vector3.forward * angle
     }
 
-    public Enemy GetEnemy(Vector3? position, float angle = 0.0f)
+    public EnemyOld GetEnemy(Vector3? position, float angle = 0.0f)
     {
         return enemy.GetObject(position, new Vector3(0, 0, angle));
     }
@@ -55,8 +60,13 @@ public class Factory : SingleTon<Factory>
         return explosion.GetObject(position);
     }
 
-    public Asteroid GetAsteroid(Vector3? position)
+    public AsteroidOld GetAsteroid(Vector3? position)
     {
         return asteroid.GetObject(position);
+    }
+
+    public EnemyWave GetEnemyWave(Vector3? position)
+    {
+        return enemyWave.GetObject(position);
     }
 }
