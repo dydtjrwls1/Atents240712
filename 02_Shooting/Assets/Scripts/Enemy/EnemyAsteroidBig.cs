@@ -27,7 +27,7 @@ public class EnemyAsteroidBig : EnemyBase
     public AnimationCurve rotateSpeedCurve;
 
     // 최종 회전 속도
-    float rotateSpeed;
+    protected float rotateSpeed;
 
     // 자폭 까지의 시간
     float explosiveTime;
@@ -35,15 +35,31 @@ public class EnemyAsteroidBig : EnemyBase
     // 이동 방향
     Vector3 direction;
 
+    // 스프라이트
+    SpriteRenderer sr;
+
+    int numFragment;
+
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
     protected override void OnReset()
     {
         base.OnReset();
         explosiveTime = Random.Range(minExplosiveTime, maxExplosiveTime);
         speed = Random.Range(minMoveSpeed, maxMoveSpeed);
         rotateSpeed = minRotateSpeed + rotateSpeedCurve.Evaluate(Random.value) * maxRotatespeed;
+        numFragment = Random.Range(1, 4);
 
         // 자폭 시작
         StartCoroutine(Explosive());
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        sr.color -= new Color(0, Time.deltaTime * 0.1f * explosiveTime, Time.deltaTime * 0.1f * explosiveTime, 0);
     }
 
     protected override void OnMoveUpdate(float deltaTime)
@@ -51,7 +67,6 @@ public class EnemyAsteroidBig : EnemyBase
         transform.Translate(deltaTime * speed * direction, Space.World);
         transform.Rotate(0, 0, deltaTime * rotateSpeed);
     }
-
     /// <summary>
     /// 목적지 설정하는 함수
     /// </summary>
@@ -74,6 +89,13 @@ public class EnemyAsteroidBig : EnemyBase
     IEnumerator Explosive()
     {
         yield return new WaitForSeconds(explosiveTime);
+        for (int i = 0; i <  numFragment; i++)
+        {
+            float angle = 360.0f / numFragment;
+            Vector3 fragmentDestination = Quaternion.Euler(0, 0, angle * i) * new Vector3(1, 0);
+            Factory.Instance.GetEnemyAsteroidSmall(transform.position, fragmentDestination);
+        }
+        
         gameObject.SetActive(false);
     }
 }

@@ -49,7 +49,7 @@ public class EnemyBase : RecycleObject
     }
 
     // Update is called once per frame
-    private void Update()
+    protected virtual void Update()
     {
         OnMoveUpdate(Time.deltaTime);
     }
