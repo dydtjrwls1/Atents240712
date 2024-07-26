@@ -11,6 +11,7 @@ public class Factory : SingleTon<Factory>
     OldAsteroidPool asteroid;
     EnemyWavePool enemyWave;
     EnemyAsteroidBIgPool enemyAsteroidBig;
+    EnemyAsteroidSmallPool enemyAsteroidSmall;  
 
     protected override void OnInitialize()
     {
@@ -42,6 +43,10 @@ public class Factory : SingleTon<Factory>
         enemyAsteroidBig = GetComponentInChildren<EnemyAsteroidBIgPool>();
         if (enemyAsteroidBig != null)
             enemyAsteroidBig.Initialize();
+
+        enemyAsteroidSmall = GetComponentInChildren<EnemyAsteroidSmallPool>();
+        if (enemyAsteroidSmall != null)
+            enemyAsteroidSmall.Initialize();
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -93,5 +98,17 @@ public class Factory : SingleTon<Factory>
         big.SetDestination(dir);
 
         return big;
+    }
+    public EnemyAsteroidSmall GetEnemyAsteroidSmall(Vector3? position, Vector3? targetPosition = null, float? angle = 0.0f)
+    {
+        // dir 이 null 이면 vector3.left 값을 사용, null 이 아니면 direction 이 들어있는 값을 사용.
+        Vector3 dir = targetPosition ?? position.GetValueOrDefault() + Vector3.left;
+        Vector3 euler = Vector3.zero;
+        euler.z = angle ?? Random.Range(0.0f, 360.0f); // 초기 회전 정도 지정
+
+        EnemyAsteroidSmall small = enemyAsteroidSmall.GetObject(position, euler);
+        small.SetDestination(dir);
+
+        return small;
     }
 }

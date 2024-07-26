@@ -10,4 +10,9 @@ public class Test13_AsteroidBigSmall : TestBase
     {
         Factory.Instance.GetEnemyAsteroidBig(target.position, target.position + Vector3.left);
     }
+
+    protected override void Test2_performed(InputAction.CallbackContext context)
+    {
+        Factory.Instance.GetEnemyAsteroidSmall(target.position, target.position + Vector3.left);
+    }
 }
