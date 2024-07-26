@@ -48,9 +48,6 @@ public class EnemySpawner : MonoBehaviour
     //    }
     //}
 
-    // 적 프리팹
-    public GameObject enemyPrefab;
-
     // 생성 간격
     public float spawnInterval = 1.0f;
 

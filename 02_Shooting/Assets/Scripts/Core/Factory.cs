@@ -8,8 +8,9 @@ public class Factory : SingleTon<Factory>
     OldEnemyPool enemy;
     HitEffectPool hit;
     ExplosionEffectPool explosion;
-    OldAsteroidPool asteroid;
+    OldAsteroidPool oldAsteroid;
     EnemyWavePool enemyWave;
+    AsteroidPool asteroid;
 
     protected override void OnInitialize()
     {
@@ -30,13 +31,17 @@ public class Factory : SingleTon<Factory>
         if (explosion != null) 
             explosion.Initialize();
 
-        asteroid = GetComponentInChildren<OldAsteroidPool>();
-        if (asteroid != null)
-            asteroid.Initialize();
+        oldAsteroid = GetComponentInChildren<OldAsteroidPool>();
+        if (oldAsteroid != null)
+            oldAsteroid.Initialize();
 
         enemyWave = GetComponentInChildren<EnemyWavePool>();
         if (enemyWave != null)
             enemyWave.Initialize();
+
+        asteroid = GetComponentInChildren<AsteroidPool>();
+        if (asteroid != null)
+            asteroid.Initialize();
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -60,13 +65,17 @@ public class Factory : SingleTon<Factory>
         return explosion.GetObject(position);
     }
 
-    public AsteroidOld GetAsteroid(Vector3? position)
+    public AsteroidOld GetOldAsteroid(Vector3? position)
     {
-        return asteroid.GetObject(position);
+        return oldAsteroid.GetObject(position);
     }
 
     public EnemyWave GetEnemyWave(Vector3? position)
     {
         return enemyWave.GetObject(position);
+    }
+    public Asteroid GetAsteroid(Vector3? position, float angle = 0.0f)
+    {
+        return asteroid.GetObject(position,  angle * Vector3.forward);
     }
 }

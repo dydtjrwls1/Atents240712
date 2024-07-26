@@ -7,6 +7,8 @@ public class AsteroidSpawner : EnemySpawner
 {
     Transform destinationArea;
 
+    int randAngle;
+
     private void Awake()
     {
         destinationArea = transform.GetChild(0);
@@ -14,7 +16,8 @@ public class AsteroidSpawner : EnemySpawner
 
     protected override void Spawn()
     {
-        AsteroidOld asteroid = Factory.Instance.GetAsteroid(GetSpawnPosition());
+        randAngle = Random.Range(0, 360);
+        Asteroid asteroid = Factory.Instance.GetAsteroid(GetSpawnPosition(), randAngle);
         asteroid.SetDestination(GetDestination());
     }
 
