@@ -21,10 +21,13 @@ public class EnemyAsteroidBig : EnemyBase
     public float minExplosiveTime = 3.0f;
 
     // 최대 자폭 시간
-    public float maxExplosiveTime = 5.0f;
+    public float maxExplosiveTime = 7.0f;
 
     // 회전 속도 랜덤 분포용 커브
     public AnimationCurve rotateSpeedCurve;
+
+    // 자폭 표시 색 결정용 커브
+    public AnimationCurve explosiveCurve;
 
     // 최종 회전 속도
     float rotateSpeed;
@@ -32,18 +35,36 @@ public class EnemyAsteroidBig : EnemyBase
     // 자폭 까지의 시간
     float explosiveTime;
 
+    // 자폭 진행 시간
+    float explosiveElapsed = 0.0f;
+
     // 이동 방향
     Vector3 direction;
+
+    // 원래 점수 저장용 변수
+    int orgPoint = 0;
+
+    // 운석 스프라이트 렌더러
+    SpriteRenderer sr;
+
+    private void Awake()
+    {
+        orgPoint = point; // 자폭 대비 원점수 미리 저장
+        sr = GetComponent<SpriteRenderer>();
+    }
 
     protected override void OnReset()
     {
         base.OnReset();
-        explosiveTime = Random.Range(minExplosiveTime, maxExplosiveTime);
-        speed = Random.Range(minMoveSpeed, maxMoveSpeed);
-        rotateSpeed = minRotateSpeed + rotateSpeedCurve.Evaluate(Random.value) * maxRotatespeed;
+        point = orgPoint; // 원래 점수로 복원
+        speed = Random.Range(minMoveSpeed, maxMoveSpeed); // 이동 속도 랜덤
+        rotateSpeed = minRotateSpeed + rotateSpeedCurve.Evaluate(Random.value) * maxRotatespeed; // 회전속도 랜덤
+
+        explosiveElapsed = 0.0f; // 누적 시간 초기화
+        sr.color = Color.white; // 랜더러 색 초기화
 
         // 자폭 시작
-        StartCoroutine(Explosive());
+        StartCoroutine(SelfExplosive());
     }
 
     protected override void OnMoveUpdate(float deltaTime)
@@ -52,6 +73,15 @@ public class EnemyAsteroidBig : EnemyBase
         transform.Rotate(0, 0, deltaTime * rotateSpeed);
     }
 
+    protected override void OnVisualUpdate(float deltaTime)
+    {
+        explosiveElapsed += deltaTime;
+        // 진행율 : explosiveTime / explosiveElapsed;
+        // 시작색 : Color(1, 1, 1) 
+        // 마지막색 : Color(1, 0, 0)
+        explosiveCurve.Evaluate(explosiveElapsed);
+        sr.color = Color.Lerp(Color.white, Color.red, explosiveCurve.Evaluate(explosiveElapsed / explosiveTime));
+    }
     /// <summary>
     /// 목적지 설정하는 함수
     /// </summary>
@@ -71,10 +101,13 @@ public class EnemyAsteroidBig : EnemyBase
     /// 큰 운석을 일정 시간이 지나면 disable 하는 코루틴
     /// </summary>
     /// <returns></returns>
-    IEnumerator Explosive()
+    IEnumerator SelfExplosive()
     {
+        explosiveTime = Random.Range(minExplosiveTime, maxExplosiveTime);
         yield return new WaitForSeconds(explosiveTime);
-        gameObject.SetActive(false);
+
+        point = 0;
+        OnDie();
     }
 }
 

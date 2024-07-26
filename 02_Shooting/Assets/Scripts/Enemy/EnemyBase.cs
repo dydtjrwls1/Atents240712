@@ -52,6 +52,7 @@ public class EnemyBase : RecycleObject
     private void Update()
     {
         OnMoveUpdate(Time.deltaTime);
+        OnVisualUpdate(Time.deltaTime);
     }
 
     protected override void OnEnable()
@@ -64,6 +65,12 @@ public class EnemyBase : RecycleObject
     {
         HP--; // HP = HP - 1 // HP를 get 한 다음 -1 을 처리하고 다시 set하기
     }
+
+    /// <summary>
+    /// Enemy 종류별로 비주얼 변경 처리를 하는 함수
+    /// </summary>
+    /// <param name="deltaTime"></param>
+    protected virtual void OnVisualUpdate(float deltaTime) { }
 
     protected virtual void OnReset()
     {
@@ -80,7 +87,7 @@ public class EnemyBase : RecycleObject
         transform.Translate(deltaTime * speed * -transform.right, Space.World); // 기본 동작은 왼쪽으로 계속 이동하기
     }
 
-    void OnDie()
+    protected void OnDie()
     {
         if (isAlive) // 살아 있을 때만 죽일 수 있음
         {

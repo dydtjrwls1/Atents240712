@@ -22,7 +22,7 @@ public class EnemyObjectPool<T> : ObjectPool<T> where T : EnemyBase
 
     public override void Initialize()
     {
-        base.Initialize();
         scoreText = FindAnyObjectByType<ScoreText>();
+        base.Initialize();
     }
 }
