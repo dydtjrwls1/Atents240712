@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class EnemyAsteroidBig : EnemyBase
@@ -29,6 +30,18 @@ public class EnemyAsteroidBig : EnemyBase
     // 자폭 표시 색 결정용 커브
     public AnimationCurve explosiveCurve;
 
+    // 생성할 작은 운석의 개수 범위
+    public int minSmallCount = 3;
+    public int maxSmallCount = 8;
+
+    // 크리티컬 확률
+    [Range(0f, 1f)]
+    public float criticalRate = 0.05f;
+
+    // 크리티컬 배율
+    [Min(1.0f)]
+    public float criticalMultiplier = 3.0f;
+
     // 최종 회전 속도
     float rotateSpeed;
 
@@ -46,7 +59,7 @@ public class EnemyAsteroidBig : EnemyBase
 
     // 운석 스프라이트 렌더러
     SpriteRenderer sr;
-
+    
     private void Awake()
     {
         orgPoint = point; // 자폭 대비 원점수 미리 저장
@@ -107,7 +120,26 @@ public class EnemyAsteroidBig : EnemyBase
         yield return new WaitForSeconds(explosiveTime);
 
         point = 0;
-        OnDie();
+
+        Die();
+    }
+
+    /// <summary>
+    /// 큰 운석이 터질 때 일어날 일을 기록해놓은 함수
+    /// </summary>
+    protected override void OnDie()
+    {
+        int count = Random.Range(minSmallCount, maxSmallCount);
+        if (Random.value < criticalRate)
+            count = Mathf.RoundToInt(maxSmallCount * criticalMultiplier);
+
+        float angleDiff = 360 / count;
+        Vector3 dir = Quaternion.Euler(0, 0, Random.Range(0, 360)) * Vector3.left; // 왼쪽 벡터를 랜덤하게 돌린 것이 기준방향
+        for (int i = 0; i < count; i++)
+        {
+            Quaternion q = Quaternion.Euler(0, 0, angleDiff * i);
+            Factory.Instance.GetEnemyAsteroidSmall(transform.position, q * dir);
+        }
     }
 }
 

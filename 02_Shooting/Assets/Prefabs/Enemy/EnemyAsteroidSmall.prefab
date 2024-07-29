@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2645779869944361013}
   - component: {fileID: 8668016508301987136}
-  - component: {fileID: 5564044048291269918}
   - component: {fileID: 227224954008838067}
   - component: {fileID: 6774234293270837322}
+  - component: {fileID: 1979476128704282087}
   m_Layer: 7
-  m_Name: EnemyAsteroidBig
+  m_Name: EnemyAsteroidSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 085dc9b92d7064f24868ea4e8f8919a2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2aafde123c19b4d9eb19bfdeac5650f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -87,89 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5564044048291269918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6896786852001949711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3878d5cee6f88344bd1eafff048be33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 30
-  speed: 5
-  point: 10
-  maxHP: 1
-  minRotateSpeed: 30
-  maxRotatespeed: 720
-  minMoveSpeed: 2
-  maxMoveSpeed: 2
-  minExplosiveTime: 2
-  maxExplosiveTime: 3
-  rotateSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  explosiveCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.7
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 3.3333333
-      outSlope: 3.3333333
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minSmallCount: 3
-  maxSmallCount: 8
-  criticalRate: 0.05
-  criticalMultiplier: 3
 --- !u!58 &227224954008838067
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -204,7 +121,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.85
+  m_Radius: 0.33
 --- !u!50 &6774234293270837322
 Rigidbody2D:
   serializedVersion: 4
@@ -232,3 +149,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1979476128704282087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6896786852001949711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813e546d5da19334a8c20d69c92eb7a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 30
+  speed: 7
+  point: 3
+  maxHP: 1

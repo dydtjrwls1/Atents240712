@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Factory : SingleTon<Factory>
@@ -11,6 +12,7 @@ public class Factory : SingleTon<Factory>
     OldAsteroidPool asteroid;
     EnemyWavePool enemyWave;
     EnemyAsteroidBIgPool enemyAsteroidBig;
+    EnemyAsteroidSmallPool enemyAsteroidSmall;
 
     protected override void OnInitialize()
     {
@@ -42,6 +44,10 @@ public class Factory : SingleTon<Factory>
         enemyAsteroidBig = GetComponentInChildren<EnemyAsteroidBIgPool>();
         if (enemyAsteroidBig != null)
             enemyAsteroidBig.Initialize();
+
+        enemyAsteroidSmall = GetComponentInChildren<EnemyAsteroidSmallPool>();
+        if (enemyAsteroidSmall != null)
+            enemyAsteroidSmall.Initialize();
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -82,7 +88,7 @@ public class Factory : SingleTon<Factory>
     /// /// <param name="direction">이동 방향</param>
     /// <param name="angle">초기각도</param>
     /// <returns>큰 운석 하나</returns>
-    public EnemyAsteroidBig GetEnemyAsteroidBig(Vector3? position, Vector3? targetPosition = null, float? angle = 0.0f)
+    public EnemyAsteroidBig GetEnemyAsteroidBig(Vector3? position, Vector3? targetPosition = null, float? angle = null)
     {
         // dir 이 null 이면 vector3.left 값을 사용, null 이 아니면 direction 이 들어있는 값을 사용.
         Vector3 dir = targetPosition ?? position.GetValueOrDefault() + Vector3.left;
@@ -93,5 +99,23 @@ public class Factory : SingleTon<Factory>
         big.SetDestination(dir);
 
         return big;
+    }
+
+    /// <summary>
+    /// 작은 운석 하나를 돌려주는 함수
+    /// </summary>
+    /// <param name="position">생성 위치</param>
+    /// <param name="direction">이동할 방향</param>
+    /// <param name="angle"></param>
+    /// <returns></returns>
+    public EnemyAsteroidSmall GetEnemyAsteroidSmall(Vector3? position, Vector3? direction, float? angle = null)
+    {
+        Vector3 euler = Vector3.zero;
+        euler.z = angle ?? Random.Range(0.0f, 360.0f); // 초기 회전 정도 지정
+
+        EnemyAsteroidSmall small = enemyAsteroidSmall.GetObject(position, euler);
+        small.Direction = direction ?? Vector3.left;
+
+        return small;
     }
 }
