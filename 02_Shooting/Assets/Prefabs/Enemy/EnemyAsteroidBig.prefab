@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6774234293270837322}
   m_Layer: 7
   m_Name: EnemyAsteroidBig
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   lifeTime: 30
   speed: 5
   point: 10
-  maxHP: 1
+  maxHP: 5
   minRotateSpeed: 30
   maxRotatespeed: 720
   minMoveSpeed: 2

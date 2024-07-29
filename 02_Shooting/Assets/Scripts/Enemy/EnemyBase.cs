@@ -95,7 +95,7 @@ public class EnemyBase : RecycleObject
 
             onDie?.Invoke(point); // 죽었다고 등록된 객체들에게 알리기(등록된 함수 실행)
 
-            // Factory.Instance.GetExplosion(transform.position);
+            Factory.Instance.GetExplosion(transform.position);
 
             OnDie();        
 

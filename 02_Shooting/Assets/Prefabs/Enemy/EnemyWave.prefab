@@ -186,6 +186,6 @@ MonoBehaviour:
   lifeTime: 30
   speed: 5
   point: 10
-  maxHP: 1
+  maxHP: 2
   frequency: 2
   amplitude: 3
