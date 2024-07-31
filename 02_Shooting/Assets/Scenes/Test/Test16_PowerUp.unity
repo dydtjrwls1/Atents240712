@@ -786,9 +786,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  directionChangeInterval: 3
+  directionChangeInterval: 2
   directionChangeMaxCount: 5
-  fleeChange: 0.7
+  fleeChance: 0.7
 --- !u!70 &1674702112
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

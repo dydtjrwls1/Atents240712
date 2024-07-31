@@ -72,18 +72,9 @@ public class PowerUp : RecycleObject
     {
         yield return new WaitForSeconds(directionChangeInterval);
 
-        
-        if (Random.value > fleeChance)
-        {
-                
-        }
-        else
-        {
-
-        }
-
-        direction = Random.insideUnitCircle.normalized; // 임시용
-        Debug.Log($"{direction}");
+        Vector3 directionFromPlayer = (transform.position - playerTransform.position).normalized;
+        Quaternion angle = Quaternion.Euler(Random.Range(-90.0f, 90.0f) * Vector3.forward);
+        direction = Random.value > fleeChance ? angle * directionFromPlayer : angle * -directionFromPlayer;
 
         DirectionChangeCount--;
     }
