@@ -55,15 +55,15 @@ public class EnemyBase : RecycleObject
         OnVisualUpdate(Time.deltaTime);
     }
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        OnReset();
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         HP--; // HP = HP - 1 // HP를 get 한 다음 -1 을 처리하고 다시 set하기
+    }
+    protected override void OnReset()
+    {
+        HP = maxHP;
+        isAlive = true;
+        DisableTimer(lifeTime);
     }
 
     /// <summary>
@@ -72,12 +72,7 @@ public class EnemyBase : RecycleObject
     /// <param name="deltaTime"></param>
     protected virtual void OnVisualUpdate(float deltaTime) { }
 
-    protected virtual void OnReset()
-    {
-        HP = maxHP;
-        isAlive = true;
-        DisableTimer(lifeTime);
-    }
+
     /// <summary>
     /// Enemy의 종류별로 이동처리를 하는 함수
     /// </summary>

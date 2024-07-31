@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,12 +22,18 @@ public class RecycleObject : MonoBehaviour
         transform.localRotation = Quaternion.identity;  
 
         StopAllCoroutines();    // 이전에 실행중이던 코루틴 모두 정지
+        OnReset();
     }
 
     protected virtual void OnDisable()
     {
         onDisable?.Invoke();    // onDisable 이 null 이 아니면 실행하라.
 
+    }
+
+    protected virtual void OnReset()
+    {
+        
     }
 
     /// <summary>
