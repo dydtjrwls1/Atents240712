@@ -5,29 +5,24 @@ using UnityEngine;
 
 public class Factory : SingleTon<Factory>
 {
-    BulletPool bullet;
     OldEnemyPool enemy;
-    HitEffectPool hit;
     ExplosionEffectPool explosion;
     OldAsteroidPool asteroid;
     EnemyWavePool enemyWave;
     EnemyAsteroidBIgPool enemyAsteroidBig;
     EnemyAsteroidSmallPool enemyAsteroidSmall;
 
+    HitEffectPool hit;
+    BulletPool bullet;
+    PowerUpPool powerUp;
+
     protected override void OnInitialize()
     {
         // 풀 초기화
-        bullet = GetComponentInChildren<BulletPool>();
-        if(bullet != null) 
-            bullet.Initialize();
 
         enemy = GetComponentInChildren<OldEnemyPool>();
         if (enemy != null)
             enemy.Initialize();
-
-        hit = GetComponentInChildren<HitEffectPool>();
-        if (hit != null)
-            hit.Initialize();
 
         explosion = GetComponentInChildren<ExplosionEffectPool>();
         if (explosion != null) 
@@ -48,6 +43,19 @@ public class Factory : SingleTon<Factory>
         enemyAsteroidSmall = GetComponentInChildren<EnemyAsteroidSmallPool>();
         if (enemyAsteroidSmall != null)
             enemyAsteroidSmall.Initialize();
+
+        bullet = GetComponentInChildren<BulletPool>();
+        if(bullet != null) 
+            bullet.Initialize();
+
+        hit = GetComponentInChildren<HitEffectPool>();
+        if (hit != null)
+            hit.Initialize();
+
+        powerUp = GetComponentInChildren<PowerUpPool>();
+        if (powerUp != null)
+            powerUp.Initialize();
+
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -117,5 +125,10 @@ public class Factory : SingleTon<Factory>
         small.Direction = direction ?? Vector3.left;
 
         return small;
+    }
+
+    public PowerUp GetPowerUp(Vector3? position)
+    {
+        return powerUp.GetObject(position); // = Vector3.forward * angle
     }
 }
