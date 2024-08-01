@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
 
     public Vector3 inputDirection;
 
+    ScoreText scoreText;
+
     // 총알 발사 이펙트 게임 오브젝트
     GameObject fireFlash;
 
@@ -39,7 +41,9 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
 
     private const int MinPower = 1;
-    private const int MaxPower = 3;
+    private int MaxPower = 3;
+
+    float angle = 60.0f;
 
     int power = 1;
 
@@ -51,6 +55,22 @@ public class Player : MonoBehaviour
             // 변경이 있을 때만 처리
             power = value;
             // power는 MinPower 와 MaxPower 사이
+            if (power > MaxPower)
+            {
+                scoreText.AddScore(PowerUp.BonusPoint);
+            }
+
+            power = Mathf.Clamp(power, MinPower, MaxPower);
+
+            float angleStep = angle * 2 / (power + 1);
+
+            for (int i = 0; i < power; i++)
+            {
+                float currentAngle = angle - angleStep * (i + 1);
+                fireTransform[i].rotation = Quaternion.Euler(0, 0, currentAngle);
+            }
+           
+            
             // 최대치 이상 먹으면 보너스 점수 획득
             // 발사 각도 변경
 
@@ -62,11 +82,13 @@ public class Player : MonoBehaviour
     {
         animator = GetComponent<Animator>(); // 자신과 같은 게임오브젝트 내부에 있는 컴포넌트 찾기
         rigid = GetComponent<Rigidbody2D>();
+        scoreText = FindAnyObjectByType<ScoreText>();
 
         playerInputActions = new PlayerInputActions();
 
         // 총알 발사용 트랜스폼
         Transform fireRoot = transform.GetChild(0);
+        MaxPower = fireRoot.childCount;
         fireTransform = new Transform[fireRoot.childCount]; // 첫 번째 자식 찾기
         for (int i = 0; i < fireRoot.childCount; i++)
         {
