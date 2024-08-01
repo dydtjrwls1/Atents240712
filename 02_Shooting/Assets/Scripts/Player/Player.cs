@@ -12,9 +12,6 @@ public class Player : MonoBehaviour
     //총알 프리팹
     public GameObject bulletPrefab;
 
-    // 총알 발사 이펙트 게임 오브젝트
-    GameObject fireFlash;
-
     // 이동속도 
     public float moveSpeed = 10.0f;
 
@@ -22,13 +19,16 @@ public class Player : MonoBehaviour
 
     public Vector3 inputDirection;
 
+    // 총알 발사 이펙트 게임 오브젝트
+    GameObject fireFlash;
+
     // 애니메이터 컴포넌트를 저장할 변수.
     Animator animator;
 
     readonly int InputY_String = Animator.StringToHash("InputY");
 
     // 총알 발사 위치
-    Transform fireTransform;
+    Transform[] fireTransform;
 
     // 총알 발사용 코루틴
     IEnumerator fireCoroutine;
@@ -37,6 +37,25 @@ public class Player : MonoBehaviour
     WaitForSeconds flashWait;
 
     Rigidbody2D rigid;
+
+    private const int MinPower = 1;
+    private const int MaxPower = 3;
+
+    int power = 1;
+
+    int Power
+    {
+        get => power;
+        set
+        {
+            // 변경이 있을 때만 처리
+            power = value;
+            // power는 MinPower 와 MaxPower 사이
+            // 최대치 이상 먹으면 보너스 점수 획득
+            // 발사 각도 변경
+
+        }
+    }
 
 
     private void Awake()
@@ -47,7 +66,12 @@ public class Player : MonoBehaviour
         playerInputActions = new PlayerInputActions();
 
         // 총알 발사용 트랜스폼
-        fireTransform = transform.GetChild(0); // 첫 번째 자식 찾기
+        Transform fireRoot = transform.GetChild(0);
+        fireTransform = new Transform[fireRoot.childCount]; // 첫 번째 자식 찾기
+        for (int i = 0; i < fireRoot.childCount; i++)
+        {
+            fireTransform[i] = fireRoot.GetChild(i);
+        }
         fireFlash = transform.GetChild(1).gameObject; // 두 번째 자식을 찾아서 그 자식의 게임 오브젝트 저장하기
 
         fireCoroutine = FireCoroutine();
@@ -121,7 +145,7 @@ public class Player : MonoBehaviour
 
    
 
-    void Fire()
+    void Fire(Transform fire)
     {
         // 플래시 이펙트 잠깐 켜기
         StartCoroutine(FlashEffect());
@@ -130,7 +154,7 @@ public class Player : MonoBehaviour
         // Instantiate(bulletPrefab, transform.position, Quaternion.identity);  총알이 비행기 가운데에서 생성됨
         // Instantiate(bulletPrefab, transform.position + Vector3.right, Quaternion.identity);  총알 발사 위치를 확인하기 힘들다
         // Instantiate(bulletPrefab, fireTransform.position, fireTransform.rotation); // 총알을 fireTransform 의 위치와 회전에 따라 생성한다.
-        Factory.Instance.GetBullet(fireTransform.position, transform.rotation.eulerAngles.z);
+        Factory.Instance.GetBullet(fire.position, fire.rotation.eulerAngles.z);
     }
 
     IEnumerator FireCoroutine()
@@ -138,7 +162,11 @@ public class Player : MonoBehaviour
         while (true)
         {
             // Debug.Log("Fire!");
-            Fire();
+            for (int i = 0; i < Power; i++)
+            {
+                Fire(fireTransform[i]);
+            }
+            
             yield return new WaitForSeconds(fireInterval); // fireInterval 초 만큼 기다렸다가 다시 시작하기
         }
 
@@ -161,7 +189,12 @@ public class Player : MonoBehaviour
         // if(collision.gameObject.tag == "Enemy") string 비교 절대 금지!
         if (collision.gameObject.CompareTag("Enemy")) // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
         {
-            Debug.Log("적과 부딪혔다.");      
+            Debug.Log("적과 부딪혔다.");
+        }
+        else if (collision.gameObject.CompareTag("PowerUp"))
+        {
+            Power++;
+            collision.gameObject.SetActive(false);
         }
     }
 }

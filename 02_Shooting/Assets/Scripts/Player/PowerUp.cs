@@ -16,6 +16,9 @@ public class PowerUp : RecycleObject
     // 캐릭터로 부터 멀어질 확률
     public float fleeChance = 0.7f;
 
+    // 파워업 아이템을 최고 단계일 때 먹으면 얻는 보너스 점수
+    public const int BonusPoint = 1000;
+
     // 애니메이터 파라미터 접근용 해시
     readonly int Count_Hash = Animator.StringToHash("Count");
 
