@@ -50,6 +50,10 @@ MonoBehaviour:
     interval: 3
   - type: 1
     interval: 1
+  - type: 2
+    interval: 1
+  - type: 3
+    interval: 1
 --- !u!1 &4384563160328932184
 GameObject:
   m_ObjectHideFlags: 0

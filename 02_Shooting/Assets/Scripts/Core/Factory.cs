@@ -11,6 +11,8 @@ public class Factory : SingleTon<Factory>
     EnemyWavePool enemyWave;
     EnemyAsteroidBIgPool enemyAsteroidBig;
     EnemyAsteroidSmallPool enemyAsteroidSmall;
+    EnemyBonusPool enemyBonus;
+    EnemyCurvePool enemyCurve;
 
     HitEffectPool hit;
     BulletPool bullet;
@@ -44,6 +46,10 @@ public class Factory : SingleTon<Factory>
         if (enemyAsteroidSmall != null)
             enemyAsteroidSmall.Initialize();
 
+        enemyBonus = GetComponentInChildren<EnemyBonusPool>();
+        if (enemyBonus != null)
+            enemyBonus.Initialize();
+
         bullet = GetComponentInChildren<BulletPool>();
         if(bullet != null) 
             bullet.Initialize();
@@ -56,6 +62,9 @@ public class Factory : SingleTon<Factory>
         if (powerUp != null)
             powerUp.Initialize();
 
+        enemyCurve = GetComponentInChildren<EnemyCurvePool>();
+        if (enemyCurve != null)
+            enemyCurve.Initialize();
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -125,6 +134,16 @@ public class Factory : SingleTon<Factory>
         small.Direction = direction ?? Vector3.left;
 
         return small;
+    }
+
+    public EnemyBonus GetEnemyBonus(Vector3? position)
+    {
+        return enemyBonus.GetObject(position);
+    }
+
+    public EnemyCurve GetEnemyCurve(Vector3? position)
+    {
+        return enemyCurve.GetObject(position);
     }
 
     public PowerUp GetPowerUp(Vector3? position)

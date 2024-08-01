@@ -64,7 +64,7 @@ public class PowerUp : RecycleObject
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
+    { 
         // 보더에 부딪혔을 때 방향 전환 && 남아 있는 부딪힐 회수가 0 이상일 때
         if (DirectionChangeCount > 0 && collision.gameObject.CompareTag("Border"))
         {

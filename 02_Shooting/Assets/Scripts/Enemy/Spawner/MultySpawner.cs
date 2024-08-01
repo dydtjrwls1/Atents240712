@@ -8,7 +8,9 @@ public class MultySpawner : MonoBehaviour
     public enum SpawnType
     {
         Wave = 0,
-        Asteroid
+        Asteroid,
+        Bonus,
+        Curve
     }
 
     [Serializable]
@@ -55,6 +57,12 @@ public class MultySpawner : MonoBehaviour
                     EnemyAsteroidBig big = Factory.Instance.GetEnemyAsteroidBig(GetSpawnPosition());
                     big.SetDestination(GetDestination());
                     break;
+                case SpawnType.Bonus:
+                    Factory.Instance.GetEnemyBonus(GetSpawnPosition());
+                    break;
+                case SpawnType.Curve:
+                    StartCoroutine(SpawnEnemyCurve());
+                    break;
             }  
         }
     }
@@ -71,6 +79,16 @@ public class MultySpawner : MonoBehaviour
         pos.y += UnityEngine.Random.Range(MinY, MaxY);
 
         return pos;
+    }
+
+    IEnumerator SpawnEnemyCurve()
+    {
+        Vector3 spawnPos = GetSpawnPosition();
+        for (int i = 0; i < 3; i++)
+        {
+            Factory.Instance.GetEnemyCurve(spawnPos);
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     protected void OnDrawGizmos()
