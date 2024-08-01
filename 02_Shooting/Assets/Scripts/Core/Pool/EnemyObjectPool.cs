@@ -22,7 +22,7 @@ public class EnemyObjectPool<T> : ObjectPool<T> where T : EnemyBase
 
     public override void Initialize()
     {
-        scoreText = FindAnyObjectByType<ScoreText>();
+        scoreText = GameManager.Instance.ScoreTextUI;
         base.Initialize();
     }
 }

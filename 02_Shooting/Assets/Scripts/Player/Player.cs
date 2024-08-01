@@ -15,9 +15,11 @@ public class Player : MonoBehaviour
     // 이동속도 
     public float moveSpeed = 10.0f;
 
-    PlayerInputActions playerInputActions;
-
     public Vector3 inputDirection;
+
+    public const float FireAngle = 30.0f;
+
+    PlayerInputActions playerInputActions;
 
     // 총알 발사 이펙트 게임 오브젝트
     GameObject fireFlash;
@@ -41,6 +43,8 @@ public class Player : MonoBehaviour
     private const int MinPower = 1;
     private const int MaxPower = 3;
 
+    
+
     int power = 1;
 
     int Power
@@ -49,11 +53,22 @@ public class Player : MonoBehaviour
         set
         {
             // 변경이 있을 때만 처리
-            power = value;
-            // power는 MinPower 와 MaxPower 사이
-            // 최대치 이상 먹으면 보너스 점수 획득
-            // 발사 각도 변경
+            if (power != value)
+            {
+                power = value;
 
+                // power는 MinPower 와 MaxPower 사이
+                if(power > MaxPower)
+                {
+                    ScoreText scoreText = GameManager.Instance.ScoreTextUI;
+                    scoreText.AddScore(PowerUp.BonusPoint);
+                }
+                
+                power = Mathf.Clamp(power, MinPower, MaxPower);
+
+                RefreshFireAngles();
+
+            }
         }
     }
 
@@ -105,6 +120,26 @@ public class Player : MonoBehaviour
         
         rigid.MovePosition(rigid.position + Time.fixedDeltaTime * moveSpeed * (Vector2)inputDirection);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PowerUp"))
+        {
+            Power++;
+            collision.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // if(collision.gameObject.tag == "Enemy") string 비교 절대 금지!
+        if (collision.gameObject.CompareTag("Enemy")) // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
+        {
+            Debug.Log("적과 부딪혔다.");
+        }
+        
+    }
+
+
 
     //private void Update()
     //{
@@ -184,17 +219,29 @@ public class Player : MonoBehaviour
         fireFlash.SetActive(false);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void RefreshFireAngles()
     {
-        // if(collision.gameObject.tag == "Enemy") string 비교 절대 금지!
-        if (collision.gameObject.CompareTag("Enemy")) // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
+        for (int i = 0; i < Power; i++)
         {
-            Debug.Log("적과 부딪혔다.");
-        }
-        else if (collision.gameObject.CompareTag("PowerUp"))
-        {
-            Power++;
-            collision.gameObject.SetActive(false);
+            if (i < Power)
+            {
+                // 1 : 0도
+                // 2 : 15도, -15도
+                // 3 : 30도, 0도, -30도
+                float stratAngle = (Power - 1) * (FireAngle * 0.5f);
+                float angleDelta = i * -FireAngle;
+                fireTransform[i].rotation = Quaternion.Euler(0, 0, stratAngle + angleDelta);
+
+                // 약간 앞으로 옮기기
+                fireTransform[i].localPosition = Vector3.zero;
+                fireTransform[i].Translate(0.5f, 0, 0);
+                
+                fireTransform[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                fireTransform[i].gameObject.SetActive(false);
+            }
         }
     }
 }
