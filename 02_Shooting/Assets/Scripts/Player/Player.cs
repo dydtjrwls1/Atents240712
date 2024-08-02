@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rigid;
 
+    SpriteRenderer sr;
+
     private const int MinPower = 1;
     private const int MaxPower = 3;
 
@@ -108,8 +110,12 @@ public class Player : MonoBehaviour
     // 살아있는지 죽었는지 확인하기 위한 프로퍼티
     bool IsAlive => life > 0;
 
+    Color orgColor;
+    Color hitColor;
+
     private void Awake()
     {
+        sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>(); // 자신과 같은 게임오브젝트 내부에 있는 컴포넌트 찾기
         rigid = GetComponent<Rigidbody2D>();
 
@@ -127,6 +133,9 @@ public class Player : MonoBehaviour
         fireCoroutine = FireCoroutine();
 
         flashWait = new WaitForSeconds(0.1f);
+
+        orgColor = sr.color;
+        hitColor = sr.color - new Color(0, 0, 0, 0.9f);
     }
 
     private void Start()
@@ -293,6 +302,7 @@ public class Player : MonoBehaviour
     void OnHit()
     {
         Power--;
+        StartCoroutine(Hit());
     }
 
     /// <summary>
@@ -301,5 +311,20 @@ public class Player : MonoBehaviour
     void OnDie()
     {
 
+    }
+
+    IEnumerator Hit()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Immunity");
+
+        for (int i = 0; i < 3; i++)
+        {
+            sr.color = hitColor;
+            yield return new WaitForSeconds(0.1f);
+            sr.color = orgColor;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 }
