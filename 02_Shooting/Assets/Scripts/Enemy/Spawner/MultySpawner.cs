@@ -71,7 +71,6 @@ public class MultySpawner : MonoBehaviour
                         Factory.Instance.GetEnemyBonus(spawnPosition);
                         break;
                 }
-
                 yield return new WaitForSeconds(data.continueInterval);
             }
          

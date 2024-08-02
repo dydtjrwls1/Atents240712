@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,9 +44,13 @@ public class Player : MonoBehaviour
     private const int MinPower = 1;
     private const int MaxPower = 3;
 
-    
-
     int power = 1;
+
+    // 현재 생명
+    int life = 3;
+
+    // 초기 생명
+    const int StartLife = 3;
 
     int Power
     {
@@ -72,6 +77,36 @@ public class Player : MonoBehaviour
         }
     }
 
+    int Life
+    {
+        get => life;
+        set
+        {
+            if (life != value)
+            {
+                life = value;
+                if (IsAlive)
+                {
+                    // 아직 살아있음
+                    OnHit();
+                }
+                else
+                {
+                    // 죽었음
+                    OnDie();
+                }
+                life = Mathf.Clamp(life, 0, StartLife);
+                Debug.Log($"남은 수명 {life}");
+                onLifeChange?.Invoke(life); // 생명이 변화했음을 알림
+            }
+        }
+    }
+
+    // 생명 변화를 알리는 델리게이트
+    public Action<int> onLifeChange;
+
+    // 살아있는지 죽었는지 확인하기 위한 프로퍼티
+    bool IsAlive => life > 0;
 
     private void Awake()
     {
@@ -92,6 +127,12 @@ public class Player : MonoBehaviour
         fireCoroutine = FireCoroutine();
 
         flashWait = new WaitForSeconds(0.1f);
+    }
+
+    private void Start()
+    {
+        Power = 1;
+        Life = StartLife; // 생명 초기화 (UI와 연계가 있기 때문에 Start 에서 실행)
     }
 
     private void OnEnable()
@@ -135,6 +176,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy")) // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
         {
             Debug.Log("적과 부딪혔다.");
+            Life--;
         }
         
     }
@@ -243,5 +285,21 @@ public class Player : MonoBehaviour
                 fireTransform[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    /// <summary>
+    /// 플레이어 피격 시 실행되는 함수
+    /// </summary>
+    void OnHit()
+    {
+        Power--;
+    }
+
+    /// <summary>
+    /// 플레이어 사망 시 실행되는 함수
+    /// </summary>
+    void OnDie()
+    {
+
     }
 }
