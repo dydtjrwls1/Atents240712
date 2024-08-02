@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
                 if(power > MaxPower)
                 {
                     ScoreText scoreText = GameManager.Instance.ScoreTextUI;
-                    scoreText.AddScore(PowerUp.BonusPoint);
+                    scoreText?.AddScore(PowerUp.BonusPoint);
                 }
                 
                 power = Mathf.Clamp(power, MinPower, MaxPower);

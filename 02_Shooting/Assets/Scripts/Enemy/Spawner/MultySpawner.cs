@@ -8,7 +8,9 @@ public class MultySpawner : MonoBehaviour
     public enum SpawnType
     {
         Wave = 0,
-        Asteroid
+        Asteroid,
+        Curve,
+        Bonus
     }
 
     [Serializable]
@@ -16,6 +18,8 @@ public class MultySpawner : MonoBehaviour
     {
         public SpawnType type;
         public float interval;
+        public int continueCount;
+        public float continueInterval;
     }
 
     // 스폰할 종류의 적과 스폰 간격을 저장해 놓은 배열
@@ -42,20 +46,36 @@ public class MultySpawner : MonoBehaviour
     }
     IEnumerator SpawnCoroutine(SpawnData data)
     {
+        yield return new WaitForSeconds(data.interval);
+        float inter = data.continueCount * data.continueInterval;
+
         while (true)
         {
-            yield return new WaitForSeconds(data.interval);
+            Vector3 spawnPosition = GetSpawnPosition();
             
-            switch (data.type)
-            {  
-                case SpawnType.Wave:
-                    Factory.Instance.GetEnemyWave(GetSpawnPosition());
-                    break;
-                case SpawnType.Asteroid:
-                    EnemyAsteroidBig big = Factory.Instance.GetEnemyAsteroidBig(GetSpawnPosition());
-                    big.SetDestination(GetDestination());
-                    break;
-            }  
+            for(int i = 0; i < data.continueCount; i++)
+            {
+                switch (data.type)
+                {
+                    case SpawnType.Wave:
+                        Factory.Instance.GetEnemyWave(spawnPosition);
+                        break;
+                    case SpawnType.Asteroid:
+                        EnemyAsteroidBig big = Factory.Instance.GetEnemyAsteroidBig(spawnPosition);
+                        big.SetDestination(GetDestination());
+                        break;
+                    case SpawnType.Curve:
+                        Factory.Instance.GetEnemyCurve(spawnPosition);
+                        break;
+                    case SpawnType.Bonus:
+                        Factory.Instance.GetEnemyBonus(spawnPosition);
+                        break;
+                }
+
+                yield return new WaitForSeconds(data.continueInterval);
+            }
+         
+            yield return new WaitForSeconds(data.interval - inter);
         }
     }
 
