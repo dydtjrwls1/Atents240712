@@ -41,6 +41,7 @@ public class GameManager : SingleTon<GameManager>
         scoreTextUI = FindAnyObjectByType<ScoreText>();
 
         lifePanel = FindAnyObjectByType<LifePanel>();
-        lifePanel.OnInitialize();  // 플레이어를 찾은 후에 실행되어야 함
+        if(lifePanel != null)
+            lifePanel.OnInitialize();  // 플레이어를 찾은 후에 실행되어야 함
     }
 }
