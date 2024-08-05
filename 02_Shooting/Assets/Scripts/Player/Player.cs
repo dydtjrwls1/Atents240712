@@ -169,8 +169,8 @@ public class Player : MonoBehaviour
     {
         // 항상 일정 시간 간격으로 호출된다.
         // Debug.Log(Time.fixedDeltaTime); // 0.02초
-        
-        rigid.MovePosition(rigid.position + Time.fixedDeltaTime * moveSpeed * (Vector2)inputDirection);
+        if (IsAlive)
+            rigid.MovePosition(rigid.position + Time.fixedDeltaTime * moveSpeed * (Vector2)inputDirection);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -310,7 +310,29 @@ public class Player : MonoBehaviour
     /// </summary>
     void OnDie()
     {
+        // 더 이상 충돌이 일어나지 않게 Collider 끄기
+        Collider2D body = GetComponent<Collider2D>();
+        body.enabled = false;
 
+        // 폭발하는 이펙트 추가
+        Factory.Instance.GetExplosion(transform.position);
+        
+        // 플레이어 액션맵 비활성화
+        playerInputActions.Player.Disable();
+
+        // z축 회전 제한 해제
+        // RigidbodyConstraints2D currentContraints = rigid.constraints;
+        // rigid.constraints = currentContraints & ~RigidbodyConstraints2D.FreezeRotation;
+        rigid.freezeRotation = false;
+
+        // 중력가속도 설정
+        rigid.gravityScale = 1.0f;
+
+        // 회전
+        rigid.AddTorque(30.0f, ForceMode2D.Impulse);
+
+        // 왼쪽으로 이동
+        rigid.AddForce(Vector2.left * 10.0f, ForceMode2D.Impulse);
     }
 
     IEnumerator InvincibleMode()
@@ -336,4 +358,22 @@ public class Player : MonoBehaviour
         gameObject.layer = playerLayer; // 플레이어 레이어로 복구
         sr.color = Color.white;         // 알파값 복구
     }
+
+    // 테스트용 코드
+#if UNITY_EDITOR
+    public void TestLifeUp()
+    {
+        Life++;
+    }
+
+    public void TestLifeDown()
+    {
+        Life--;
+    }
+
+    public void TestDeath()
+    {
+        Life = 0;
+    }
+#endif
 }
