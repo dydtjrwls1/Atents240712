@@ -487,6 +487,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2925909609217981483, guid: 852d978d30cb8414cb6394c25a99028f, type: 3}
+      propertyPath: invincibleDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8114956760322942088, guid: 852d978d30cb8414cb6394c25a99028f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.08

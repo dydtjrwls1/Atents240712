@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -20,6 +21,9 @@ public class Player : MonoBehaviour
 
     public const float FireAngle = 30.0f;
 
+    // 맞았을 때 무적 기간
+    public float invincibleDuration = 2.0f;
+
     PlayerInputActions playerInputActions;
 
     // 총알 발사 이펙트 게임 오브젝트
@@ -28,10 +32,12 @@ public class Player : MonoBehaviour
     // 애니메이터 컴포넌트를 저장할 변수.
     Animator animator;
 
-    readonly int InputY_String = Animator.StringToHash("InputY");
+    Rigidbody2D rigid;
 
     // 총알 발사 위치
     Transform[] fireTransform;
+
+    SpriteRenderer sr;
 
     // 총알 발사용 코루틴
     IEnumerator fireCoroutine;
@@ -39,10 +45,10 @@ public class Player : MonoBehaviour
     // 총알 발사 이펙트가 보이는 시간.
     WaitForSeconds flashWait;
 
-    Rigidbody2D rigid;
-
     private const int MinPower = 1;
     private const int MaxPower = 3;
+
+    readonly int InputY_String = Animator.StringToHash("InputY");
 
     int power = 1;
 
@@ -51,6 +57,10 @@ public class Player : MonoBehaviour
 
     // 초기 생명
     const int StartLife = 3;
+
+    // 레이어 번호 변수
+    int invincibleLayer;
+    int playerLayer;
 
     int Power
     {
@@ -86,15 +96,12 @@ public class Player : MonoBehaviour
             {
                 life = value;
                 if (IsAlive)
-                {
                     // 아직 살아있음
                     OnHit();
-                }
                 else
-                {
                     // 죽었음
                     OnDie();
-                }
+
                 life = Mathf.Clamp(life, 0, StartLife);
                 Debug.Log($"남은 수명 {life}");
                 onLifeChange?.Invoke(life); // 생명이 변화했음을 알림
@@ -112,6 +119,7 @@ public class Player : MonoBehaviour
     {
         animator = GetComponent<Animator>(); // 자신과 같은 게임오브젝트 내부에 있는 컴포넌트 찾기
         rigid = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
 
         playerInputActions = new PlayerInputActions();
 
@@ -133,6 +141,9 @@ public class Player : MonoBehaviour
     {
         Power = 1;
         Life = StartLife; // 생명 초기화 (UI와 연계가 있기 때문에 Start 에서 실행)
+
+        invincibleLayer = LayerMask.NameToLayer("Invincible");
+        playerLayer = LayerMask.NameToLayer("Player");
     }
 
     private void OnEnable()
@@ -240,9 +251,7 @@ public class Player : MonoBehaviour
         {
             // Debug.Log("Fire!");
             for (int i = 0; i < Power; i++)
-            {
                 Fire(fireTransform[i]);
-            }
             
             yield return new WaitForSeconds(fireInterval); // fireInterval 초 만큼 기다렸다가 다시 시작하기
         }
@@ -293,6 +302,7 @@ public class Player : MonoBehaviour
     void OnHit()
     {
         Power--;
+        StartCoroutine(InvincibleMode());
     }
 
     /// <summary>
@@ -301,5 +311,29 @@ public class Player : MonoBehaviour
     void OnDie()
     {
 
+    }
+
+    IEnumerator InvincibleMode()
+    {
+        gameObject.layer = invincibleLayer;
+
+        float timeElapsed = 0.0f;
+        while(timeElapsed < invincibleDuration) // invincibleDuration 초 동안 반복
+        {
+            timeElapsed += Time.deltaTime;
+
+            // Mathf.Deg2Rad; // 곱하면 Degree 가 Radian이 된다.
+            // Mathf.Rad2Deg; // 곱하면 Radian 이 Degree 가 된다.
+
+            // Mathf.Cos(timeElapsed); // 1 => -1 => 1 ....
+            // MathF.Cos(timeElapsed) + 1.0f; // 2 => 0 => 2 ....
+            float alpha = (Mathf.Cos(timeElapsed * 30.0f) + 1.0f) * 0.5f; // 1 => 0 => 1 ...
+            sr.color = new Color(1, 1, 1, alpha);
+
+            yield return null; // 다음 프레임 까지 대기
+        }
+
+        gameObject.layer = playerLayer; // 플레이어 레이어로 복구
+        sr.color = Color.white;         // 알파값 복구
     }
 }
