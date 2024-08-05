@@ -10,6 +10,9 @@ public class GameManager : SingleTon<GameManager>
     // 점수 표시용 UI
     ScoreText scoreTextUI;
 
+    // 생명 표시용 UI
+    LifePanel lifePanel;
+
     // 씬에 있는 플레이어에 접근하기 위한 프로퍼티(읽기전용)
     public Player Player
     {
@@ -33,8 +36,11 @@ public class GameManager : SingleTon<GameManager>
 
     protected override void OnInitialize()
     {
-       player = FindAnyObjectByType<Player>();
+        player = FindAnyObjectByType<Player>();
 
-       scoreTextUI = FindAnyObjectByType<ScoreText>();
+        scoreTextUI = FindAnyObjectByType<ScoreText>();
+
+        lifePanel = FindAnyObjectByType<LifePanel>();
+        lifePanel.OnInitialize();  // 플레이어를 찾은 후에 실행되어야 함
     }
 }
