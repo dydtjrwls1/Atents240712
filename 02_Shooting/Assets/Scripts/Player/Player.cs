@@ -24,6 +24,12 @@ public class Player : MonoBehaviour
     // 맞았을 때 무적 기간
     public float invincibleDuration = 2.0f;
 
+    // 생명 변화를 알리는 델리게이트
+    public Action<int> onLifeChange;
+
+    // 플레이어 사망 델리게이트
+    public Action onDie;
+
     PlayerInputActions playerInputActions;
 
     // 총알 발사 이펙트 게임 오브젝트
@@ -109,8 +115,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    // 생명 변화를 알리는 델리게이트
-    public Action<int> onLifeChange;
+    
 
     // 살아있는지 죽었는지 확인하기 위한 프로퍼티
     bool IsAlive => life > 0;
@@ -333,6 +338,8 @@ public class Player : MonoBehaviour
 
         // 왼쪽으로 이동
         rigid.AddForce(Vector2.left * 10.0f, ForceMode2D.Impulse);
+
+        onDie?.Invoke(); // 죽었음을 알림
     }
 
     IEnumerator InvincibleMode()

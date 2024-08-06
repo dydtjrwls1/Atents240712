@@ -13,6 +13,9 @@ public class GameManager : SingleTon<GameManager>
     // 생명 표시용 UI
     LifePanel lifePanel;
 
+    // 게임 오버 패널 
+    GameOverPanel gameOverPanel;
+
     // 씬에 있는 플레이어에 접근하기 위한 프로퍼티(읽기전용)
     public Player Player
     {
@@ -41,7 +44,9 @@ public class GameManager : SingleTon<GameManager>
         scoreTextUI = FindAnyObjectByType<ScoreText>();
 
         lifePanel = FindAnyObjectByType<LifePanel>();
-        if(lifePanel != null)
-            lifePanel.OnInitialize();  // 플레이어를 찾은 후에 실행되어야 함
+        if (lifePanel != null) { lifePanel.OnInitialize(); }  // 플레이어를 찾은 후에 실행되어야 함
+
+        gameOverPanel = FindAnyObjectByType<GameOverPanel>();
+        if (gameOverPanel != null) { gameOverPanel.OnInitialize(); }
     }
 }
