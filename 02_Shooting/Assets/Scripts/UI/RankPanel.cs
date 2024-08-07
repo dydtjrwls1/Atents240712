@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class RankPanel : MonoBehaviour
 {
@@ -153,6 +153,16 @@ public class RankPanel : MonoBehaviour
             }
         }
     }
+    void SaveRankData()
+    {
+        // Assets/Save 폴더에 Save.json 이라는 이름으로 저장
+        
+    }
+
+    void LoadRankData()
+    {
+        // Assets/Save 폴더에 Save.json 이라는 파일을 읽어온다
+    }
 
 #if UNITY_EDITOR
     public void Test_DefaultRankPanel()
@@ -163,6 +173,35 @@ public class RankPanel : MonoBehaviour
     public void Test_UpdateRankPanel(int score)
     {
         UpdateRankData(score);
+    }
+
+    public void Test_Save()
+    {
+        SaveRankData();
+
+        //string final = null;
+        //for (int i = 0; i < MaxRankings; i++)
+        //{
+        //    final += rankers[i] + ",";
+        //    final += highRecords[i] + ",";
+        //}
+
+        //Debug.Log(final);
+
+        //SaveData data = new SaveData();
+        //data.rankers = rankers;
+        //data.highRecords = highRecords;
+
+        //string jsonText = JsonUtility.ToJson(data);
+        //Debug.Log(jsonText);
+    }
+
+    public void Test_Load()
+    {
+        LoadRankData();
+
+        //string jsonText = "{\"rankers\":[\"AAA\",\"BBB\",\"CCC\",\"DDD\",\"EEE\"],\"highRecords\":[1000000,100000,10000,1000,100]}";
+        //SaveData data = JsonUtility.FromJson<SaveData>(jsonText);
     }
 #endif
 }
