@@ -19,7 +19,6 @@ public class Test20_SaveLoad : TestBase
         scoreText = GameManager.Instance.ScoreTextUI;
 
         panel = FindAnyObjectByType<RankPanel>();
-        panel.Test_DefaultRankPanel();
 
         if (isStartDie)
         {
@@ -47,29 +46,12 @@ public class Test20_SaveLoad : TestBase
 
     protected override void Test4_performed(InputAction.CallbackContext context)
     {
-        // System.IO.Directory
-        Debug.Log("저장함");
-        // System.IO.File.WriteAllText($"{Application.dataPath}/Save/a.txt", "Hello"); // 폴더가 없어서 죽음
-        // Application.dataPath : 에디터에서 실행했을 때는 Assets 폴더를 의미, 빌드해서 실행 했을 때는 "실행파일이름_data" 폴더를 의미
-        if (Directory.Exists($"{Application.dataPath}/Save"))
-        {
-            Debug.Log("Assets 폴더 안에 Save 폴더가 있다.");
-        }
-        else
-        {
-            Debug.Log("Assets 폴더 안에 Save 폴더가 없다.");
-            Directory.CreateDirectory($"{Application.dataPath}/Save");
-        }
-
-        File.WriteAllText($"{Application.dataPath}/Save/a.txt", "Hello"); // 폴더가 없었더라도 새로 만드니까 ok.
+        scoreText.AddScore(score);
     }
 
     protected override void Test5_performed(InputAction.CallbackContext context)
     {
-        Debug.Log("불러오기");
-        string result = File.ReadAllText("a.txt");
-        Debug.Log($"{result} 읽음");
-
+        panel.Test_UpdateRankPanel(scoreText.Score);
     }
 #endif
 }

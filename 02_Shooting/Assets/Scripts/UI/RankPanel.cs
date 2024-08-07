@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.IO;
 
 public class RankPanel : MonoBehaviour
 {
@@ -34,6 +35,9 @@ public class RankPanel : MonoBehaviour
         highRecords = new int[MaxRankings];
 
         inputField.onEndEdit.AddListener(OnNameInputEnd);           // OnEndEdit의 발동여부를 확인할 함수 등록(=onEndEdit 이벤트가 발동할 때 실행될 함수 추가)
+
+        LoadRankData();
+        RefreshRankLines();
     }
 
     /// <summary>
@@ -49,7 +53,8 @@ public class RankPanel : MonoBehaviour
             RefreshRankLines(updatedIndex.Value);
             updatedIndex = null;
         }
-        
+
+        SaveRankData();
     }
 
 
@@ -156,12 +161,38 @@ public class RankPanel : MonoBehaviour
     void SaveRankData()
     {
         // Assets/Save 폴더에 Save.json 이라는 이름으로 저장
-        
+        SaveData data = new SaveData();
+        data.rankers = rankers;
+        data.highRecords = highRecords;
+
+        string directoryPath = $"{Application.dataPath}/Save";
+        string path = directoryPath + "/Save.json";
+        string jsonData = JsonUtility.ToJson(data);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        File.WriteAllText(path, jsonData);
     }
 
     void LoadRankData()
     {
-        // Assets/Save 폴더에 Save.json 이라는 파일을 읽어온다
+        string directoryPath = $"{Application.dataPath}/Save";
+        string path = directoryPath + "/Save.json";
+
+        if(!File.Exists(path))
+        {
+            Debug.LogWarning("File doesn't exist!");
+            return;
+        }
+
+        string jsonData = File.ReadAllText(path);       
+        SaveData data = JsonUtility.FromJson<SaveData>(jsonData);
+
+        rankers = data.rankers;
+        highRecords = data.highRecords;
     }
 
 #if UNITY_EDITOR
