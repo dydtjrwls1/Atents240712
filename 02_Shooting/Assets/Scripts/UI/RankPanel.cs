@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +20,11 @@ public class RankPanel : MonoBehaviour
     int[] highRecords;
     string[] rankers;
 
+    /// <summary>
+    /// null이 아니면 직전에 랭킹이 업데이트된 인덱스
+    /// </summary>
+    int? updatedIndex = null;
+
     private void Awake()
     {
         rankLines = GetComponentsInChildren<RankLine>();
@@ -26,7 +32,26 @@ public class RankPanel : MonoBehaviour
 
         rankers = new string[MaxRankings];
         highRecords = new int[MaxRankings];
+
+        inputField.onEndEdit.AddListener(OnNameInputEnd);           // OnEndEdit의 발동여부를 확인할 함수 등록(=onEndEdit 이벤트가 발동할 때 실행될 함수 추가)
     }
+
+    /// <summary>
+    /// inputFiled 의 onEndEdit 이벤트가 발동되었을 때 실행될 함수
+    /// </summary>
+    /// <param name="inputText">inputFIeld 에 입력이 완료됐을 때의 입력 내용</param>
+    private void OnNameInputEnd(string inputText)
+    {
+        inputField.gameObject.SetActive(false);
+        if (updatedIndex != null)
+        {
+            rankers[updatedIndex.Value] = inputText;
+            RefreshRankLines(updatedIndex.Value);
+            updatedIndex = null;
+        }
+        
+    }
+
 
     /// <summary>
     /// 랭킹 데이터를 초기값으로 설정하는 함수
@@ -87,6 +112,15 @@ public class RankPanel : MonoBehaviour
     }
 
     /// <summary>
+    /// 패널에서 특정 라인만 업데이트
+    /// </summary>
+    /// <param name="index">업데이트할 라인의 인덱스</param>
+    void RefreshRankLines(int index)
+    {
+        rankLines[index].SetData(rankers[index], highRecords[index]);
+    }
+
+    /// <summary>
     /// 랭킹 데이터를 업데이트 하는 함수
     /// </summary>
     /// <param name="score"></param>
@@ -104,13 +138,15 @@ public class RankPanel : MonoBehaviour
 
                 rankers[i] = "새 랭커";
                 highRecords[i] = score;
-
+                updatedIndex = i;                   // 업데이트될 인덱스
+                
                 // inputField 의 y 값만 rankline 으로 변경하여 나타나기
                 Vector3 pos = inputField.transform.position;
                 pos.y = rankLines[i].transform.position.y;
                 inputField.transform.position = pos;
-
+                inputField.text = string.Empty;
                 inputField.gameObject.SetActive(true);
+
 
                 RefreshRankLines();
                 break;
