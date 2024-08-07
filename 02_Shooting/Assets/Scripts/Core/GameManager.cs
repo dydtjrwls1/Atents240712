@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : SingleTon<GameManager>
@@ -37,16 +38,26 @@ public class GameManager : SingleTon<GameManager>
         }
     }
 
+    // ScoreText의 score를 확인하는 프로퍼티
+    public int Score => scoreTextUI.Score;
+
     protected override void OnInitialize()
     {
         player = FindAnyObjectByType<Player>();
 
         scoreTextUI = FindAnyObjectByType<ScoreText>();
+        if (scoreTextUI != null)
+            scoreTextUI.OnInitialize();
 
         lifePanel = FindAnyObjectByType<LifePanel>();
         if (lifePanel != null) { lifePanel.OnInitialize(); }  // 플레이어를 찾은 후에 실행되어야 함
 
         gameOverPanel = FindAnyObjectByType<GameOverPanel>();
         if (gameOverPanel != null) { gameOverPanel.OnInitialize(); }
+    }
+
+    public void AddScore(int score)
+    {
+        scoreTextUI.AddScore(score);
     }
 }

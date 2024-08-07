@@ -14,15 +14,12 @@ public class EnemyObjectPool<T> : ObjectPool<T> where T : EnemyBase
     /// <param name="comp">생성된 적 하나</param>
     protected override void OnGenerateObject(T comp)
     {
-        if(scoreText != null)
-        {
-            comp.onDie += scoreText.AddScore; // 사망 델리게이트에 점수표시 UI의 함수를 등록
-        }
+       comp.onDie += GameManager.Instance.AddScore; // 사망 델리게이트에 점수표시 UI의 함수를 등록
     }
 
-    public override void Initialize()
-    {
-        scoreText = GameManager.Instance.ScoreTextUI;
-        base.Initialize();
-    }
+    //public override void Initialize()
+    //{
+    //    scoreText = GameManager.Instance.ScoreTextUI;
+    //    base.Initialize();
+    //}
 }

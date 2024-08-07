@@ -71,6 +71,11 @@ public class ScoreText : MonoBehaviour
         }
     }
 
+    public void OnInitialize()
+    {
+        Score = 0;
+    }
+
     /// <summary>
     /// 점수를 증가시키는 함수
     /// </summary>

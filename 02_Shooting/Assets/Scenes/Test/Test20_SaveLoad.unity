@@ -312,8 +312,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: -1
-  isStartDie: 0
-  score: 100
+  isStartDie: 1
+  score: 50000
 --- !u!4 &284057642
 Transform:
   m_ObjectHideFlags: 0

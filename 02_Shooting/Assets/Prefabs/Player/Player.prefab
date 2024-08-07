@@ -158,6 +158,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3281142596002313200, guid: b39645440b127d34982f35800ca9ab97, type: 3}
   moveSpeed: 10
   inputDirection: {x: 0, y: 0, z: 0}
+  invincibleDuration: 2
 --- !u!50 &527877876417543555
 Rigidbody2D:
   serializedVersion: 4

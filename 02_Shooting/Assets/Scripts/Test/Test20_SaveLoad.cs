@@ -19,7 +19,6 @@ public class Test20_SaveLoad : TestBase
         scoreText = GameManager.Instance.ScoreTextUI;
 
         panel = FindAnyObjectByType<RankPanel>();
-        panel.Test_DefaultRankPanel();
 
         if (isStartDie)
         {

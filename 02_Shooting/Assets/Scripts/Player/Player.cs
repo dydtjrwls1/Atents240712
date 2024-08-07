@@ -80,10 +80,7 @@ public class Player : MonoBehaviour
 
                 // power는 MinPower 와 MaxPower 사이
                 if(power > MaxPower)
-                {
-                    ScoreText scoreText = GameManager.Instance.ScoreTextUI;
-                    scoreText?.AddScore(PowerUp.BonusPoint);
-                }
+                    GameManager.Instance.AddScore(PowerUp.BonusPoint);
                 
                 power = Mathf.Clamp(power, MinPower, MaxPower);
 
@@ -109,7 +106,6 @@ public class Player : MonoBehaviour
                     OnDie();
 
                 life = Mathf.Clamp(life, 0, StartLife);
-                Debug.Log($"남은 수명 {life}");
                 onLifeChange?.Invoke(life); // 생명이 변화했음을 알림
             }
         }
@@ -190,10 +186,7 @@ public class Player : MonoBehaviour
     {
         // if(collision.gameObject.tag == "Enemy") string 비교 절대 금지!
         if (collision.gameObject.CompareTag("Enemy")) // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
-        {
-            Debug.Log("적과 부딪혔다.");
             Life--;
-        }
         
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -25,6 +26,9 @@ public class RankPanel : MonoBehaviour
     /// </summary>
     int? updatedIndex = null;
 
+    // 세이브 파일 이름
+    const string SaveFileName = "Save.json";
+
     private void Awake()
     {
         rankLines = GetComponentsInChildren<RankLine>();
@@ -34,6 +38,13 @@ public class RankPanel : MonoBehaviour
         highRecords = new int[MaxRankings];
 
         inputField.onEndEdit.AddListener(OnNameInputEnd);           // OnEndEdit의 발동여부를 확인할 함수 등록(=onEndEdit 이벤트가 발동할 때 실행될 함수 추가)
+        
+    }
+
+    private void Start()
+    {
+        LoadRankData();
+        GameManager.Instance.Player.onDie += () => UpdateRankData(GameManager.Instance.Score); // 플레이어가 죽으면 점수 갱신
     }
 
     /// <summary>
@@ -47,6 +58,7 @@ public class RankPanel : MonoBehaviour
         {
             rankers[updatedIndex.Value] = inputText;
             RefreshRankLines(updatedIndex.Value);
+            SaveRankData();
             updatedIndex = null;
         }
         
@@ -85,7 +97,7 @@ public class RankPanel : MonoBehaviour
         //    currentScore /= 10;
         //}
 
-        int score = 1000000;
+        int score = 100000;
 
         for (int i = 0; i < MaxRankings; i++)
         {
@@ -156,12 +168,53 @@ public class RankPanel : MonoBehaviour
     void SaveRankData()
     {
         // Assets/Save 폴더에 Save.json 이라는 이름으로 저장
-        
+        SaveData data = new SaveData();
+        data.rankers = rankers;
+        data.highRecords = highRecords;
+        string jsonText = JsonUtility.ToJson(data);
+
+        string path = $"{Application.dataPath}/Save/";
+
+        // 폴더가 없으면 폴더 생성
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path); 
+        }
+
+        File.WriteAllText($"{path}{SaveFileName}", jsonText);
     }
 
     void LoadRankData()
     {
+        bool isSuccess = false;
+
         // Assets/Save 폴더에 Save.json 이라는 파일을 읽어온다
+        string path = $"{Application.dataPath}/Save/";
+        if (Directory.Exists(path))
+        {
+            string fullPath = $"{path}{SaveFileName}";
+            if (File.Exists(fullPath))
+            {
+                string jsonText = File.ReadAllText(fullPath);
+                SaveData data = JsonUtility.FromJson<SaveData>(jsonText);
+                rankers = data.rankers;
+                highRecords = data.highRecords;
+
+                isSuccess = true;
+            }
+        }
+
+        if (!isSuccess)
+        {
+            if(!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            SetDefaultData(); // 파일이 없다면 기본 데이터로 설정한다.
+        }
+
+        RefreshRankLines();
     }
 
 #if UNITY_EDITOR
