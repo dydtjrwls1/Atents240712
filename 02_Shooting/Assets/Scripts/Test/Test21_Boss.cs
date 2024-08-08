@@ -1,24 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Test21_Boss : MonoBehaviour
+public class Test21_Boss : TestBase
 {
-    Transform target;
+    public Transform target;
 
-    private void Awake()
+    protected override void Test1_performed(InputAction.CallbackContext context)
     {
-        target = transform.GetChild(0);
+        Factory.Instance.GetBossBullet(target.position);
     }
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

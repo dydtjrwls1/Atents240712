@@ -13,6 +13,8 @@ public class Factory : SingleTon<Factory>
     EnemyAsteroidSmallPool enemyAsteroidSmall;
     EnemyCurvePool enemyCurve;
     EnemyBonusPool enemyBonus;
+    BossBulletPool bossBullet;
+    BossMissilePool bossMissile;
 
     HitEffectPool hit;
     BulletPool bullet;
@@ -55,7 +57,7 @@ public class Factory : SingleTon<Factory>
             enemyBonus.Initialize();
 
         bullet = GetComponentInChildren<BulletPool>();
-        if(bullet != null) 
+        if (bullet != null) 
             bullet.Initialize();
 
         hit = GetComponentInChildren<HitEffectPool>();
@@ -66,6 +68,13 @@ public class Factory : SingleTon<Factory>
         if (powerUp != null)
             powerUp.Initialize();
 
+        bossBullet = GetComponentInChildren<BossBulletPool>();
+        if (bossBullet != null)
+            bossBullet.Initialize();
+
+        bossMissile = GetComponentInChildren<BossMissilePool>();
+        if (bossMissile != null)
+            bossMissile.Initialize();
     }
 
     // 풀에서 오브젝트 가져오는 함수들 ======================================================================
@@ -153,5 +162,15 @@ public class Factory : SingleTon<Factory>
     public PowerUp GetPowerUp(Vector3? position)
     {
         return powerUp.GetObject(position); // = Vector3.forward * angle
+    }
+
+    public BossBullet GetBossBullet(Vector3? position)
+    {
+        return bossBullet.GetObject(position); // = Vector3.forward * angle
+    }
+
+    public BossMissile GetBossMissle(Vector3? position)
+    {
+        return bossMissile.GetObject(position); // = Vector3.forward * angle
     }
 }

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8741010145470736445}
   - component: {fileID: 4232450600350508542}
   - component: {fileID: 608503691381037137}
-  m_Layer: 7
+  - component: {fileID: -4509082019738042784}
+  m_Layer: 13
   m_Name: BossBullet
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -125,3 +126,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70001035c6947c14f88491842f53679a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 7
+  lifeTime: 20
+--- !u!58 &-4509082019738042784
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3077454319501753060}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.20833333

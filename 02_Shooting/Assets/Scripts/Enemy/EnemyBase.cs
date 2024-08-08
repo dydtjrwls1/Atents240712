@@ -79,7 +79,7 @@ public class EnemyBase : RecycleObject
     /// <param name="deltaTime">TIme.deltaTime</param>
     protected virtual void OnMoveUpdate(float deltaTime)
     {
-        transform.Translate(deltaTime * speed * -transform.right, Space.World); // 기본 동작은 왼쪽으로 계속 이동하기
+        transform.Translate(deltaTime * speed * Vector2.left); // 기본 동작은 왼쪽으로 계속 이동하기
     }
 
     protected void Die()
