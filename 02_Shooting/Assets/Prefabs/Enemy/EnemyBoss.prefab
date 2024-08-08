@@ -350,10 +350,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc5c88ce5cbcf7438a2918bb5a7b6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 30
+  lifeTime: 300
   speed: 5
-  point: 10
-  maxHP: 1
+  point: 300
+  maxHP: 30
   barrageInterval: 0.2
   bulletInterval: 1
   barrageCount: 3
