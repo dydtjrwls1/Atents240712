@@ -33,15 +33,13 @@ public class BossMissile : EnemyBase
         if(isGuided)
         {
             Vector2 direction = target.position - transform.position;
-            transform.right = -Vector3.Slerp(-transform.right, direction, deltaTime * guidedPerformance);
+            transform.right = Vector3.Slerp(transform.right, -direction, deltaTime * guidedPerformance);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isGuided && collision.CompareTag("Player"))
-        {
             isGuided = false;
-        }
     }
 }
