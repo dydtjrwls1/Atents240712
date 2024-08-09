@@ -12,4 +12,8 @@ public class Test21_Boss : TestBase
         Factory.Instance.GetBossBullet(target.position);
     }
 
+    protected override void Test2_performed(InputAction.CallbackContext context)
+    {
+        Factory.Instance.GetBoss(target.position);
+    }
 }

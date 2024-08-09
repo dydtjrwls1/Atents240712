@@ -47,13 +47,15 @@ public class GameManager : SingleTon<GameManager>
 
         scoreTextUI = FindAnyObjectByType<ScoreText>();
         if (scoreTextUI != null)
-            scoreTextUI.OnInitialize();
+            scoreTextUI?.OnInitialize();
 
         lifePanel = FindAnyObjectByType<LifePanel>();
-        if (lifePanel != null) { lifePanel.OnInitialize(); }  // 플레이어를 찾은 후에 실행되어야 함
+        if (lifePanel != null) 
+            lifePanel?.OnInitialize();  // 플레이어를 찾은 후에 실행되어야 함
 
         gameOverPanel = FindAnyObjectByType<GameOverPanel>();
-        if (gameOverPanel != null) { gameOverPanel.OnInitialize(); }
+        if (gameOverPanel != null) 
+            gameOverPanel?.OnInitialize(); 
     }
 
     public void AddScore(int score)

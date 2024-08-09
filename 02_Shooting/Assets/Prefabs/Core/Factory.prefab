@@ -138,6 +138,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6896786852001949711, guid: c9257fc568dfc414d8009f18b670eda9, type: 3}
   poolSize: 64
+--- !u!1 &1349061883610581731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1411236527028789866}
+  - component: {fileID: 4310691407721632948}
+  m_Layer: 0
+  m_Name: EnemyBossPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1411236527028789866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349061883610581731}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4225958326313155397}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4310691407721632948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349061883610581731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1819fec2303004b479b8d8add399ef4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2415347035283913347, guid: 36dc971fa4bf9fd4092a890dd1d59c92, type: 3}
+  poolSize: 4
 --- !u!1 &2201200582268314477
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +364,7 @@ Transform:
   - {fileID: 3500376928645363664}
   - {fileID: 1157805055061515496}
   - {fileID: 4211649093436726522}
+  - {fileID: 1411236527028789866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3252177576170437105
