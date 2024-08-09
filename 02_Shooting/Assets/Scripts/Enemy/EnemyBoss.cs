@@ -53,9 +53,7 @@ public class EnemyBoss : EnemyBase
         float middleX = (areaMax.x - areaMin.x) * 0.5f + areaMin.x; // area 의 가운데 위치
 
         while(transform.position.x > middleX)
-        {
             yield return null; // 보스의 x 위치가 middle 보다 왼쪽에 갈 때까지 대기
-        }
 
         StartCoroutine(FireBulletCoroutine());
         ChangeDirection(); // 일단 방향전환

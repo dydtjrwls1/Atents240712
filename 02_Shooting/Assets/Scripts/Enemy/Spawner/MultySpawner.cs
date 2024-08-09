@@ -10,7 +10,8 @@ public class MultySpawner : MonoBehaviour
         Wave = 0,
         Asteroid,
         Curve,
-        Bonus
+        Bonus,
+        Boss
     }
 
     [Serializable]
@@ -69,6 +70,9 @@ public class MultySpawner : MonoBehaviour
                         break;
                     case SpawnType.Bonus:
                         Factory.Instance.GetEnemyBonus(spawnPosition);
+                        break;
+                    case SpawnType.Boss:
+                        Factory.Instance.GetBoss(transform.position);
                         break;
                 }
                 yield return new WaitForSeconds(data.continueInterval);

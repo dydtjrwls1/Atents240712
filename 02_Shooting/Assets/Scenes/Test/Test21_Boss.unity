@@ -512,10 +512,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MultySpawner
       objectReference: {fileID: 0}
-    - target: {fileID: 2790346177558351591, guid: c5522be4591e0bc4cbd4e76fdb651f84, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5912039951465799869, guid: c5522be4591e0bc4cbd4e76fdb651f84, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10

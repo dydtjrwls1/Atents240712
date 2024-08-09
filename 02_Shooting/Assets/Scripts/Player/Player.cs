@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -60,6 +59,9 @@ public class Player : MonoBehaviour
 
     // 현재 생명
     int life = 3;
+
+    // 중복 충돌 방지용 변수
+    bool isHit = false;
 
     // 초기 생명
     const int StartLife = 3;
@@ -185,8 +187,14 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // if(collision.gameObject.tag == "Enemy") string 비교 절대 금지!
-        if (collision.gameObject.CompareTag("Enemy")) // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
+        // 아직 맞지 않았고 적과 부딪혔을 때 
+        if (!isHit && collision.gameObject.CompareTag("Enemy"))
+        {
+            isHit = true;
             Life--;
+        }
+        // 이쪽을 권장. 위 코딩에 비해 가비지가 덜 생성된다. 즉, 메모리를 덜 사용한다. 생성되는 코드도 훨씬 빠르게 구현되어 있다.
+            
         
     }
 
@@ -355,6 +363,7 @@ public class Player : MonoBehaviour
             yield return null; // 다음 프레임 까지 대기
         }
 
+        isHit = false;                  // 명중 여부 리셋
         gameObject.layer = playerLayer; // 플레이어 레이어로 복구
         sr.color = Color.white;         // 알파값 복구
     }

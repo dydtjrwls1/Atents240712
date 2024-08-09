@@ -46,10 +46,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnDatas:
-  - type: 2
+  - type: 0
     interval: 2
-    continueCount: 5
+    continueCount: 1
     continueInterval: 0.1
+  - type: 1
+    interval: 5
+    continueCount: 1
+    continueInterval: 0
+  - type: 2
+    interval: 3
+    continueCount: 3
+    continueInterval: 0.2
+  - type: 3
+    interval: 10
+    continueCount: 1
+    continueInterval: 0
+  - type: 4
+    interval: 30
+    continueCount: 1
+    continueInterval: 0
 --- !u!1 &4384563160328932184
 GameObject:
   m_ObjectHideFlags: 0
