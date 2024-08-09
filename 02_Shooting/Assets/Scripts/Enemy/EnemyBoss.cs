@@ -57,10 +57,13 @@ public class EnemyBoss : EnemyBase
     IEnumerator MovePattern()
     {
         speed = 3.0f;
+        onPattern = true;
+
         currentY = areaMin.y;
         float randX = Random.Range(areaMin.x, areaMax.x);
         Vector3 randPos = new Vector3(randX, currentY, 0);
-        onPattern = true;
+        Vector3 direction = (randPos - transform.position).normalized;
+
         StartCoroutine(BulletFire(bulletInterval));
  
         while (true)
@@ -70,16 +73,15 @@ public class EnemyBoss : EnemyBase
                 randX = Random.Range(areaMin.x, areaMax.x);
                 currentY = -currentY;
                 randPos = new Vector3(randX, currentY, 0);
+                direction = (randPos - transform.position).normalized;
 
                 StartCoroutine(MissileFire(barrageCount, barrageInterval));
             }
 
-            transform.Translate(Time.deltaTime * speed * (randPos - transform.position).normalized);
+            transform.Translate(Time.deltaTime * speed * direction);
 
             yield return null;
         }
-        
-
     }
 
     IEnumerator BulletFire(float interval)
