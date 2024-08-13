@@ -21,7 +21,7 @@ public class ObjectRandomize : MonoBehaviour
         }
     }
 
-    void Randomize()
+    public void Randomize()
     {
         transform.localScale = new Vector3(
             1 + Random.Range(-randomizeRange, randomizeRange), 
