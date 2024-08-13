@@ -19,11 +19,52 @@ public class ForestGenerator : MonoBehaviour
 
     public TreeType type = TreeType.Tree1;
 
-    bool forestGenerate = false;
+    public bool forestGenerate = false;
 
     public float width = 10.0f;
     public float height = 10.0f;
-    Transform generateCenter;
+    public Transform generateCenter;
 
     public int treeCount = 10;
+
+    private void Awake()
+    {
+        generateCenter = transform.GetChild(0);
+    }
+
+    private void OnValidate()
+    {
+        if (forestGenerate)
+        {
+            for(int i = 0; i < treeCount; i++)
+            {
+                GenerateTree();
+                forestGenerate = false;
+            }
+        }
+    }
+
+    void GenerateTree()
+    {
+        float randX = Random.Range(generateCenter.position.x - width * 0.5f, generateCenter.position.x + width * 0.5f);
+        float randZ = Random.Range(generateCenter.position.z - height * 0.5f, generateCenter.position.z + height * 0.5f);
+        ObjectRandomize tree = Instantiate(treePrefabs[0], new Vector3(randX, 0, randZ), Quaternion.identity).GetComponent<ObjectRandomize>();
+        tree.Randomize();
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Vector3 p0 = new Vector3(generateCenter.position.x - width * 0.5f, 0, generateCenter.position.z + height * 0.5f);
+        Vector3 p1 = new Vector3(generateCenter.position.x + width * 0.5f, 0, generateCenter.position.z + height * 0.5f);
+        Vector3 p2 = new Vector3(generateCenter.position.x + width * 0.5f, 0, generateCenter.position.z - height * 0.5f);
+        Vector3 p3 = new Vector3(generateCenter.position.x - width * 0.5f, 0, generateCenter.position.z - height * 0.5f);
+
+        Gizmos.DrawLine(p0, p1);
+        Gizmos.DrawLine(p1, p2);
+        Gizmos.DrawLine(p2, p3);
+        Gizmos.DrawLine(p3, p0);
+    }
+#endif
 }
