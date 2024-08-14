@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 
     public float rotateSpeed = 180.0f;
 
+    public float jumpForce = 10.0f;
+
     PlayerInputActions inputActions;
 
     Rigidbody rb;
@@ -41,5 +43,6 @@ public class Player : MonoBehaviour
     private void Move_performed(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         direction = context.ReadValue<Vector3>();
+        rb.AddForce(direction.y * jumpForce * transform.up, ForceMode.Impulse);
     }
 }
