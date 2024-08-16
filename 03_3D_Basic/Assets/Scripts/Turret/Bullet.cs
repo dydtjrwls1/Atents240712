@@ -20,9 +20,15 @@ public class Bullet : RecycleObject
         DisableTimer(2.0f);  // 새로 2초뒤에 사라지게 설정
     }
 
+    private void Update()
+    {
+        transform.rotation = Quaternion.Euler(-rb.velocity.y, 0, 0);
+    }
+
     protected override void OnReset()
     {
         DisableTimer(lifeTime);
+        rb.angularVelocity = Vector3.zero;
         rb.velocity = initialSpeed * transform.forward;
     }
 

@@ -22,5 +22,6 @@ public class Test04_Bullet : TestBase
     protected override void Test2_performed(InputAction.CallbackContext context)
     {
         Factory.Instance.GetBullet(fire.transform.position);
+        Time.timeScale = 0.1f;
     }
 }
