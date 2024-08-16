@@ -40,6 +40,7 @@ public class ForestGenerator : MonoBehaviour
     // 생성된 나무들의 부모가 될 transform
     Transform trees;
 
+
     [Space(10)]
     [Tooltip("일련 번호용 (리셋할 때 제외하고 수정 금지)")]
     public int serializeNumber = 0;

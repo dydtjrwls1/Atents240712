@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,10 @@ public class Player : MonoBehaviour
 
     public float rotateSpeed = 180.0f;
 
+    public float jumpForce = 5.0f;
+
+    public float jumpDelayTime = 3.0f;
+
     PlayerInputActions inputActions;
 
     // 회전방향(음수면 좌회전, 양수면 우회전)
@@ -17,12 +22,21 @@ public class Player : MonoBehaviour
     // 이동방향(음수면 후진, 양수면 전진)
     private float moveDirection = 0.0f;
 
+    bool isGround = true;
+
+    bool isJump = true;
+
     Rigidbody rb;
+
+    Animator animator;
+
+    readonly int IsMove_Hash = Animator.StringToHash("IsMove");
 
     private void Awake()
     {
         inputActions = new PlayerInputActions();
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -30,10 +44,16 @@ public class Player : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Player.Move.performed += On_MoveInput;
         inputActions.Player.Move.canceled += On_MoveInput;
+        inputActions.Player.Jump.performed += On_JumpInput;
+        inputActions.Player.Jump.canceled += On_JumpInput;
     }
+
+    
 
     private void OnDisable()
     {
+        inputActions.Player.Jump.canceled -= On_JumpInput;
+        inputActions.Player.Jump.performed -= On_JumpInput;
         inputActions.Player.Move.canceled -= On_MoveInput;
         inputActions.Player.Move.performed -= On_MoveInput;
         inputActions.Player.Disable();
@@ -42,6 +62,16 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Movement(Time.fixedDeltaTime);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isGround = true;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        isGround = false;
     }
 
     /// <summary>
@@ -63,6 +93,11 @@ public class Player : MonoBehaviour
         SetInput(context.ReadValue<Vector2>(), !context.canceled);
     }
 
+    private void On_JumpInput(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        Jump();
+    }
+
     /// <summary>
     /// 이동 입력 처리용 함수
     /// </summary>
@@ -72,5 +107,32 @@ public class Player : MonoBehaviour
     {
         rotateDirection = input.x;
         moveDirection = input.y;
+
+        animator.SetBool(IsMove_Hash, isMove);
     }
+
+    /// <summary>
+    /// 플레이어 점프 처리용 함수
+    /// </summary>
+    void Jump()
+    {
+        // 점프 키를 누르면 실행된다(space 키)
+        // 2단 점프 금지
+        // 쿨타임 존재
+        if (isGround && isJump)
+        {
+            isJump = false;
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            StartCoroutine(JumpDelay(jumpDelayTime));
+        }
+    }
+
+
+    IEnumerator JumpDelay(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        isJump = true;
+    }
+
 }
