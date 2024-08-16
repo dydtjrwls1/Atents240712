@@ -13,7 +13,8 @@ public class Player : MonoBehaviour
 
     public float jumpForce = 5.0f;
 
-    public float jumpDelayTime = 3.0f;
+    // 점프 쿨타임
+    public float jumpCoolDown = 3.0f;
 
     PlayerInputActions inputActions;
 
@@ -22,9 +23,28 @@ public class Player : MonoBehaviour
     // 이동방향(음수면 후진, 양수면 전진)
     private float moveDirection = 0.0f;
 
-    bool isGround = true;
+    // 현재 발이 바닥에 닿았는지 확인하는 변수.
+    bool isGrounded = true;
 
-    bool isJump = true;
+    // 남아있는 점프 쿨타임
+    float jumpCoolRemains = 0.0f;
+
+    // 점프가 가능한지 확인하는 프로퍼티
+    bool IsJumpAvailabe => (isGrounded && (JumpCoolRemains < 0.0f));
+
+    // 점프 쿨타임을 확인하고 설정하기 위한 프로퍼티
+    float JumpCoolRemains
+    {
+        get => jumpCoolRemains;
+        set
+        {
+            jumpCoolRemains = value;
+            onJumpCoolDownChange?.Invoke(jumpCoolRemains / jumpCoolDown);
+        }
+    }
+
+    // 점프 쿨타임에 변화가 있었음을 알리는 델리게이트
+    public Action<float> onJumpCoolDownChange;
 
     Rigidbody rb;
 
@@ -37,6 +57,9 @@ public class Player : MonoBehaviour
         inputActions = new PlayerInputActions();
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+
+        GroundSensor groundSensor = GetComponentInChildren<GroundSensor>();
+        groundSensor.onGround += (isGround) => isGrounded = isGround;
     }
 
     private void OnEnable()
@@ -45,14 +68,12 @@ public class Player : MonoBehaviour
         inputActions.Player.Move.performed += On_MoveInput;
         inputActions.Player.Move.canceled += On_MoveInput;
         inputActions.Player.Jump.performed += On_JumpInput;
-        inputActions.Player.Jump.canceled += On_JumpInput;
     }
 
     
 
     private void OnDisable()
     {
-        inputActions.Player.Jump.canceled -= On_JumpInput;
         inputActions.Player.Jump.performed -= On_JumpInput;
         inputActions.Player.Move.canceled -= On_MoveInput;
         inputActions.Player.Move.performed -= On_MoveInput;
@@ -64,17 +85,11 @@ public class Player : MonoBehaviour
         Movement(Time.fixedDeltaTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Update()
     {
-        isGround = true;
+        JumpCoolRemains -= Time.deltaTime; // 점프 쿨타임 줄이기
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        isGround = false;
-    }
-
-    /// <summary>
     /// 이동 및 회전처리
     /// </summary>
     private void Movement(float deltaTime)
@@ -93,7 +108,7 @@ public class Player : MonoBehaviour
         SetInput(context.ReadValue<Vector2>(), !context.canceled);
     }
 
-    private void On_JumpInput(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    private void On_JumpInput(UnityEngine.InputSystem.InputAction.CallbackContext _)
     {
         Jump();
     }
@@ -119,20 +134,11 @@ public class Player : MonoBehaviour
         // 점프 키를 누르면 실행된다(space 키)
         // 2단 점프 금지
         // 쿨타임 존재
-        if (isGround && isJump)
+        if (IsJumpAvailabe)
         {
-            isJump = false;
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            StartCoroutine(JumpDelay(jumpDelayTime));
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // 위로 점프
+            JumpCoolRemains = jumpCoolDown;                         // 쿨타임 초기화
         }
-    }
-
-
-    IEnumerator JumpDelay(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        isJump = true;
     }
 
 }
