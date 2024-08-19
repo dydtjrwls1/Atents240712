@@ -37,6 +37,7 @@ public class Bullet : RecycleObject
     protected override void OnReset()
     {
         DisableTimer(lifeTime);
+
         rb.angularVelocity = Vector3.zero;
         rb.velocity = initialSpeed * transform.forward;
         isConflict = false;

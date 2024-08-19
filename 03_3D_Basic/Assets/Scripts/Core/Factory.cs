@@ -12,8 +12,8 @@ public class Factory : SingleTon<Factory>
         bullet?.Initialize();
     }
 
-    public Bullet GetBullet(Vector3? position = null)
+    public Bullet GetBullet(Vector3? position = null, Vector3? eulerAngle = null)
     {
-        return bullet.GetObject(position.GetValueOrDefault());
+        return bullet.GetObject(position, eulerAngle);
     }
 }

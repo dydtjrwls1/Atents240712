@@ -91,9 +91,9 @@ public class ObjectPool<T> : MonoBehaviour where T : RecycleObject // T 는 반�
         {
             // 아직 비활성화된 오브젝트가 남아있다.
             T comp = readyQueue.Dequeue();                                                  //
-            comp.gameObject.SetActive(true);                                                //
             comp.transform.position = position.GetValueOrDefault();                         //
             comp.transform.rotation = Quaternion.Euler(eulerAngle.GetValueOrDefault());     //
+            comp.gameObject.SetActive(true);                                                //
 
             return comp;
         }
