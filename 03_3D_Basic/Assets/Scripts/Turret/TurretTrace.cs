@@ -147,7 +147,7 @@ public class TurretTrace : TurretBase
         if (Physics.Raycast(ray, out RaycastHit hitInfo, sightRange, mask))
         {
             // ray에 닿은 오브젝트가 있다.
-            if(hitInfo.transform == target.transform) // 첫 번째로 닿은 오브젝트가 target 이다 (= 가리는 물체가 없다)
+            if(hitInfo.transform == target) // 첫 번째로 닿은 오브젝트가 target 이다 (= 가리는 물체가 없다)
             {
                 result = true;
             }

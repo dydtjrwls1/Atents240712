@@ -60,12 +60,10 @@ public class TestBase : MonoBehaviour
 
     protected virtual void Test2_performed(InputAction.CallbackContext context)
     {
-        StartCoroutine(test);
     }
 
     protected virtual void Test3_performed(InputAction.CallbackContext context)
     {
-        StopCoroutine(test);
     }
 
     protected virtual void Test4_performed(InputAction.CallbackContext context)
