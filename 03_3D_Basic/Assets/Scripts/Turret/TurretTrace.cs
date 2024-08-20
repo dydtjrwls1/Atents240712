@@ -29,6 +29,13 @@ public class TurretTrace : TurretBase
     // 타겟 위치
     Transform target = null;
 
+    // 발사 재시작용 쿨타임
+    float fireCoolTime = 0.0f;
+
+#if UNITY_EDITOR
+    // 발사할 수 있는 상황인지 확인하는 변수
+    bool isFireReady;
+#endif
 
     protected override void Awake()
     {
@@ -40,6 +47,7 @@ public class TurretTrace : TurretBase
 
     private void Update()
     {
+        fireCoolTime -= Time.deltaTime;
         LookTargetAndAttack();
         // gun.forward = target? Vector3.Lerp(gun.forward, target.position - transform.position, Time.deltaTime * turnSmooth) : gun.forward;
     }
@@ -57,6 +65,9 @@ public class TurretTrace : TurretBase
             
     }
 
+    /// <summary>
+    /// 플레이어 추적 및 발사 처리용 함수
+    /// </summary>
     void LookTargetAndAttack()
     {
         bool isStartFire = false;
@@ -66,7 +77,7 @@ public class TurretTrace : TurretBase
             Vector3 direction = target.position - transform.position; // 플레이어를 바라보는 방향
             direction.y = 0.0f; // xz평면으로만 회전하게 하기 위해 y는 제거
 
-            if (isTargetVisible(direction)) // 타겟이 보이고 있다.
+            if (IsTargetVisible(direction)) // 타겟이 보이고 있다.
             {
                 gun.rotation = Quaternion.Slerp(
                 gun.rotation, Quaternion.LookRotation(direction), Time.deltaTime * turnSmooth); //target 을 추적한다.
@@ -78,9 +89,13 @@ public class TurretTrace : TurretBase
                     isStartFire = true;
                 }
             }
-        } 
+        }
 
-        if (isStartFire)
+#if UNITY_EDITOR
+        isFireReady = isStartFire;
+#endif
+
+        if (isStartFire && fireCoolTime < 0.0f) // 발사 중이 아닐 때 && 쿨타임이 0초 미만일 때
         {
             StartFire();
         }
@@ -99,6 +114,7 @@ public class TurretTrace : TurretBase
         {
             isFiring = true;
             StartCoroutine(fire);
+            fireCoolTime = fireInterval; // 쿨타임 초기화
         }
     }
 
@@ -116,15 +132,19 @@ public class TurretTrace : TurretBase
     /// </summary>
     /// <param name="lookDirection">바라보는 방향</param>
     /// <returns>true 면 보인다, false 면 안보인다.</returns>
-    bool isTargetVisible(Vector3 lookDirection)
+    bool IsTargetVisible(Vector3 lookDirection)
     {
         bool result = false;
 
         Ray ray = new Ray(gun.position, lookDirection);
 
         // out : 출력용 파라메터라고 알려주는 키워드. 함수가 실행되면 자동으로 초기화된다.
-
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, sightRange))
+        int mask = int.MaxValue;
+        int bulletMask = LayerMask.GetMask("Bullet");
+        bulletMask = ~bulletMask;
+        mask = mask & bulletMask;  // mask는 총알을 제외한 모든 레이어가 세팅되어 있음
+        
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, sightRange, mask))
         {
             // ray에 닿은 오브젝트가 있다.
             if(hitInfo.transform == target.transform) // 첫 번째로 닿은 오브젝트가 target 이다 (= 가리는 물체가 없다)
@@ -132,8 +152,7 @@ public class TurretTrace : TurretBase
                 result = true;
             }
         }
-        
-        
+
         return result;
     }
 
@@ -156,11 +175,28 @@ public class TurretTrace : TurretBase
         // 발사각 그리기
 
         // 녹색 : 내 시야 범위안에 플레이어가 없는 상태일 때
-        // 주황색 : 내 시야범위안에 플레이어가 있고 발사각 안에 플레이어가 없는 상태일 때
-        // 빨간색 : 내 시야범위안에 플레이어가 있고 발사각 안에 플레이어가 있는 상태일떄
+        // 주황색 : 내 시야범위안에 플레이어가 있고 발사를 할 수 없는 상태일 때 (시야각 밖이거나 가려지는 물체가 있다.)
+        // 빨간색 : 내 시야범위안에 플레이어가 있고 발사를 할 수 있는 상태일 때 (시야각 안이고 가려지는 물체도 없다.)
 
         // Handles.DrawWireArc()
-        Handles.color = Color.green;
+        if (target == null)
+        {
+            Handles.color = Color.green;
+        }
+        else
+        {
+            if (isFireReady)
+            {
+                Handles.color = Color.red;
+            }
+            else
+            {
+                Handles.color = new Color(1, 0.5f, 0);
+            }
+        }
+        
+
+
         Vector3 startDir = Quaternion.AngleAxis(-fireAngle, transform.up) * gun.forward;
         Vector3 endDir = Quaternion.AngleAxis(fireAngle, transform.up) * gun.forward;
 
@@ -169,7 +205,7 @@ public class TurretTrace : TurretBase
 
         Handles.DrawLine(transform.position, from, 3.0f);
         Handles.DrawLine(transform.position, to, 3.0f);
-        Handles.DrawWireArc(from, transform.up, startDir, fireAngle * 2, sightRange, 3.0f);
+        Handles.DrawWireArc(transform.position, transform.up, startDir, fireAngle * 2, sightRange, 3.0f);
     }
 #endif
 }

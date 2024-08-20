@@ -13,21 +13,23 @@ public class TurretBase : MonoBehaviour
 
     Transform firePosition;
 
+    WaitForSeconds fireIntervalWait;
+
     protected virtual void Awake()
     {
         fire = Fire(fireInterval);
         gun = transform.GetChild(2);
         firePosition = gun.GetChild(0);
+        fireIntervalWait = new WaitForSeconds(fireInterval);
     }
 
     IEnumerator Fire(float interval)
     {
         while (true)
         {
+            yield return fireIntervalWait;
             Factory.Instance.GetBullet(firePosition.position, firePosition.eulerAngles);
-            yield return new WaitForSeconds(interval);
         }
-        
     }
 
 #if UNITY_EDITOR

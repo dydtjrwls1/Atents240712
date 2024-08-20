@@ -16,6 +16,7 @@ public class TestBase : MonoBehaviour
     // 테스트용 인풋액션을 저장할 멤버 변수
     TestInputAction inputActions;
 
+    IEnumerator test;
     private void Awake() // 스크립트가 생성되면 실행되는 함수
     {
         inputActions = new TestInputAction(); // Testinputaction 을 새로 생성.
@@ -24,6 +25,8 @@ public class TestBase : MonoBehaviour
         {
             Random.InitState( seed );
         }
+
+        test = Test();
     }
 
     private void OnEnable() // 이 스크립트가 활성화 될 때마다 실행되는 함수
@@ -57,12 +60,12 @@ public class TestBase : MonoBehaviour
 
     protected virtual void Test2_performed(InputAction.CallbackContext context)
     {
-        
+        StartCoroutine(test);
     }
 
     protected virtual void Test3_performed(InputAction.CallbackContext context)
     {
-
+        StopCoroutine(test);
     }
 
     protected virtual void Test4_performed(InputAction.CallbackContext context)
@@ -108,5 +111,14 @@ public class TestBase : MonoBehaviour
     void Update()
     {
         
+    }
+
+    IEnumerator Test()
+    {
+        while (true)
+        {
+            Debug.Log("Test");
+            yield return new WaitForSeconds(1.0f);
+        }
     }
 }
