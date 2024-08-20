@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -20,6 +19,9 @@ public class TurretTrace : TurretBase
 
     // 회전 속도용 계수
     public float turnSmooth = 2.0f;
+
+    // 터렛이 총알 발사를 시작하는 좌우 발사각 (10일 경우 +-10)
+    public float fireAngle = 10.0f;
 
     // 시야범위 체크용 트리거
     SphereCollider sightTrigger;
@@ -57,16 +59,32 @@ public class TurretTrace : TurretBase
 
     void LookTargetAndAttack()
     {
+        bool isStartFire = false;
+
         if (target)
         {
             Vector3 direction = target.position - transform.position; // 플레이어를 바라보는 방향
             direction.y = 0.0f; // xz평면으로만 회전하게 하기 위해 y는 제거
 
-            gun.rotation = Quaternion.Slerp(
-                gun.rotation, Quaternion.LookRotation(direction), Time.deltaTime * turnSmooth);
+            if (isTargetVisible(direction)) // 타겟이 보이고 있다.
+            {
+                gun.rotation = Quaternion.Slerp(
+                gun.rotation, Quaternion.LookRotation(direction), Time.deltaTime * turnSmooth); //target 을 추적한다.
 
+                float targetAngle = Vector3.Angle(gun.forward, direction);
+                if (targetAngle < fireAngle)
+                {
+                    // 사이각이 fireAngle 보다 작다. 
+                    isStartFire = true;
+                }
+            }
+        } 
+
+        if (isStartFire)
+        {
             StartFire();
-        } else
+        }
+        else
         {
             StopFire();
         }
@@ -93,13 +111,65 @@ public class TurretTrace : TurretBase
         }
     }
 
+    /// <summary>
+    /// 추적 대상이 보이는지 확인하는 함수
+    /// </summary>
+    /// <param name="lookDirection">바라보는 방향</param>
+    /// <returns>true 면 보인다, false 면 안보인다.</returns>
+    bool isTargetVisible(Vector3 lookDirection)
+    {
+        bool result = false;
+
+        Ray ray = new Ray(gun.position, lookDirection);
+
+        // out : 출력용 파라메터라고 알려주는 키워드. 함수가 실행되면 자동으로 초기화된다.
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, sightRange))
+        {
+            // ray에 닿은 오브젝트가 있다.
+            if(hitInfo.transform == target.transform) // 첫 번째로 닿은 오브젝트가 target 이다 (= 가리는 물체가 없다)
+            {
+                result = true;
+            }
+        }
+        
+        
+        return result;
+    }
+
 #if UNITY_EDITOR
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
 
-        Handles.color = Color.yellow;
+        Handles.color = Color.white;
         Handles.DrawWireDisc(transform.position, transform.up, sightRange, 3.0f);
+
+        Handles.color = Color.yellow;
+
+        if (gun == null)
+            gun = transform.GetChild(2);
+        Vector3 from = transform.position;
+        Vector3 to = transform.position + gun.forward * sightRange;
+        Handles.DrawDottedLine(from, to, 2.0f);
+
+        // 발사각 그리기
+
+        // 녹색 : 내 시야 범위안에 플레이어가 없는 상태일 때
+        // 주황색 : 내 시야범위안에 플레이어가 있고 발사각 안에 플레이어가 없는 상태일 때
+        // 빨간색 : 내 시야범위안에 플레이어가 있고 발사각 안에 플레이어가 있는 상태일떄
+
+        // Handles.DrawWireArc()
+        Handles.color = Color.green;
+        Vector3 startDir = Quaternion.AngleAxis(-fireAngle, transform.up) * gun.forward;
+        Vector3 endDir = Quaternion.AngleAxis(fireAngle, transform.up) * gun.forward;
+
+        from = transform.position + startDir * sightRange;
+        to = transform.position + endDir * sightRange;
+
+        Handles.DrawLine(transform.position, from, 3.0f);
+        Handles.DrawLine(transform.position, to, 3.0f);
+        Handles.DrawWireArc(from, transform.up, startDir, fireAngle * 2, sightRange, 3.0f);
     }
 #endif
 }
