@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 3825404196127901901}
   - component: {fileID: 7442415409760005672}
   - component: {fileID: 3473014862999911990}
+  - component: {fileID: 8448780768985511520}
   m_Layer: 0
   m_Name: Switch
   m_TagString: Untagged
@@ -79,6 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 037a3b4e15e714d4fbdb389258260981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 0}
+  coolDown: 1
 --- !u!95 &3473014862999911990
 Animator:
   serializedVersion: 5
@@ -100,6 +103,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &8448780768985511520
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958749403818283705}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 62
+  m_CollisionDetection: 0
 --- !u!1 &6449250985120936111
 GameObject:
   m_ObjectHideFlags: 0
