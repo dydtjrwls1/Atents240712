@@ -35,7 +35,7 @@ public class DoorManual : DoorBase, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            text.gameObject.SetActive(true);
+            ShowInfoPanel(true);
         }
     }
 
@@ -43,7 +43,7 @@ public class DoorManual : DoorBase, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            text.gameObject.SetActive(false);
+            ShowInfoPanel(false);
         }
     }
     /// <summary>
@@ -79,5 +79,31 @@ public class DoorManual : DoorBase, IInteractable
     protected override void OnClose()
     {
         isOpen = false;
+    }
+
+    void ShowInfoPanel(bool isShow = true)
+    {
+        if (isShow)
+        {
+            Vector3 cameraToDoor = transform.position - Camera.main.transform.position;
+
+            float angle = Vector3.Angle(transform.forward, cameraToDoor);   
+            if(angle > 90)
+            {
+                // 카메라가 문 쪽에 있다.
+                text.transform.rotation = transform.rotation * Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                // 카메라가 문 뒤쪽에 있다.
+                text.transform.rotation = transform.rotation; // 인포의 회전을 문의 회전과 일치시킨다.
+            }
+        }
+        else
+        {
+
+        }
+
+        text.gameObject.SetActive(isShow);
     }
 }

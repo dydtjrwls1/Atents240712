@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
     Animator animator;
 
     readonly int IsMove_Hash = Animator.StringToHash("IsMove");
+    readonly int IsUse_Hash = Animator.StringToHash("Use");
 
     private void Awake()
     {
@@ -60,6 +62,9 @@ public class Player : MonoBehaviour
 
         GroundSensor groundSensor = GetComponentInChildren<GroundSensor>();
         groundSensor.onGround += (isGround) => isGrounded = isGround;
+
+        UseSensor useSensor = GetComponentInChildren<UseSensor>();
+        useSensor.onUse += (usable) => usable.Use();
     }
 
     private void OnEnable()
@@ -68,17 +73,19 @@ public class Player : MonoBehaviour
         inputActions.Player.Move.performed += On_MoveInput;
         inputActions.Player.Move.canceled += On_MoveInput;
         inputActions.Player.Jump.performed += On_JumpInput;
+        inputActions.Player.Use.performed += On_UseInput;
     }
-
-    
 
     private void OnDisable()
     {
+        inputActions.Player.Use.performed -= On_UseInput;
         inputActions.Player.Jump.performed -= On_JumpInput;
         inputActions.Player.Move.canceled -= On_MoveInput;
         inputActions.Player.Move.performed -= On_MoveInput;
         inputActions.Player.Disable();
     }
+
+    
 
     private void FixedUpdate()
     {
@@ -113,6 +120,11 @@ public class Player : MonoBehaviour
         Jump();
     }
 
+    private void On_UseInput(InputAction.CallbackContext _)
+    {
+        Use();
+    }
+
     /// <summary>
     /// 이동 입력 처리용 함수
     /// </summary>
@@ -141,4 +153,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 상호작용 관련 처리용 함수
+    /// </summary>
+    void Use()
+    {
+        animator.SetTrigger(IsUse_Hash);
+    }
 }
