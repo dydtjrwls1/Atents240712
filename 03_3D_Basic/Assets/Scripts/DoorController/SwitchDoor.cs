@@ -31,6 +31,15 @@ public class SwitchDoor : MonoBehaviour, IInteractable
         set
         {
             isOn = value;
+            animator.SetBool(SwitchOn_Hash, IsOn);
+            if (targetDoor != null)
+            {
+                targetDoor.Use();
+            }
+            else
+            {
+                Debug.LogWarning("사용할 문이 없습니다.");
+            }
         }
     }
 
@@ -53,16 +62,6 @@ public class SwitchDoor : MonoBehaviour, IInteractable
         if (CanUse)
         {
             IsOn = !IsOn;
-            animator.SetBool(SwitchOn_Hash, IsOn);
-            if(targetDoor != null)
-            {
-                targetDoor.Use();
-            }
-            else
-            {
-                Debug.LogWarning("사용할 문이 없습니다.");
-            }
-
             remainsCoolDown = coolDown;
         }
     }
