@@ -15,7 +15,7 @@ public class DoorManualBase : DoorBase, IInteractable
             Open();
     }
 
-    public bool CanUse => true;
+    public virtual bool CanUse => true;
 
     /// <summary>
     /// 문이 열렸음을 표시하는 기능

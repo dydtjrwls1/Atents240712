@@ -15,7 +15,7 @@ public class DoorManualStandard : DoorManualBase, IInteractable
     TextMeshPro text;
 
     // 현재 이 오브젝트를 사용가능한지 판단하기 위한 프로퍼티( 인터페이스에 있는 프로퍼티 구현 )
-    public new bool CanUse => remainsCoolDown < 0.0f;
+    public override bool CanUse => remainsCoolDown < 0.0f;
 
     protected override void Awake()
     {

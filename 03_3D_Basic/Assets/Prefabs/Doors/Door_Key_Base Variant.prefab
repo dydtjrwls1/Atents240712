@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1989109054509146883
+--- !u!1001 &3956821580847428179
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1426251421043384400, guid: 20a55cacc30931544804c98fd4af28f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.47
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1426251421043384400, guid: 20a55cacc30931544804c98fd4af28f7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 47ca9312d083f074c9126ab706a0fd64, type: 2}
     - target: {fileID: 6518201278059787567, guid: 20a55cacc30931544804c98fd4af28f7, type: 3}
       propertyPath: m_Name
-      value: Door_Key Variant
+      value: Door_Key_Base Variant
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6290705747760301670, guid: 20a55cacc30931544804c98fd4af28f7, type: 3}
@@ -63,22 +63,22 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6518201278059787567, guid: 20a55cacc30931544804c98fd4af28f7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5128919320621356258}
+      addedObject: {fileID: 538599427939654613}
   m_SourcePrefab: {fileID: 100100000, guid: 20a55cacc30931544804c98fd4af28f7, type: 3}
---- !u!1 &4751281812079629868 stripped
+--- !u!1 &7826193768440301436 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6518201278059787567, guid: 20a55cacc30931544804c98fd4af28f7, type: 3}
-  m_PrefabInstance: {fileID: 1989109054509146883}
+  m_PrefabInstance: {fileID: 3956821580847428179}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5128919320621356258
+--- !u!114 &538599427939654613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4751281812079629868}
+  m_GameObject: {fileID: 7826193768440301436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64b7734bfb48c9a41aac3188dc834033, type: 3}
+  m_Script: {fileID: 11500000, guid: f29bda10c6ff239478d1128dc55d3e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

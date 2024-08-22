@@ -79,6 +79,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 037a3b4e15e714d4fbdb389258260981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coolDown: 1
+  targetDoor: {fileID: 0}
 --- !u!95 &3473014862999911990
 Animator:
   serializedVersion: 5
