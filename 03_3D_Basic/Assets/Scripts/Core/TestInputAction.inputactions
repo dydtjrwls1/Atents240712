@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "PointerMouse",
+                    "type": "Value",
+                    "id": "5bb37fa9-2545-4f01-b400-dd1508a4e08e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -210,6 +219,17 @@
                     "action": "TestWASD",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "1f3ce9c1-e31c-479c-8711-c50b68d52c13",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "PointerMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

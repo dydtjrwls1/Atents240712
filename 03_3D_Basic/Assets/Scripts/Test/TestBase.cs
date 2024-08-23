@@ -14,7 +14,7 @@ public class TestBase : MonoBehaviour
     //int ssss = 1;
 
     // 테스트용 인풋액션을 저장할 멤버 변수
-    TestInputAction inputActions;
+    protected TestInputAction inputActions;
 
     IEnumerator test;
     private void Awake() // 스크립트가 생성되면 실행되는 함수
