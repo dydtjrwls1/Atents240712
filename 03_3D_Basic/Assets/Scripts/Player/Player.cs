@@ -176,6 +176,7 @@ public class Player : MonoBehaviour
     /// <param name="slowRate">느려지는 비율(0.1이면 속도가 10% 상태로 설정)</param>
     public void SetSlowDebuff(float slowRate)
     {
+        StopAllCoroutines();
         speedModifier = slowRate;
     }
 
