@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     public float moveSpeed = 5.0f;
+    float speedModifier = 1.0f;             // 속도 적용 비율 (1일 때 정상 속도)
 
     public float rotateSpeed = 180.0f;
 
@@ -101,8 +102,8 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Movement(float deltaTime)
     {
-        // 새 이동할 위치 : 현재위치 + 초당 moveSpeed의 속도로, 오브젝트의 앞 쪽 방향을 기준으로 전진/후진/정지
-        Vector3 position = rb.position + deltaTime * moveSpeed * moveDirection * transform.forward;
+        // 새 이동할 위치 : 현재위치 + 초당 moveSpeed * speedModifier 의 속도로, 오브젝트의 앞 쪽 방향을 기준으로 전진/후진/정지
+        Vector3 position = rb.position + deltaTime * moveSpeed * speedModifier * moveDirection * transform.forward;
 
         // 새 회전 : 현재회전 + 초당 rotateSpeed의 속도로, 좌회전/우회전/정지하는 회전
         Quaternion rotation = rb.rotation * Quaternion.AngleAxis(deltaTime * rotateSpeed * rotateDirection, transform.up);
@@ -168,4 +169,47 @@ public class Player : MonoBehaviour
     {
         Debug.Log("사망");
     }
+
+    /// <summary>
+    /// 슬로우 디버프를 거는 함수
+    /// </summary>
+    /// <param name="slowRate">느려지는 비율(0.1이면 속도가 10% 상태로 설정)</param>
+    public void SetSlowDebuff(float slowRate)
+    {
+        speedModifier = slowRate;
+    }
+
+    /// <summary>
+    /// 슬로우 디버프를 해제하는 함수
+    /// </summary>
+    public void RemoveSlowDebuff(float duration = 0.0f)
+    {
+        StopAllCoroutines();
+        StartCoroutine(RestoreSpeedModifier(duration));
+    }
+
+    /// <summary>
+    /// durtaion 동안 speedModifier 를 1 로 되돌리는 코루틴
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    IEnumerator RestoreSpeedModifier(float duration)
+    {
+        Debug.Log("해제 시작");
+        float current = speedModifier;
+        float elapsedTime = 0.0f;
+        float inverseDuration = 1 / duration;
+
+        while(elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            speedModifier = Mathf.Lerp(current, 1.0f, elapsedTime * inverseDuration);
+            yield return null;
+        }
+
+        speedModifier = 1.0f;
+        Debug.Log("해제 끝");
+    }
+
+    
 }

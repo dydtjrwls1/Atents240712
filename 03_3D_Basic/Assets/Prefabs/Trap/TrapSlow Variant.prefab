@@ -9877,7 +9877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slowDuration: 5
-  slowRate: 0.5
+  slowRate: 0.1
 --- !u!4 &8889115309799919186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4022730302367872921, guid: 1f582fc387331aa4ba7d63218a9fe129, type: 3}

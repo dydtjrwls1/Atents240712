@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5202175298771693316, guid: eb47050d66dd57b4889469d6b80fcb86, type: 3}
+      propertyPath: slowDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7522948468880743094, guid: eb47050d66dd57b4889469d6b80fcb86, type: 3}
       propertyPath: m_Name
       value: TrapSlow Variant

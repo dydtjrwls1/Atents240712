@@ -14,6 +14,8 @@ public class Trap_Slow : TrapBase
     ParticleSystem ps;
     Light effectLight;
 
+    Player target = null;
+
     private void Awake()
     {
         Transform child = transform.GetChild(1);
@@ -26,11 +28,20 @@ public class Trap_Slow : TrapBase
     {
         effectLight.enabled = true;
         ps.Play();
+
+        this.target = target.GetComponent<Player>();
+        this.target.SetSlowDebuff(slowRate);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        effectLight.enabled = false;
-        ps.Stop();
+        if (target.CompareTag("Player"))
+        {
+            Debug.Log("벗어남");
+            effectLight.enabled = false;
+            ps.Stop();
+
+            target?.RemoveSlowDebuff(slowDuration);
+        }
     }
 }
