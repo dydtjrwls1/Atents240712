@@ -212,5 +212,8 @@ public class Player : MonoBehaviour
         Debug.Log("해제 끝");
     }
 
-    
+    public void MoveWithObject(Vector3 delta)
+    {
+        rb.MovePosition(rb.position + delta);
+    }
 }

@@ -11,12 +11,10 @@ public class WayPointUserBase : MonoBehaviour
     public float moveSpeed = 5.0f;
 
     // 오브젝트의 이동 방향
-    Vector3 moveDirection;
+    protected Vector3 moveDirection;
 
     // 현재 목표로 하고 있는 웨이포인트 지점의 트랜스폼
     Transform target;
-
-    Rigidbody rb;
 
     // 목표로할 웨이포인트를 지정하고 확인하는 프로퍼티
     protected virtual Transform Target
@@ -37,7 +35,6 @@ public class WayPointUserBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        rb = GetComponent<Rigidbody>();
     }
 
     protected virtual void Start()
@@ -58,14 +55,13 @@ public class WayPointUserBase : MonoBehaviour
         }
 
         // Vector3.MoveTowards(); 정확한 위치로 갈 수 있지만 연산 부담이 크다.
-        Vector3 nextPosition = rb.position + (Time.fixedDeltaTime * moveSpeed * moveDirection);
-        rb.MovePosition(nextPosition);
+        Vector3 nextPosition = (Time.fixedDeltaTime * moveSpeed * moveDirection);
+        transform.Translate(nextPosition, Space.World);
     }
 
     // 웨이포인트에 도착했을 때 실행될 함수
     protected virtual void OnArrived()
     {
         Target = targetWaypoints.GetNextWayPoint();
-        
     }
 }
