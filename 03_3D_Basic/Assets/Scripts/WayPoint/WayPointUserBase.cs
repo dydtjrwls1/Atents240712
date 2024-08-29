@@ -44,19 +44,17 @@ public class WayPointUserBase : MonoBehaviour
 
     private void FixedUpdate()
     {
-        OnMove();
+        OnMove(Time.fixedDeltaTime * moveSpeed * moveDirection);
     }
 
-    protected virtual void OnMove()
+    protected virtual void OnMove(Vector3 moveDelta)
     {
         if(IsArrived)
         {
             OnArrived();
         }
 
-        // Vector3.MoveTowards(); 정확한 위치로 갈 수 있지만 연산 부담이 크다.
-        Vector3 nextPosition = (Time.fixedDeltaTime * moveSpeed * moveDirection);
-        transform.Translate(nextPosition, Space.World);
+        transform.Translate(moveDelta, Space.World);
     }
 
     // 웨이포인트에 도착했을 때 실행될 함수

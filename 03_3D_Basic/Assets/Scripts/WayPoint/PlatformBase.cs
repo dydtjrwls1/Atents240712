@@ -22,10 +22,11 @@ public class PlatformBase : WayPointUserBase
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        Debug.Log(other.name);
+        IPlatformRidable target = other.GetComponent<IPlatformRidable>();
+        if(target != null)
         {
-            player = other.GetComponent<Player>();
-            platformMove += (delta) => player.MoveWithObject(delta);
+            platformMove += target.OnRidePlatform;
         }
     }
 
@@ -38,11 +39,10 @@ public class PlatformBase : WayPointUserBase
         }
     }
 
-    protected override void OnMove()
+    protected override void OnMove(Vector3 moveDelta)
     {
-        base.OnMove();
+        base.OnMove(moveDelta);
 
-        Vector3 nextPosition = Time.fixedDeltaTime * moveSpeed * moveDirection;
-        platformMove?.Invoke(nextPosition);
+        platformMove?.Invoke(moveDelta);
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPlatformRidable
 {
     public float moveSpeed = 5.0f;
     float speedModifier = 1.0f;             // 속도 적용 비율 (1일 때 정상 속도)
@@ -212,8 +212,8 @@ public class Player : MonoBehaviour
         Debug.Log("해제 끝");
     }
 
-    public void MoveWithObject(Vector3 delta)
+    public void OnRidePlatform(Vector3 moveDelta)
     {
-        rb.MovePosition(rb.position + delta);
+        rb.MovePosition(rb.position + moveDelta);
     }
 }
