@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchDoor : MonoBehaviour, IInteractable
+public class SwitchBase <T> : MonoBehaviour, IInteractable where T : IInteractable
 {
     // on 상태, off 상태
     // on 상태가 되엇을 때 연결된 문이 열린다. 
@@ -15,10 +15,10 @@ public class SwitchDoor : MonoBehaviour, IInteractable
     public float coolDown = 0.5f;
 
     // 남은 쿨타임이 0이하면 사용 가능
-    public bool CanUse => remainsCoolDown < 0.0f;
+    public virtual bool CanUse => remainsCoolDown < 0.0f;
 
-    // 이 스위치가 열 수 있는 문
-    public DoorManualBase targetDoor;
+    // 이 스위치가 열 수 있는 객체 (IIteractable 을 가지고 있어야 함)
+    public T target;
 
     // 현재 남아있는 쿨타임
     float remainsCoolDown = 0.0f;
@@ -32,13 +32,13 @@ public class SwitchDoor : MonoBehaviour, IInteractable
         {
             isOn = value;
             animator.SetBool(SwitchOn_Hash, IsOn);
-            if (targetDoor != null)
+            if (target != null)
             {
-                targetDoor.Use();
+                target.Use();
             }
             else
             {
-                Debug.LogWarning("사용할 문이 없습니다.");
+                Debug.LogWarning("사용할 객체가 없습니다.");
             }
         }
     }

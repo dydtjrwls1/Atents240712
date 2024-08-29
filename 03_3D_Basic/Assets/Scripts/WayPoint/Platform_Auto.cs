@@ -28,6 +28,5 @@ public class Platform_Auto : PlatformBase
     {
         base.OnArrived();
         moveSpeed = 0.0f;
-        
     }
 }
