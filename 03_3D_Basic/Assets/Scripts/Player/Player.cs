@@ -98,6 +98,28 @@ public class Player : MonoBehaviour
         JumpCoolRemains -= Time.deltaTime; // 점프 쿨타임 줄이기
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.name);
+        PlatformBase platform = other.GetComponent<PlatformBase>();
+        if(platform != null)
+        {
+            Debug.Log("등록");
+            platform.onPlatformMove += OnRidePlatform;
+        }
+    }
+
+    
+
+    private void OnTriggerExit(Collider other)
+    {
+        PlatformBase platform = other.GetComponent<PlatformBase>();
+        if (platform != null)
+        {
+            platform.onPlatformMove -= OnRidePlatform;
+        }
+    }
+
     /// 이동 및 회전처리
     /// </summary>
     private void Movement(float deltaTime)
@@ -212,8 +234,13 @@ public class Player : MonoBehaviour
         Debug.Log("해제 끝");
     }
 
-    public void MoveWithObject(Vector3 delta)
+    /// <summary>
+    /// 플랫폼 움직임에 따라 같이 움직이게 하는 함수
+    /// </summary>
+    /// <param name="moveDelta">플랫폼이 움직인 양</param>
+    private void OnRidePlatform(Vector3 moveDelta)
     {
-        rb.MovePosition(rb.position + delta);
+        rb.MovePosition(rb.position + moveDelta);
     }
+
 }

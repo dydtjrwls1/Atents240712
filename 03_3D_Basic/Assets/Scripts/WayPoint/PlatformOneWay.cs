@@ -14,18 +14,18 @@ public class PlatformOneWay : PlatformBase
         moveSpeed = 0;
     }
 
-    protected override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
-        playerOn = true;
-        moveSpeed = orgSpeed;
-    }
+    //protected override void OnTriggerEnter(Collider other)
+    //{
+    //    base.OnTriggerEnter(other);
+    //    playerOn = true;
+    //    moveSpeed = orgSpeed;
+    //}
 
-    protected override void OnTriggerExit(Collider other)
-    {
-        base.OnTriggerExit(other);
-        playerOn = false;
-    }
+    //protected override void OnTriggerExit(Collider other)
+    //{
+    //    base.OnTriggerExit(other);
+    //    playerOn = false;
+    //}
 
     protected override void OnArrived()
     {

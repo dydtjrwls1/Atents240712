@@ -7,7 +7,7 @@ public class PlatformBase : WayPointUserBase
 {
     Player player;
 
-    public Action<Vector3> platformMove = null;
+    public Action<Vector3> onPlatformMove = null;
 
     protected override void Start()
     {
@@ -20,29 +20,10 @@ public class PlatformBase : WayPointUserBase
         base.Start();
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            player = other.GetComponent<Player>();
-            platformMove += (delta) => player.MoveWithObject(delta);
-        }
-    }
 
-    protected virtual void OnTriggerExit(Collider other)
+    protected override void OnMove(Vector3 moveDelta)
     {
-        if (other.CompareTag("Player"))
-        {
-            player = null;
-            platformMove = null;
-        }
-    }
-
-    protected override void OnMove()
-    {
-        base.OnMove();
-
-        Vector3 nextPosition = Time.fixedDeltaTime * moveSpeed * moveDirection;
-        platformMove?.Invoke(nextPosition);
+        base.OnMove(moveDelta);
+        onPlatformMove?.Invoke(moveDelta);
     }
 }
