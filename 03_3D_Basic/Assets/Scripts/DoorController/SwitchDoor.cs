@@ -25,7 +25,7 @@ public class SwitchDoor : MonoBehaviour, IInteractable
 
     bool isOn = false;
 
-    bool IsOn
+    protected virtual bool IsOn
     {
         get => isOn;
         set

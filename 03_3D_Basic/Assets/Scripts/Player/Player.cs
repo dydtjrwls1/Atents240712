@@ -86,8 +86,6 @@ public class Player : MonoBehaviour, IPlatformRidable
         inputActions.Player.Disable();
     }
 
-    
-
     private void FixedUpdate()
     {
         Movement(Time.fixedDeltaTime);

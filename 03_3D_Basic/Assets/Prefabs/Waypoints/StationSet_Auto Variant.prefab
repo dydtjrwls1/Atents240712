@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3771376446390125586
+--- !u!1001 &6582302831706770689
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6111547057892194099, guid: 1784f85b4b47aa1428374eddf7122802, type: 3}
       propertyPath: m_Name
-      value: StationSet_Auto Variant
+      value: StationSet_OneWay Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -58,23 +58,23 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1694711898482211668, guid: 1784f85b4b47aa1428374eddf7122802, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 147763925910442455}
+      addedObject: {fileID: 7681153503212055292}
   m_SourcePrefab: {fileID: 100100000, guid: 1784f85b4b47aa1428374eddf7122802, type: 3}
---- !u!1 &2581210866044321606 stripped
+--- !u!1 &5538823854589670997 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1694711898482211668, guid: 1784f85b4b47aa1428374eddf7122802, type: 3}
-  m_PrefabInstance: {fileID: 3771376446390125586}
+  m_PrefabInstance: {fileID: 6582302831706770689}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &147763925910442455
+--- !u!114 &7681153503212055292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2581210866044321606}
+  m_GameObject: {fileID: 5538823854589670997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da27f62d89931240a6a761187b35eae, type: 3}
+  m_Script: {fileID: 11500000, guid: e860279544399ee4fa8645ae576fbd78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetWaypoints: {fileID: 0}

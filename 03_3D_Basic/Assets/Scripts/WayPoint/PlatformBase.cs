@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class PlatformBase : WayPointUserBase
 {
-    Player player;
-
-    public Action<Vector3> platformMove = null;
+    Action<Vector3> platformMove = null;
 
     protected override void Start()
     {
@@ -21,8 +19,7 @@ public class PlatformBase : WayPointUserBase
     }
 
     protected virtual void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.name);
+    {        
         IPlatformRidable target = other.GetComponent<IPlatformRidable>();
         if(target != null)
         {
@@ -32,10 +29,10 @@ public class PlatformBase : WayPointUserBase
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        IPlatformRidable target = other.GetComponent<IPlatformRidable>();
+        if (target != null)
         {
-            player = null;
-            platformMove = null;
+            platformMove -= target.OnRidePlatform;
         }
     }
 
