@@ -1241,6 +1241,10 @@ PrefabInstance:
       propertyPath: targetDoor
       value: 
       objectReference: {fileID: 1561880254}
+    - target: {fileID: 8324103188129532996, guid: 60a0681bda9e48a45b73de2209c878bf, type: 3}
+      propertyPath: targetObject
+      value: 
+      objectReference: {fileID: 1396405372298460395}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1900,7 +1904,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1349770954867873478, guid: 6922b0226f37d2042b42fe3c6410418b, type: 3}
   m_PrefabInstance: {fileID: 1396405372298460394}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1396405372298460395}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d79c5c9ae73cd449a36139182f285da, type: 3}
@@ -2756,6 +2760,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6922b0226f37d2042b42fe3c6410418b, type: 3}
+--- !u!1 &1396405372298460395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4746925249574273697, guid: 6922b0226f37d2042b42fe3c6410418b, type: 3}
+  m_PrefabInstance: {fileID: 1396405372298460394}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4324782161538866562
 PrefabInstance:
   m_ObjectHideFlags: 0

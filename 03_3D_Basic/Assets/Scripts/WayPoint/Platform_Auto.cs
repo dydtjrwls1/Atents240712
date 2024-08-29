@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class Platform_Auto : PlatformBase
 {
-    float orgSpeed;
+    bool isPause = true;
 
-    protected override void Awake()
+    protected override void Start()
     {
-        orgSpeed = moveSpeed;
-        moveSpeed = 0;
+        base.Start();
+        Target = targetWaypoints.GetNextWayPoint(); // 시작했을 때 Point2로 이동하게끔 지정
     }
 
-    protected override void OnTriggerEnter(Collider other)
+    protected override void OnMove(Vector3 moveDelta)
     {
-        base.OnTriggerEnter(other);
-        
-        moveSpeed = orgSpeed;
+        if(!isPause) 
+        {
+            base.OnMove(moveDelta);
+        }
     }
 
-    protected override void OnTriggerExit(Collider other)
+    protected override void RiderOn(IPlatformRidable target)
     {
-        base.OnTriggerExit(other);
+        base.RiderOn(target);
+        isPause = false;
     }
 
     protected override void OnArrived()
     {
         base.OnArrived();
-        moveSpeed = 0.0f;
-        
+        Debug.Log("도착");
+        isPause = true;
     }
 }

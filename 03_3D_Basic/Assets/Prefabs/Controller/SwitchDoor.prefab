@@ -41,9 +41,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3825404196127901901}
-  - component: {fileID: 7442415409760005672}
   - component: {fileID: 3473014862999911990}
   - component: {fileID: 7398913278452362200}
+  - component: {fileID: 8324103188129532996}
   m_Layer: 0
   m_Name: SwitchDoor
   m_TagString: Untagged
@@ -67,20 +67,6 @@ Transform:
   - {fileID: 6488700501380464835}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7442415409760005672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5958749403818283705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 037a3b4e15e714d4fbdb389258260981, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coolDown: 1
-  targetDoor: {fileID: 0}
 --- !u!95 &3473014862999911990
 Animator:
   serializedVersion: 5
@@ -123,6 +109,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.8, z: 1}
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &8324103188129532996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5958749403818283705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a5b7b89f7d7a1d4184d85607b3b2445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coolDown: 0.5
+  targetObject: {fileID: 0}
 --- !u!1 &6449250985120936111
 GameObject:
   m_ObjectHideFlags: 0
