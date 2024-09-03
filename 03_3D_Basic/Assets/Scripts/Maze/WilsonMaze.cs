@@ -74,8 +74,8 @@ public class WilsonMaze : MazeBase
                 path = path.next;                              // 다음 경로로 이동
             }
 
-            //path.isMazeMember = true;                      // 이 셀을 미로에 포함시킨다
-            //notInMaze.Remove(GridToIndex(path.X, path.Y)); // notInMaze 리스트에서 현재 셀 삭제
+            path.isMazeMember = true;                      // 이 셀을 미로에 포함시킨다
+            notInMaze.Remove(GridToIndex(path.X, path.Y)); // notInMaze 리스트에서 현재 셀 삭제
 
             // 6. 모든 셀이 미로에 포함될 때 까지 2번으로 돌아가 반복한다.
         }
