@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class Test12_Maze : TestBase
 {
@@ -12,6 +13,13 @@ public class Test12_Maze : TestBase
     public CornerMask cornerMask;
 
     public PathDirection pathCheck;
+
+    public GameObject cellPrefab;
+
+    public MazeVisualize visualize;
+
+    public MazeBuilder builder;
+
     // 윌슨 알고리즘 (미로 생성 알고리즘)
     // 1. 필드의 한 곳을 랜덤으로 미로에 추가한다.
     // 2. 미로에 포함되지 않은 필드의 한 곳을 랜덤으로 결정한다. (A셀)
@@ -27,7 +35,7 @@ public class Test12_Maze : TestBase
 
     protected override void Test2_performed(InputAction.CallbackContext context)
     {
-        Debug.Log(cell.CurrentActivate);
+        //Debug.Log(cell.CurrentActivate);
     }
 
     protected override void Test3_performed(InputAction.CallbackContext context)
@@ -36,5 +44,17 @@ public class Test12_Maze : TestBase
         test.MakePath(direction);
 
         Debug.Log(test.IsPath(pathCheck));
+    }
+
+    protected override void Test4_performed(InputAction.CallbackContext context)
+    {
+        MazeBase maze = new WilsonMaze(5, 5, seed);
+        visualize.Clear();
+        visualize.Draw(maze);
+    }
+
+    protected override void Test5_performed(InputAction.CallbackContext context)
+    {
+        builder.Build();
     }
 }
