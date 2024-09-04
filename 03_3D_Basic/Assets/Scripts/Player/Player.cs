@@ -68,6 +68,24 @@ public class Player : MonoBehaviour, IPlatformRidable
         useSensor.onUse += (usable) => usable.Use();
     }
 
+    private void Start()
+    {
+        VirtualStick stick = GameManager.Instance.Stick;
+        if(stick != null)
+        {
+            stick.onMoveInput += (inputDelta) =>
+            {
+                SetInput(inputDelta, inputDelta.sqrMagnitude > 0.025f);
+            };
+        }
+
+        VirtualButton button = GameManager.Instance.VirtualButton;
+        if(button != null)
+        {
+            button.onJump += Jump;
+        }
+    }
+
     private void OnEnable()
     {
         inputActions.Player.Enable();
