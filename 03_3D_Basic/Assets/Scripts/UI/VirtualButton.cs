@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class VirtualButton : MonoBehaviour, IPointerClickHandler
 {
-    public Action onJump = null;
+    public Action onClick = null;
 
     Image jumpCoolImage;
 
@@ -22,12 +22,19 @@ public class VirtualButton : MonoBehaviour, IPointerClickHandler
         Player player = GameManager.Instance.Player;
 
         player.onJumpCoolDownChange += (remainsCoolDown) => 
-        { 
-            jumpCoolImage.fillAmount = remainsCoolDown;
+        {
+            RefreshCoolTime(remainsCoolDown);
         };
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        onJump?.Invoke();
+        onClick?.Invoke();
+    }
+
+    // 쿨타임 표시 갱신하는 함수
+    public void RefreshCoolTime(float ratio)
+    {
+        jumpCoolImage.fillAmount = ratio;
     }
 }

@@ -34,6 +34,8 @@ public class Player : MonoBehaviour, IPlatformRidable
     // 점프가 가능한지 확인하는 프로퍼티
     bool IsJumpAvailabe => (isGrounded && (JumpCoolRemains < 0.0f));
 
+    bool isAlive = true;
+
     // 점프 쿨타임을 확인하고 설정하기 위한 프로퍼티
     float JumpCoolRemains
     {
@@ -47,13 +49,17 @@ public class Player : MonoBehaviour, IPlatformRidable
 
     // 점프 쿨타임에 변화가 있었음을 알리는 델리게이트
     public Action<float> onJumpCoolDownChange;
+    public Action onDie;
 
     Rigidbody rb;
 
     Animator animator;
 
+    VirtualPad virtualPad;
+
     readonly int IsMove_Hash = Animator.StringToHash("IsMove");
     readonly int IsUse_Hash = Animator.StringToHash("Use");
+    readonly int IsDie_Hash = Animator.StringToHash("Die");
 
     private void Awake()
     {
@@ -70,19 +76,26 @@ public class Player : MonoBehaviour, IPlatformRidable
 
     private void Start()
     {
-        VirtualStick stick = GameManager.Instance.Stick;
-        if(stick != null)
-        {
-            stick.onMoveInput += (inputDelta) =>
-            {
-                SetInput(inputDelta, inputDelta.sqrMagnitude > 0.025f);
-            };
-        }
+        //VirtualStick stick = GameManager.Instance.Stick;
+        //if(stick != null)
+        //{
+        //    stick.onMoveInput += (inputDelta) =>
+        //    {
+        //        SetInput(inputDelta, inputDelta.sqrMagnitude > 0.025f);
+        //    };
+        //}
 
-        VirtualButton button = GameManager.Instance.VirtualButton;
-        if(button != null)
+        //VirtualButton button = GameManager.Instance.JumpButton;
+        //if(button != null)
+        //{
+        //    button.onJump += Jump;
+        //}
+
+        virtualPad = GameManager.Instance.VirtualPad;
+        if(virtualPad != null)
         {
-            button.onJump += Jump;
+            virtualPad.SetStickBind(0, (inputDelta) => SetInput(inputDelta, inputDelta.magnitude > 0.0025));
+            virtualPad.SetButtonBind(0, Jump, ref onJumpCoolDownChange);
         }
     }
 
@@ -183,7 +196,24 @@ public class Player : MonoBehaviour, IPlatformRidable
     /// </summary>
     public void Die()
     {
-        Debug.Log("사망");
+        if (isAlive)
+        {
+            animator.SetTrigger(IsDie_Hash);
+            inputActions.Player.Disable();
+            virtualPad.Disconnect();
+
+            rb.constraints = RigidbodyConstraints.None;
+            rb.drag = 0;
+            rb.angularDrag = 0.01f;
+
+            Transform head = transform.GetChild(5);
+            rb.AddForceAtPosition(-transform.forward * 5.0f, head.position, ForceMode.Impulse);
+            rb.AddTorque(transform.up * 2.0f, ForceMode.Impulse);
+
+            onDie?.Invoke();
+            isAlive = false;
+        }
+        
     }
 
     /// <summary>

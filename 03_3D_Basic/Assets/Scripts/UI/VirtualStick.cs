@@ -54,9 +54,4 @@ public class VirtualStick : MonoBehaviour, IDragHandler, IEndDragHandler
 
         onMoveInput?.Invoke(inputDelta / stickRange); // 크기를 0 ~ 1 사이로 정규화해서 보냄
     }
-
-    public void Disconnect()
-    {
-        onMoveInput = null;
-    }
 }

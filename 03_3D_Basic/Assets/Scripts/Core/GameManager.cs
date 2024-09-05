@@ -10,13 +10,9 @@ public class GameManager : SingleTon<GameManager>
     // 플레이어 확인용 프로퍼티
     public Player Player => player;
 
-    VirtualStick stick;
+    VirtualPad virtualPad;
 
-    public VirtualStick Stick => stick;
-
-    VirtualButton virtualButton;
-
-    public VirtualButton VirtualButton => virtualButton;
+    public VirtualPad VirtualPad => virtualPad;
 
     /// <summary>
     /// 초기화용 함수
@@ -24,7 +20,6 @@ public class GameManager : SingleTon<GameManager>
     protected override void OnInitialize()
     {
         player = FindAnyObjectByType<Player>();
-        stick = FindAnyObjectByType<VirtualStick>();
-        virtualButton = FindAnyObjectByType<VirtualButton>();
+        virtualPad = FindAnyObjectByType<VirtualPad>();
     }
 }
