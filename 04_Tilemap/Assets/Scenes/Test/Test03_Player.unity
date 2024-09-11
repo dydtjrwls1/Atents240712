@@ -1367,7 +1367,7 @@ Tilemap:
       - {fileID: 242981914, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: 717569093, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1021968879, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 10.32181
+      m_AnimationSpeed: 8.84573
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -3, y: -4, z: 0}
@@ -1378,7 +1378,7 @@ Tilemap:
       - {fileID: 634841239, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1356872395, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1189509314, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 9.72785
+      m_AnimationSpeed: 11.473686
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: -3, z: 0}
@@ -1389,7 +1389,7 @@ Tilemap:
       - {fileID: 634841239, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1356872395, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1189509314, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 9.481457
+      m_AnimationSpeed: 10.974541
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -6, y: -1, z: 0}
@@ -1400,7 +1400,7 @@ Tilemap:
       - {fileID: 634841239, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1356872395, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1189509314, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 8.694952
+      m_AnimationSpeed: 8.528906
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 1, y: 2, z: 0}
@@ -1411,7 +1411,7 @@ Tilemap:
       - {fileID: 885047920, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -2020345861, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1712270418, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 4.6398277
+      m_AnimationSpeed: 5.8698273
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -7, y: 3, z: 0}
@@ -1422,7 +1422,7 @@ Tilemap:
       - {fileID: 242981914, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: 717569093, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1021968879, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 10.799129
+      m_AnimationSpeed: 11.105184
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -2, y: 3, z: 0}
@@ -1433,7 +1433,7 @@ Tilemap:
       - {fileID: 242981914, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: 717569093, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1021968879, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 9.60236
+      m_AnimationSpeed: 11.3792925
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 7, y: 3, z: 0}
@@ -1444,7 +1444,7 @@ Tilemap:
       - {fileID: 634841239, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1356872395, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
       - {fileID: -1189509314, guid: aad5c917a70b6c04c8fad32701d00f19, type: 3}
-      m_AnimationSpeed: 9.089611
+      m_AnimationSpeed: 11.669136
       m_AnimationTimeOffset: 0
       m_Flags: 0
   m_TileAssetArray:
@@ -3546,6 +3546,7 @@ GameObject:
   - component: {fileID: 1101549182}
   - component: {fileID: 1101549181}
   - component: {fileID: 1101549180}
+  - component: {fileID: 1101549183}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3713,6 +3714,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1101549183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101549177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d5e9a00d3a7ae46987e6df8d2b4b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
 --- !u!1 &1110322840
 GameObject:
   m_ObjectHideFlags: 0
