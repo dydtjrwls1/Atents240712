@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     // 이동 속도
     public float speed = 3.0f;
+
+    // 공격 쿨타임
     public float attackCoolDown = 1.0f;
 
     // 입력받은 방향
@@ -19,9 +21,14 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
     Animator animator;
 
-    float remainsAttackCoolDown;
+    // 남은 공격 쿨타임
+    float remainsAttackCoolDown = 0.0f;
 
-    bool CanAttack => remainsAttackCoolDown < 0;
+    // 공격 가능 여부 프로퍼티 ( 쿨타임이 다 되면 true, 안 됐으면 false )
+    bool IsAttackReady => remainsAttackCoolDown < 0;
+
+    // 현재 속도
+    float currentSpeed = 3.0f;
 
     // 애니메이터 해쉬값
     readonly int InputX_Hash = Animator.StringToHash("InputX");
@@ -34,6 +41,8 @@ public class Player : MonoBehaviour
         inputActions = new PlayerInputActions();
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        currentSpeed = speed;
     }
 
     private void OnEnable()
@@ -59,7 +68,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigid.MovePosition(rigid.position + Time.fixedDeltaTime * speed * inputDirection);
+        rigid.MovePosition(rigid.position + Time.fixedDeltaTime * currentSpeed * inputDirection);
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -81,16 +90,21 @@ public class Player : MonoBehaviour
 
     private void OnAttack(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        if(CanAttack)
+        if(IsAttackReady)
         {
             Attack();
         }
-        
     }
 
     private void Attack()
     {
-        remainsAttackCoolDown = attackCoolDown;
         animator.SetTrigger(Attack_Hash);                                             // 애니메이터에 공격 알림
+        remainsAttackCoolDown = attackCoolDown;                                       // 공격 쿨타임 초기화
+        currentSpeed = 0.0f;
+    }
+
+    public void RestoreSpeed()
+    {
+        currentSpeed = speed;
     }
 }
