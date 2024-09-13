@@ -10,13 +10,6 @@ public class Test05_Slime : TestBase
 
     public bool isOutLineChange;
     public bool isInnerLineChange;
-    public bool isPhaseChange;
-    public bool isPhaseReverseChange;
-    public bool isDissolveChange;
-
-    // 주파수
-    [Range(0.01f, 5.0f)]
-    public float frequency = 5.0f;
 
     // Line 관련 프로퍼티 설정값 (최소 두께, 최대 두께)
     [Range(0f, 0.04f)]
@@ -24,11 +17,18 @@ public class Test05_Slime : TestBase
     [Range(0f, 0.04f)]
     public float lineMaxThickness = 0.01f;
 
-    // 누적 시간
-    float elapsedTime = 0.0f;
+    [Space]
+    public bool isPhaseChange;
+    public bool isPhaseReverseChange;
+    public bool isDissolveChange;
 
-    // 현재 진행 정도
-    float Current_Delta => (Mathf.Sin(elapsedTime * frequency) + 1) * 0.5f;
+    // 변화 속도
+    [Space]
+    [Range(0.01f, 5.0f)]
+    public float frequency = 5.0f;
+
+    // 누적 시간
+    float[] elapsedTimes;
 
     // 라인 두께 최소값 프로퍼티
     public float LineMinThickness 
@@ -54,9 +54,6 @@ public class Test05_Slime : TestBase
         }
     }
 
-    // 라인 두께 프로퍼티
-    float Thickness => LineMinThickness + (LineMaxThickness - LineMinThickness) * Current_Delta;
-
     // 해쉬값
     readonly int Thickness_Hash = Shader.PropertyToID("_Thickness");
     readonly int Thickness_Min_Hash = Shader.PropertyToID("_Thickness_Min");
@@ -72,36 +69,56 @@ public class Test05_Slime : TestBase
         {
             materials[i] = spriteRenderers[i].material;
         }
+
+        // 누적 시간 배열 초기화
+        elapsedTimes = new float[spriteRenderers.Length];
+
+        // 시작 설정
+        materials[0].SetFloat(Thickness_Hash, 0.0f);
+        materials[1].SetFloat(Thickness_Hash, 0.0f);
+        materials[2].SetFloat(Split_Hash, 0.0f);
+        materials[3].SetFloat(Split_Hash, 0.0f);
+        materials[4].SetFloat(Fade_Hash, 0.0f);
     }
 
     private void Update()
     {
-        elapsedTime += Time.deltaTime;
-
         if (isOutLineChange)
         {
-            materials[0].SetFloat(Thickness_Hash, Thickness);
-            
+            float thickness = LineMinThickness + (LineMaxThickness - LineMinThickness) * GetRatio(ref elapsedTimes[0]); ;
+            materials[0].SetFloat(Thickness_Hash, thickness);
         }
 
         if (isInnerLineChange)
         {
-            materials[1].SetFloat(Thickness_Hash, Thickness);
+            float thickness = LineMinThickness + (LineMaxThickness - LineMinThickness) * GetRatio(ref elapsedTimes[1]);
+            materials[1].SetFloat(Thickness_Hash, thickness);
         }
 
         if (isPhaseChange)
         {
-            materials[2].SetFloat(Split_Hash, Current_Delta);
+            materials[2].SetFloat(Split_Hash, GetRatio(ref elapsedTimes[2]));
         }
 
         if (isPhaseReverseChange)
         {
-            materials[3].SetFloat(Split_Hash, Current_Delta);
+            materials[3].SetFloat(Split_Hash, GetRatio(ref elapsedTimes[3]));
         }
 
         if (isDissolveChange)
         {
-            materials[4].SetFloat(Fade_Hash, Current_Delta);
+            materials[4].SetFloat(Fade_Hash, GetRatio(ref elapsedTimes[4]));
         }
+    }
+
+    /// <summary>
+    /// 각 누적시간 별 시간진행에 따른 비율 반환하는 함수
+    /// </summary>
+    /// <param name="elapsedTime">누적 시간</param>
+    /// <returns>0~1 으로 변환한 값</returns>
+    float GetRatio(ref float elapsedTime)
+    {
+        elapsedTime += Time.deltaTime * frequency; // ref로 받았기 때문에 수정 가능
+        return (Mathf.Cos(elapsedTime) + 1.0f) * 0.5f; 
     }
 }
