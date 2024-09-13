@@ -13,6 +13,12 @@ public class Test05_Slime : TestBase
     public bool isPhaseChange;
     public bool isPhaseReverseChange;
     public bool isDissolveChange;
+    public bool isEffectChange;
+
+    [Header("SlimeEffect")]
+    public bool isEffectOutline;
+    public bool isEffectPhase;
+    public bool isEffectDissolve;
 
     // 주파수
     [Range(0.01f, 5.0f)]
@@ -29,6 +35,36 @@ public class Test05_Slime : TestBase
 
     // 현재 진행 정도
     float Current_Delta => (Mathf.Sin(elapsedTime * frequency) + 1) * 0.5f;
+
+    public bool IsEffectOutline
+    {
+        get => isEffectOutline;
+        set
+        {
+            materials[5].SetInt(IsOutline_Hash, value ? 1 : 0);
+            isEffectOutline = value;
+        }
+    }
+
+    public bool IsEffectPhase
+    {
+        get => isEffectPhase;
+        set
+        {
+            materials[5].SetInt(IsPhase_Hash, value ? 1 : 0);
+            isEffectPhase = value;
+        }
+    }
+
+    public bool IsEffectDissolve
+    {
+        get => isEffectDissolve;
+        set
+        {
+            materials[5].SetInt(IsDissolve_Hash, value ? 1 : 0);
+            isEffectDissolve = value;
+        }
+    }
 
     // 라인 두께 최소값 프로퍼티
     public float LineMinThickness 
@@ -63,6 +99,9 @@ public class Test05_Slime : TestBase
     readonly int Thickness_Max_Hash = Shader.PropertyToID("_Thickness_Max");
     readonly int Fade_Hash = Shader.PropertyToID("_Fade");
     readonly int Split_Hash = Shader.PropertyToID("_Split");
+    readonly int IsOutline_Hash = Shader.PropertyToID("_IsOutline");
+    readonly int IsPhase_Hash = Shader.PropertyToID("_IsPhase");
+    readonly int IsDissolve_Hash = Shader.PropertyToID("_IsDissolve");
 
     private void Start()
     {
@@ -102,6 +141,14 @@ public class Test05_Slime : TestBase
         if (isDissolveChange)
         {
             materials[4].SetFloat(Fade_Hash, Current_Delta);
+        }
+
+        if (isEffectChange)
+        {
+            materials[5].SetFloat(Thickness_Hash, Thickness);
+            materials[5].SetFloat(Split_Hash, Current_Delta);
+            materials[5].SetFloat(Fade_Hash, Current_Delta);
+
         }
     }
 }
