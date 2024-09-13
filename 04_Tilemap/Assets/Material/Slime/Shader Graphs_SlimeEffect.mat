@@ -44,11 +44,11 @@ Material:
     - _DissolveFade: 1
     - _DissolveScale: 40
     - _Fade: 0.5
-    - _OutlineRatio: 0.5
-    - _OutlineThickness: 0.005
+    - _OutlineRatio: 0.393
+    - _OutlineThickness: 0
     - _PhaseFade: 0.5
     - _PhaseSplit: 0
-    - _PhaseThickness: 0.02
+    - _PhaseThickness: 0.01
     - _Ratio: 0.5
     - _Scale: 40
     - _Split: 0.5

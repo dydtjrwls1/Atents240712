@@ -20,15 +20,30 @@ public class Test06_SlimePool : TestBase
     protected override void Test2_performed(InputAction.CallbackContext context)
     {
         // Scene 내의 모든 슬라임의 Outline 보이기
+        Slime[] slimes = FindObjectsByType<Slime>(FindObjectsSortMode.None);
+        foreach(Slime slime in slimes)
+        {
+            slime.ShowOutline(true);
+        }
     }
 
     protected override void Test3_performed(InputAction.CallbackContext context)
     {
         // Scene 내의 모든 슬라임의 Outline 감추기
+        Slime[] slimes = FindObjectsByType<Slime>(FindObjectsSortMode.None);
+        foreach (Slime slime in slimes)
+        {
+            slime.ShowOutline(false);
+        }
     }
 
     protected override void Test4_performed(InputAction.CallbackContext context)
     {
         // Scene 내의 모든 슬라임 사망
+        Slime[] slimes = FindObjectsByType<Slime>(FindObjectsSortMode.None);
+        foreach (Slime slime in slimes)
+        {
+            slime.Die();
+        }
     }
 }
