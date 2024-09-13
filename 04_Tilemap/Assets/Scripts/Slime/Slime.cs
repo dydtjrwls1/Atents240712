@@ -2,12 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slime : MonoBehaviour
+public class Slime : RecycleObject
 {
+    SpriteRenderer spriteRenderer;
+    Material material;
 
-    private void OnEnable()
+    readonly int PhaseSplit_Hash = Shader.PropertyToID("_PhaseSplit");
+    readonly int PhaseThickness_Hash = Shader.PropertyToID("_PhaseThickness");
+    readonly int DissolveFade_Hash = Shader.PropertyToID("_DissolveFade");
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        material = spriteRenderer.material;
+    }
+
+    protected override void OnReset()
     {
         // Phase
+        StartCoroutine(Phase());
+    }
+
+    IEnumerator Phase()
+    {
+        float phaseTime = 1.0f;
+        while(phaseTime > 0.0f)
+        {
+            phaseTime -= Time.deltaTime;
+            material.SetFloat(PhaseSplit_Hash, phaseTime);
+            yield return null;
+        }
+
+        material.SetFloat(PhaseThickness_Hash, 0.0f);
     }
 
     /// <summary>
