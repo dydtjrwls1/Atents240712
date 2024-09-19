@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class Slime : RecycleObject
 {
-    SpriteRenderer spriteRenderer;
     Material material;
 
+    [Range(0f, 1f)]
     public float outlineThickness = 0.005f;
+
+    [Range(0f, 1f)]
+    public float phaseThickness = 0.01f;
+
+    public float phaseDuration = 0.5f;
+    public float dissolveDuration = 1.0f;
 
     readonly int OutlineThickness_Hash = Shader.PropertyToID("_OutlineThickness");
     readonly int PhaseSplit_Hash = Shader.PropertyToID("_PhaseSplit");
@@ -17,26 +23,33 @@ public class Slime : RecycleObject
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         material = spriteRenderer.material;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
     }
 
     protected override void OnReset()
     {
         // Phase
+        ShowOutline(false);
         material.SetFloat(DissolveFade_Hash, 1.0f);
-        material.SetFloat(OutlineThickness_Hash, 0.0f);
+        material.SetFloat(PhaseThickness_Hash, phaseThickness);
         StartCoroutine(Phase());
     }
 
     IEnumerator Phase()
     {
-        float phaseSplit = 1.0f;
+        float elapsedTime = 0.0f;
+        float phaseNormalize = 1.0f / phaseDuration;
 
-        while(phaseSplit > 0.0f)
+        while(elapsedTime < phaseDuration)
         {
-            phaseSplit -= Time.deltaTime;
-            material.SetFloat(PhaseSplit_Hash, phaseSplit);
+            elapsedTime += Time.deltaTime;
+            material.SetFloat(PhaseSplit_Hash, 1.0f - (elapsedTime * phaseNormalize));
             yield return null;
         }
 
@@ -63,17 +76,18 @@ public class Slime : RecycleObject
 
     IEnumerator Dissolve()
     {
-        float dissolveFade = 1.0f;
+        float elapsedTime = 0.0f;
+        float dissolveNormalize = 1.0f / dissolveDuration;
 
-        while(dissolveFade > 0.0f) 
+        while(elapsedTime < dissolveDuration) 
         {
-            dissolveFade -= Time.deltaTime;
-            material.SetFloat(DissolveFade_Hash, dissolveFade);
+            elapsedTime += Time.deltaTime;
+            material.SetFloat(DissolveFade_Hash, 1.0f - (elapsedTime * dissolveNormalize));
             yield return null;
         }
 
         material.SetFloat(DissolveFade_Hash, 0.0f);
-
+        
         gameObject.SetActive(false);
     }
 }
