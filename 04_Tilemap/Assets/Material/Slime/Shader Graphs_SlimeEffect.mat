@@ -48,14 +48,14 @@ Material:
     - _OutlineThickness: 0
     - _PhaseFade: 0.5
     - _PhaseSplit: 0
-    - _PhaseThickness: 0.01
+    - _PhaseThickness: 0.05
     - _Ratio: 0.5
     - _Scale: 40
     - _Split: 0.5
     - _Thickness: 0.005
     m_Colors:
     - _DissolveColor: {r: 2.270603, g: 0.5187576, b: 0.31060144, a: 0}
-    - _OutlineColor: {r: 4, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 2.700217, g: 0, b: 0, a: 0}
     - _PhaseColor: {r: 0, g: 3.283019, b: 2.629166, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5910435228252239011

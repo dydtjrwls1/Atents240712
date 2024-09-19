@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
     // 필요 컴포넌트
     Rigidbody2D rigid;
     Animator animator;
+    // AttackSensor 의 축
+    Transform attackSensorAxis;
 
     // 남은 공격 쿨타임
     float remainsAttackCoolDown = 0.0f;
@@ -41,6 +44,17 @@ public class Player : MonoBehaviour
         inputActions = new PlayerInputActions();
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        attackSensorAxis = transform.GetChild(0);
+        AttackSensor sensor = attackSensorAxis.GetComponentInChildren<AttackSensor>();
+        sensor.onSlimeEnter += (slime) =>
+        {
+            slime.ShowOutline(true);
+        };
+        sensor.onSlimeExit += (slime) =>
+        {
+            slime.ShowOutline(false);
+        };
 
         currentSpeed = speed;
     }
@@ -74,6 +88,7 @@ public class Player : MonoBehaviour
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
         inputDirection = context.ReadValue<Vector2>();                               // 입력 받은 방향 저장
+        AttackSensorRotate(inputDirection);
 
         animator.SetFloat(InputX_Hash, inputDirection.x);                            // 방향 애니메이터에 전달
         animator.SetFloat(InputY_Hash, inputDirection.y);
@@ -101,10 +116,21 @@ public class Player : MonoBehaviour
         animator.SetTrigger(Attack_Hash);                                             // 애니메이터에 공격 알림
         remainsAttackCoolDown = attackCoolDown;                                       // 공격 쿨타임 초기화
         currentSpeed = 0.0f;
+        
     }
 
     public void RestoreSpeed()
     {
         currentSpeed = speed;
+    }
+
+    /// <summary>
+    /// 입력 방향에 따라 AttackSensor를 회전시키는 함수
+    /// </summary>
+    /// <param name="direction"></param>
+    void AttackSensorRotate(Vector2 direction)
+    {
+        if (direction.sqrMagnitude < 0.01f) return;
+        attackSensorAxis.up = -direction;
     }
 }
