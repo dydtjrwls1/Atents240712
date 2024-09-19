@@ -24,6 +24,11 @@ public class Player : MonoBehaviour
     // AttackSensor 의 축
     Transform attackSensorAxis;
 
+    // 지금 공격이 유효한 상태인지 확인하는 변수
+    bool isAttackValid = false;
+    // 현재 공격 범위 내에 있는 모든 slime의 목록
+    List<Slime> attackTargetList;
+
     // 남은 공격 쿨타임
     float remainsAttackCoolDown = 0.0f;
 
@@ -49,13 +54,23 @@ public class Player : MonoBehaviour
         AttackSensor sensor = attackSensorAxis.GetComponentInChildren<AttackSensor>();
         sensor.onSlimeEnter += (slime) =>
         {
+            if (isAttackValid) // 공격이 유효할 때 범위 내에 들어올 경우 바로 사망
+            {
+                slime.Die();
+            }
+            else
+            {
+                attackTargetList.Add(slime); // 공격이 유효하지 않으면 일단 List에 추가
+            }
             slime.ShowOutline(true);
         };
         sensor.onSlimeExit += (slime) =>
         {
             slime.ShowOutline(false);
+            attackTargetList.Remove(slime);
         };
 
+        attackTargetList = new List<Slime>(4);
         currentSpeed = speed;
     }
 
@@ -132,5 +147,23 @@ public class Player : MonoBehaviour
     {
         if (direction.sqrMagnitude < 0.01f) return;
         attackSensorAxis.up = -direction;
+    }
+
+    /// <summary>
+    /// 공격 애니메이션 진행 중에 공격이 유효해지면 애니메이션 이벤트로 실행할 함수
+    /// </summary>
+    void AttackValid()
+    {
+        isAttackValid = true;
+        foreach(var slime in attackTargetList)
+        {
+            slime.Die();
+        }
+        attackTargetList.Clear();
+    }
+
+    void AttackNotValid()
+    {
+        isAttackValid = false;
     }
 }
