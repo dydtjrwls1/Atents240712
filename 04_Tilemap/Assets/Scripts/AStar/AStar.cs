@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,12 +23,44 @@ public static class AStar
     {
         List<Vector2Int> path = null;
 
+        List<Node> openList = new List<Node>();
+        List<Node> closeList = new List<Node>();
+
+        Node current = map.GetNode(start);
+        closeList.Add(current);
+        path.Add(start);
+
+
+
+        // 주위 노드를 openlist 에 넣는다
+        Vector2Int currentGrid = new(current.X, current.Y);
+
+        for (int i = -1; i < 2; i++)
+        {
+            for (int j = -1; j < 2; j++)
+            {
+                if (i == 0 && j == 0) continue;
+
+                Vector2Int nodeGrid = new(current.X + i, current.Y + j);
+                
+                if (map.IsPlain(nodeGrid))
+                {
+                    
+                    openList.Add(map.GetNode(nodeGrid));
+                }
+            }
+        }
+        // 주위 노드의 f(x) 값을 구한다
+
         return path;
     }
+
+    
 
     // A* 알고리즘의 휴리스틱 값 계산하는 함수 ( 현재 위치에서 목적지 까지의 예상거리 )
     private static float GetHeuristic(Node current, Vector2Int end)
     {
+
         return 0;
     }
 }

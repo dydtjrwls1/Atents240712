@@ -45,6 +45,9 @@ public class Test09_AStarGridMap : TestBase
 
     void PrintList(List<Vector2Int> list)
     {
-
+        foreach(Vector2Int item in list)
+        {
+            Debug.Log(item);
+        }
     }
 }
