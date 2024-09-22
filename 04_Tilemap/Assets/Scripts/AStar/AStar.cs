@@ -34,7 +34,6 @@ public static class AStar
 
         Node current = map.GetNode(start);
         closeList.Add(current);
-        path.Add(start);
 
         bool isDiagonal = true;
 
@@ -87,13 +86,18 @@ public static class AStar
             closeList.Add(current);
         }
         
-        foreach(Node node in closeList)
+        //foreach(Node node in closeList)
+        //{
+        //    Debug.Log($"{node.X}, {node.Y}");
+        //    Debug.Log($"F = {node.F}");
+        //}
+
+        while(current.prev != null)
         {
-            Debug.Log($"{node.X}, {node.Y}");
-            Debug.Log($"F = {node.F}");
+            Vector2Int currentPath = new(current.X, current.Y);
+            path.Add(currentPath);
+            current = current.prev;
         }
-
-
         
 
         // 주위 노드의 f(x) 값을 구한다
