@@ -105,6 +105,13 @@ public class GridMap
         return result;
     }
 
+    // 테스트 용
+    public int GridToIndex(Vector2Int grid)
+    {
+        GridToIndex(grid.x, grid.y, out int? index);
+        return index.Value;
+    }
+
     // 인덱스를 그리드 좌표로 변경해주는 함수
     public Vector2Int IndexToGrid(int index)
     {
@@ -123,5 +130,8 @@ public class GridMap
         return x < width && y < height && x > -1 && y > -1;
     }
 
-    
+    public bool IsValidPosition(Vector2Int grid)
+    {
+        return IsValidPosition(grid.x, grid.y);
+    }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,11 +44,17 @@ public class Test09_AStarGridMap : TestBase
         PrintList(path);
     }
 
+    // 경로 출력용 함수
     void PrintList(List<Vector2Int> list)
     {
-        foreach(Vector2Int item in list)
+        StringBuilder sb = new StringBuilder();
+
+        foreach(Vector2Int p in list)
         {
-            Debug.Log(item);
+            sb.Append($"{map.GridToIndex(p)} => ");
         }
+
+        sb.Append("End");
+        Debug.Log(sb.ToString());
     }
 }
