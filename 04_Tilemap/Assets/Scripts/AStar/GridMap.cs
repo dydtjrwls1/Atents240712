@@ -30,6 +30,9 @@ public class GridMap
         }
     }
 
+    // 상속받은 클래스에서 따로 생성자를 만들기 위해 선언
+    protected GridMap() { }
+
     // 특정 위치의 노트타입을 확인하는 함수 (true 면 평지, false 면 평지가 아니다)
     public bool IsPlain(int x, int y)
     {

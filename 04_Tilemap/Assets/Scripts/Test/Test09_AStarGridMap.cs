@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public class Test09_AStarGridMap : TestBase
 {
@@ -12,6 +13,8 @@ public class Test09_AStarGridMap : TestBase
     public Vector2Int end;
 
     GridMap map;
+
+    
 
     private void Start()
     {
@@ -36,6 +39,8 @@ public class Test09_AStarGridMap : TestBase
 
         start = map.IndexToGrid(22);
         end = map.IndexToGrid(34);
+
+        
     }
 
     protected override void Test1_performed(InputAction.CallbackContext context)
@@ -43,6 +48,8 @@ public class Test09_AStarGridMap : TestBase
         List<Vector2Int> path = AStar.PathFind(map, start, end);
         PrintList(path);
     }
+
+    
 
     // 경로 출력용 함수
     void PrintList(List<Vector2Int> list)
