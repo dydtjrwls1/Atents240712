@@ -29,6 +29,8 @@ public class Slime : RecycleObject
     // 슬라임 이동 활성화 변수(true => 이동 | false => 정지)
     bool isMoveActivate = false;
 
+    float pathWaitTime = 0.0f;
+
     Node Current
     {
         get => current;
@@ -49,6 +51,9 @@ public class Slime : RecycleObject
 
     // 이동 속도
     public float moveSpeed = 2.0f;
+
+    // 다른 슬라임으로 인해 경로가 막혔을 경우 최대 대기 시간
+    public float maxPathWaitTime = 1.0f;
 
     [Range(0f, 1f)]
     public float outlineThickness = 0.005f;
@@ -99,27 +104,37 @@ public class Slime : RecycleObject
     {
         if (isMoveActivate)
         {
-            if (path != null && path.Count > 0)
+            // path 가 있다 && path 의 개수가 1개 이상이다 && 충분히 기다리지 않았다면
+            if (path != null && path.Count > 0 && pathWaitTime < maxPathWaitTime)
             {
                 Vector2Int destinationGrid = path[0];
-
-                Vector3 destinationPos = map.GridToWorld(destinationGrid);
-                Vector3 direction = destinationPos - transform.position;
-
-                if (direction.sqrMagnitude < 0.001f)
+                if (!map.IsSlime(destinationGrid) || map.GetNode(destinationGrid) == Current) // 목적지가 슬라임이 아니거나 목적지 노드가 내가 있는 노드라면 이동한다.
                 {
-                    // 도착했다
-                    transform.position = destinationPos;
-                    path.RemoveAt(0);
+                    Vector3 destinationPos = map.GridToWorld(destinationGrid);
+                    Vector3 direction = destinationPos - transform.position;
+
+                    if (direction.sqrMagnitude < 0.001f)
+                    {
+                        // 도착했다
+                        transform.position = destinationPos;
+                        path.RemoveAt(0);
+                    }
+                    else
+                    {
+                        transform.Translate(Time.deltaTime * moveSpeed * direction.normalized);
+                        Current = map.GetNode(transform.position);
+                    }
+
+                    pathWaitTime = 0.0f;
                 }
                 else
                 {
-                    transform.Translate(Time.deltaTime * moveSpeed * direction.normalized);
-                    Current = map.GetNode(transform.position);
+                    pathWaitTime += Time.deltaTime;
                 }
             }
             else
             {
+                pathWaitTime = 0.0f;
                 SetDestination(map.GetRandomMovablePosition());
             }
         }

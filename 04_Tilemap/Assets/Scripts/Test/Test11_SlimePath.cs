@@ -9,6 +9,7 @@ public class Test11_SlimePath : TestBase
     public Tilemap background;
     public Tilemap obstacle;
     public Slime slime;
+    public Slime blockSlime;
 
     TileGridMap map;
 
@@ -16,6 +17,9 @@ public class Test11_SlimePath : TestBase
     {
         map = new TileGridMap(background, obstacle);
         slime.Initialized(map, slime.transform.position);
+        blockSlime.Initialized(map, blockSlime.transform.position);
+        slime.ShowPath(true);
+        blockSlime.ShowPath(false);
     }
 
     protected override void LClick_performed(InputAction.CallbackContext context)
@@ -23,7 +27,7 @@ public class Test11_SlimePath : TestBase
         Vector2 screen = Mouse.current.position.ReadValue();
         Vector3 world = Camera.main.ScreenToWorldPoint(screen);
 
-        slime.ShowPath(true);
+        
         slime.SetDestination(world);
     }
 
@@ -32,5 +36,10 @@ public class Test11_SlimePath : TestBase
         Vector2Int destination = map.GetRandomMovablePosition();
 
         slime.SetDestination(destination);
+    }
+
+    protected override void Test2_performed(InputAction.CallbackContext context)
+    {
+        blockSlime.moveSpeed = 2.0f;
     }
 }
