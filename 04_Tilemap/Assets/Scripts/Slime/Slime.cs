@@ -1,11 +1,54 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Slime : RecycleObject
 {
     Material material;
+
+    // 슬라임이 움직일 그리드 맵
+    TileGridMap map;
+
+    // 슬라임이 이동할 경로를 그려줄 객체
+    PathLine pathLine;
+
+    // 이 슬라임이 위치한 노드
+    Node current = null;
+
+    // 슬라임이 이동할 경로
+    List<Vector2Int> path;
+
+    // 현재 슬라임의 위치를 그리드 좌표로 알려주는 프로퍼티
+    Vector2Int GridPosition => map.WorldToGrid(transform.position);
+
+    // 이동 경로를 보여줄지 결정하는 변수
+    bool isShowPath = false;
+
+    // 슬라임 이동 활성화 변수(true => 이동 | false => 정지)
+    bool isMoveActivate = false;
+
+    Node Current
+    {
+        get => current;
+        set
+        {
+            if(current != value) // current 에 변화가 있을 때
+            {
+                if(current != null) // current에 이미 다른 노드가 할당 되어 있다면
+                    current.nodeType = Node.NodeType.Plain; // 노드를 Plain으로 변경한다
+
+                current = value; // current 를 새 노드로 바꾼다
+
+                if(current != null) // 새 노드가 null 이 아니라면
+                    current.nodeType = Node.NodeType.Slime; // 노드 타입을 슬라임으로 바꾼다.
+            }
+        }
+    }
+
+    // 이동 속도
+    public float moveSpeed = 2.0f;
 
     [Range(0f, 1f)]
     public float outlineThickness = 0.005f;
@@ -25,11 +68,61 @@ public class Slime : RecycleObject
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         material = spriteRenderer.material;
+        pathLine = GetComponentInChildren<PathLine>();
+        path = new List<Vector2Int>();
     }
 
     protected override void OnDisable()
     {
+        path.Clear();
+        pathLine.ClearPath();
+
         base.OnDisable();
+    }
+
+    private void Update()
+    {
+        MoveUpdate();
+    }
+
+    // 슬라임 초기화 함수 (풀에서 꺼낸 직후 실행한다.)
+    public void Initialized(TileGridMap map, Vector3 worldPos)
+    {
+        this.map = map;
+        transform.position = map.GridToWorld(map.WorldToGrid(worldPos)); // WorldPos가 있는 셀의 가운데 위치에 배치
+
+        Current = map.GetNode(worldPos);
+    }
+
+    // 이동 처리 함수
+    private void MoveUpdate()
+    {
+        if (isMoveActivate)
+        {
+            if (path != null && path.Count > 0)
+            {
+                Vector2Int destinationGrid = path[0];
+
+                Vector3 destinationPos = map.GridToWorld(destinationGrid);
+                Vector3 direction = destinationPos - transform.position;
+
+                if (direction.sqrMagnitude < 0.001f)
+                {
+                    // 도착했다
+                    transform.position = destinationPos;
+                    path.RemoveAt(0);
+                }
+                else
+                {
+                    transform.Translate(Time.deltaTime * moveSpeed * direction.normalized);
+                    Current = map.GetNode(transform.position);
+                }
+            }
+            else
+            {
+                SetDestination(map.GetRandomMovablePosition());
+            }
+        }
     }
 
     protected override void OnReset()
@@ -38,6 +131,7 @@ public class Slime : RecycleObject
         ShowOutline(false);
         material.SetFloat(DissolveFade_Hash, 1.0f);
         material.SetFloat(PhaseThickness_Hash, phaseThickness);
+        isMoveActivate = false;
         StartCoroutine(Phase());
     }
 
@@ -55,6 +149,7 @@ public class Slime : RecycleObject
 
         material.SetFloat(PhaseSplit_Hash, 0.0f);
         material.SetFloat(PhaseThickness_Hash, 0.0f);
+        isMoveActivate = true;
     }
 
     /// <summary>
@@ -71,6 +166,7 @@ public class Slime : RecycleObject
     public void Die()
     {
         // Dissolve
+        isMoveActivate = false;
         StartCoroutine(Dissolve());
     }
 
@@ -89,5 +185,40 @@ public class Slime : RecycleObject
         material.SetFloat(DissolveFade_Hash, 0.0f);
         
         gameObject.SetActive(false);
+    }
+
+    // 그리드 좌표로 슬라임의 목적지를 지정하는 함수
+    public void SetDestination(Vector2Int destination)
+    {
+        path = AStar.PathFind(map, GridPosition, destination);
+        if (isShowPath)
+        {
+            pathLine.DrawPath(map, path);
+        }
+    }
+
+    // 월드좌표로 슬라임의 목적지를 지정하는 함수
+    public void SetDestination(Vector3 destination)
+    {
+        Vector2Int grid = map.WorldToGrid(destination);
+        if (map.IsValidPosition(grid) && map.IsPlain(grid))
+        {
+            SetDestination(grid);
+        }
+        
+    }
+
+    // 경로 시각화 결정 함수
+    public void ShowPath(bool isShow = false)
+    {
+        isShowPath = isShow;
+        if (isShowPath)
+        {
+            pathLine.DrawPath(map, path);
+        }
+        else
+        {
+            pathLine.ClearPath();
+        }
     }
 }
