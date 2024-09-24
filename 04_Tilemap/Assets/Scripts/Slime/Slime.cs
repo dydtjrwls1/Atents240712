@@ -17,6 +17,8 @@ public class Slime : RecycleObject
     // 이 슬라임이 위치한 노드
     Node current = null;
 
+   
+
     // 슬라임이 이동할 경로
     List<Vector2Int> path;
 
