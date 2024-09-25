@@ -14,10 +14,13 @@ public class Slime : RecycleObject
     // 슬라임이 이동할 경로를 그려줄 객체
     PathLine pathLine;
 
+    SpriteRenderer spriteRenderer;
+
     // 이 슬라임이 위치한 노드
     Node current = null;
 
-   
+    // 이 슬라임이 생성 된 풀
+    Transform pool;
 
     // 슬라임이 이동할 경로
     List<Vector2Int> path;
@@ -32,6 +35,10 @@ public class Slime : RecycleObject
     bool isMoveActivate = false;
 
     float pathWaitTime = 0.0f;
+
+    public Action onDie = null;
+
+    // pool 에 단 한번만 값을 설정하는 프로퍼티
 
     Node Current
     {
@@ -73,16 +80,17 @@ public class Slime : RecycleObject
 
     private void Awake()
     {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         material = spriteRenderer.material;
         pathLine = GetComponentInChildren<PathLine>();
         path = new List<Vector2Int>();
+
+        pool = transform.parent;
     }
 
     protected override void OnDisable()
     {
-        path.Clear();
-        pathLine.ClearPath();
+        
 
         base.OnDisable();
     }
@@ -110,6 +118,7 @@ public class Slime : RecycleObject
             if (path != null && path.Count > 0 && pathWaitTime < maxPathWaitTime)
             {
                 Vector2Int destinationGrid = path[0];
+
                 if (!map.IsSlime(destinationGrid) || map.GetNode(destinationGrid) == Current) // 목적지가 슬라임이 아니거나 목적지 노드가 내가 있는 노드라면 이동한다.
                 {
                     Vector3 destinationPos = map.GridToWorld(destinationGrid);
@@ -127,10 +136,14 @@ public class Slime : RecycleObject
                         Current = map.GetNode(transform.position);
                     }
 
+                    // 아래쪽에 있는 슬라임이 위에 그려지게 하기
+                    spriteRenderer.sortingOrder = -Mathf.FloorToInt(transform.position.y * 100f);
+
                     pathWaitTime = 0.0f;
                 }
                 else
                 {
+                    Debug.Log($"name : {gameObject.name} Current : ({Current.X},{Current.Y}) destination : {path[0]}");
                     pathWaitTime += Time.deltaTime;
                 }
             }
@@ -140,6 +153,7 @@ public class Slime : RecycleObject
                 SetDestination(map.GetRandomMovablePosition());
             }
         }
+        
     }
 
     protected override void OnReset()
@@ -183,6 +197,7 @@ public class Slime : RecycleObject
     public void Die()
     {
         // Dissolve
+        onDie?.Invoke();
         isMoveActivate = false;
         StartCoroutine(Dissolve());
     }
@@ -200,8 +215,8 @@ public class Slime : RecycleObject
         }
 
         material.SetFloat(DissolveFade_Hash, 0.0f);
-        
-        gameObject.SetActive(false);
+
+        ReturnToPool();
     }
 
     // 그리드 좌표로 슬라임의 목적지를 지정하는 함수
@@ -237,5 +252,16 @@ public class Slime : RecycleObject
         {
             pathLine.ClearPath();
         }
+    }
+
+    public void ReturnToPool()
+    {
+        transform.SetParent(pool);      // 부모를 pool 로 재설정
+        Current = null;                 // Current 비우기
+
+        path.Clear();                   // 경로 제거
+        pathLine.ClearPath();           
+
+        gameObject.SetActive(false);
     }
 }

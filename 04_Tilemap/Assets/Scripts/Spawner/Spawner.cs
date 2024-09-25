@@ -36,6 +36,10 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         mapArea = GetComponentInParent<MapArea>();
+    }
+
+    private void Start()
+    {
         spawnAreaList = mapArea.CalcSpawnArea(transform.position, size);
     }
 
@@ -43,7 +47,7 @@ public class Spawner : MonoBehaviour
     {
         if(count < capacity)
         {
-            elapsedTime = Time.deltaTime;
+            elapsedTime += Time.deltaTime;
             if(elapsedTime > interval)
             {
                 Spawn();
@@ -58,6 +62,15 @@ public class Spawner : MonoBehaviour
         {
             Slime slime = Factory.Instance.GetSlime(spawnPosition);
             slime.Initialized(mapArea.GridMap, spawnPosition);
+            slime.transform.parent = transform;
+            if(slime.onDie == null)
+            {
+                slime.onDie += () =>
+                {
+                    count--;
+                };
+            }
+
             count++;
         }
     }

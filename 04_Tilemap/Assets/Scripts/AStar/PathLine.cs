@@ -9,6 +9,9 @@ public class PathLine : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+
+        lineRenderer.startColor = new Color(Random.value, 0, Random.value);
+        lineRenderer.endColor = lineRenderer.startColor;
     }
 
     public void DrawPath(TileGridMap map, List<Vector2Int> path)
@@ -16,7 +19,7 @@ public class PathLine : MonoBehaviour
         if(map != null && path != null)
         {
             lineRenderer.positionCount = path.Count; // 경로 개수만큼 위치 추가
-
+            
             int index = 0;
             foreach(Vector2Int p in path)
             {
