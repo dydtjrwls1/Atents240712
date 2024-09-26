@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Apple;
 
 public class Slime : RecycleObject
 {
@@ -39,7 +41,6 @@ public class Slime : RecycleObject
     public Action onDie = null;
 
     // pool 에 단 한번만 값을 설정하는 프로퍼티
-
     Node Current
     {
         get => current;
@@ -90,8 +91,6 @@ public class Slime : RecycleObject
 
     protected override void OnDisable()
     {
-        
-
         base.OnDisable();
     }
 
@@ -259,7 +258,7 @@ public class Slime : RecycleObject
         transform.SetParent(pool);      // 부모를 pool 로 재설정
         Current = null;                 // Current 비우기
 
-        path.Clear();                   // 경로 제거
+        path?.Clear();                   // 경로 제거
         pathLine.ClearPath();           
 
         gameObject.SetActive(false);

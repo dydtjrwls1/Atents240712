@@ -48,6 +48,6 @@ public class MapArea : MonoBehaviour
 
     public Vector2 GridToWorld(int x, int y)
     {
-        return gridMap.WorldToGrid(new(x, y));
+        return gridMap.GridToWorld(new(x, y));
     }
 }

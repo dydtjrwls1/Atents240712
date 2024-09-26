@@ -204,4 +204,64 @@ public class SubmapManager : MonoBehaviour
         Vector2 offset = (Vector2)world - worldOrigin;
         return new Vector2Int((int)(offset.x / SubmapWidthSize), (int)(offset.y / SubmapHeightSize));
     }
+
+    // 지정된 위치 주변 맵은 로딩요청하고 그 외의맵은 로딩해제를 요청한다
+    void RefeshScenes(int subX, int subY)
+    {
+        // (0, 0) ~ (WidthCount, HeightCount) 사이만 범위로 설정
+        int startX = Mathf.Max(0, subX - 1);
+        int endX = Mathf.Min(WidthCount, subX + 2);
+        int startY = Mathf.Max(0, subY - 1);
+        int endY = Mathf.Min(HeighCount, subY + 2);
+
+        List<Vector2Int> opens = new List<Vector2Int>(9);
+        for(int y = startY; y < endY; y++)
+        {
+            for(int x  = startX; x < endX; x++)
+            {
+                RequestAsyncSceneLoad(x, y);        // start ~ end 안에 있는 것은 모두 로딩 요청
+                opens.Add(new Vector2Int(x, y));
+            }
+        }
+
+        for(int y = 0; y < HeighCount; y++)
+        {
+            for(int x = 0; x < WidthCount; x++)
+            {
+                if (!opens.Contains(new Vector2Int(x, y)))
+                {
+                    RequestAsyncSceneUnload(x, y);  // 로딩 요청된 씬 제외하고 모두 로드 해제
+                }
+            }
+        }
+    }
+
+#if UNITY_EDITOR
+    public void Test_LoadScene(int x, int y)
+    {
+        RequestAsyncSceneLoad(x, y);
+    }
+
+    public void Test_UnloadScene(int x, int y)
+    {
+        RequestAsyncSceneUnload(x, y);
+    }
+
+    public void Test_UnloadAll()
+    {
+        for(int y = 0; y < HeighCount; y++)
+        {
+            for(int x = 0; x < WidthCount; x++)
+            {
+                RequestAsyncSceneUnload(x, y);
+            }
+        }
+    }
+
+    public void Test_RefreshScenes(int x, int y)
+    {
+        RefeshScenes(x, y);
+    }
+#endif
+
 }

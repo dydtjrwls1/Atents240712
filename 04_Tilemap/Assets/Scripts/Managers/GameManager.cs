@@ -8,6 +8,8 @@ public class GameManager : SingleTon<GameManager>
 
     SubmapManager submapManager;
 
+    public SubmapManager SubmapManager => submapManager;
+
     public Player Player
     {
         get
