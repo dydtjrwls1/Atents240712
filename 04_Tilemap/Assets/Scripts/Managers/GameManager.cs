@@ -6,6 +6,8 @@ public class GameManager : SingleTon<GameManager>
 {
     Player player;
 
+    SubmapManager submapManager;
+
     public Player Player
     {
         get
@@ -22,5 +24,13 @@ public class GameManager : SingleTon<GameManager>
     protected override void OnInitialize()
     {
         player = FindAnyObjectByType<Player>();
+        submapManager.Initialize();
+    }
+
+    protected override void OnPreInitialize()
+    {
+        base.OnPreInitialize();
+        submapManager = GetComponent<SubmapManager>();
+        submapManager.PreInitialize();
     }
 }
