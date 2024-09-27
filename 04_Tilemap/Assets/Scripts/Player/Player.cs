@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEditor.TextCore.Text;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public class Player : MonoBehaviour
 
     // 공격 쿨타임
     public float attackCoolDown = 1.0f;
+
+    // 플레이어 최대 수명
+    public float maxLifeTime = 100.0f;
 
     // 입력받은 방향
     Vector2 inputDirection = Vector2.zero;
@@ -23,26 +27,59 @@ public class Player : MonoBehaviour
     Animator animator;
     // AttackSensor 의 축
     Transform attackSensorAxis;
+    
+    // 현재 공격 범위 내에 있는 모든 slime의 목록
+    List<Slime> attackTargetList;
+
+    // 플레이어가 살아있는지 표시하는 변수
+    bool isAlive = true;
 
     // 지금 공격이 유효한 상태인지 확인하는 변수
     bool isAttackValid = false;
-    // 현재 공격 범위 내에 있는 모든 slime의 목록
-    List<Slime> attackTargetList;
 
     // 남은 공격 쿨타임
     float remainsAttackCoolDown = 0.0f;
 
-    // 공격 가능 여부 프로퍼티 ( 쿨타임이 다 되면 true, 안 됐으면 false )
-    bool IsAttackReady => remainsAttackCoolDown < 0;
+    // 플레이어 현재 수명
+    float lifeTime;
 
     // 현재 속도
     float currentSpeed = 3.0f;
+
+    public float MaxLifeTime => maxLifeTime;
+
+    float LifeTime
+    {
+        get => lifeTime;
+        set
+        {
+            lifeTime = value;
+            if(isAlive && lifeTime < 0.0f)
+            {
+                // 플레이어 사망
+                Die();
+            }
+            else
+            {
+                lifeTime = Mathf.Clamp(lifeTime, 0.0f, maxLifeTime);
+                onLifeTimeChange?.Invoke(lifeTime / MaxLifeTime);
+            }
+        }
+    }
+
+    // 공격 가능 여부 프로퍼티 ( 쿨타임이 다 되면 true, 안 됐으면 false )
+    bool IsAttackReady => remainsAttackCoolDown < 0;
 
     // 애니메이터 해쉬값
     readonly int InputX_Hash = Animator.StringToHash("InputX");
     readonly int InputY_Hash = Animator.StringToHash("InputY");
     readonly int IsMove_Hash = Animator.StringToHash("IsMove");
     readonly int Attack_Hash = Animator.StringToHash("Attack");
+
+    public Action<Vector3> onMove = null;
+    // 플레이어의 수명이 변경되었을 경우 실행될 델리게이트(float : 현재 수명 / 최대 수명)
+    public Action<float> onLifeTimeChange = null;
+    public Action onDie = null;
 
     private void Awake()
     {
@@ -90,14 +127,21 @@ public class Player : MonoBehaviour
         inputActions.Player.Disable();
     }
 
+    private void Start()
+    {
+        LifeTime = MaxLifeTime;    
+    }
+
     private void Update()
     {
         remainsAttackCoolDown -= Time.deltaTime;
+        LifeTime -= Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
         rigid.MovePosition(rigid.position + Time.fixedDeltaTime * currentSpeed * inputDirection);
+        onMove?.Invoke(transform.position);
     }
 
     private void OnMove(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -165,5 +209,15 @@ public class Player : MonoBehaviour
     void AttackNotValid()
     {
         isAttackValid = false;
+    }
+
+    // 플레이어 사망처리 함수
+    private void Die()
+    {
+        isAlive = false;
+        LifeTime = 0.0f;
+        onLifeTimeChange?.Invoke(0.0f);
+        inputActions.Player.Disable();
+        onDie?.Invoke();
     }
 }

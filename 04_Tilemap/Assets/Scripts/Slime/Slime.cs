@@ -142,7 +142,7 @@ public class Slime : RecycleObject
                 }
                 else
                 {
-                    Debug.Log($"name : {gameObject.name} Current : ({Current.X},{Current.Y}) destination : {path[0]}");
+                    //Debug.Log($"name : {gameObject.name} Current : ({Current.X},{Current.Y}) destination : {path[0]}");
                     pathWaitTime += Time.deltaTime;
                 }
             }

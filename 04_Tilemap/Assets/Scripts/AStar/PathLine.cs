@@ -12,6 +12,7 @@ public class PathLine : MonoBehaviour
 
         lineRenderer.startColor = new Color(Random.value, 0, Random.value);
         lineRenderer.endColor = lineRenderer.startColor;
+        ClearPath();
     }
 
     public void DrawPath(TileGridMap map, List<Vector2Int> path)

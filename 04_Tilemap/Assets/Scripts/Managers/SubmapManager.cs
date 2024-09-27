@@ -64,6 +64,9 @@ public class SubmapManager : MonoBehaviour
         }
     }
 
+    // 플레이어가 있는 서브맵 그리드 좌표
+    Vector2Int playerGrid = Vector2Int.zero;
+
     private void Update()
     {
         // 완료된 작업은 작업 리스트에서 제외
@@ -118,6 +121,37 @@ public class SubmapManager : MonoBehaviour
         }
 
         // 플레이어 관련 초기화
+        Player player = GameManager.Instance.Player;
+        if(player != null)
+        {
+            // 플레이어가 이동 할 때의 처리
+            player.onMove += (world) =>
+            {
+                Vector2Int grid = WorldToGrid(world);
+                if(grid != playerGrid)              // 이동 결과 그리드가 변경되었으면
+                {
+                    RefreshScenes(grid.x, grid.y);  // 씬 갱신
+                    playerGrid = grid;
+                }
+            };
+
+            // 플레이어 사망 시 모든맵 언로드
+            player.onDie += () =>
+            {
+                for (int y = 0; y < HeighCount; y++)
+                {
+                    for (int x = 0; x < WidthCount; x++)
+                    {
+                        RequestAsyncSceneUnload(x, y);
+                    }
+                }
+            };
+
+            // 게임이 처음 시작할 때 맵을 한번 로딩한다
+            playerGrid = WorldToGrid(player.transform.position);
+            RequestAsyncSceneLoad(playerGrid.x, playerGrid.y); // 플레이어가 있는 서브맵을 최우선으로 요청
+            RefreshScenes(playerGrid.x, playerGrid.y);
+        }
     }
 
     /// <summary>
@@ -206,7 +240,7 @@ public class SubmapManager : MonoBehaviour
     }
 
     // 지정된 위치 주변 맵은 로딩요청하고 그 외의맵은 로딩해제를 요청한다
-    void RefeshScenes(int subX, int subY)
+    void RefreshScenes(int subX, int subY)
     {
         // (0, 0) ~ (WidthCount, HeightCount) 사이만 범위로 설정
         int startX = Mathf.Max(0, subX - 1);
@@ -260,7 +294,7 @@ public class SubmapManager : MonoBehaviour
 
     public void Test_RefreshScenes(int x, int y)
     {
-        RefeshScenes(x, y);
+        RefreshScenes(x, y);
     }
 #endif
 
