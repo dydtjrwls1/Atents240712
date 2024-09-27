@@ -67,6 +67,23 @@ public class Player : MonoBehaviour
         }
     }
 
+    // 플레이어가 죽인 슬라임의 수
+    int killCount = -1;
+
+    // 킬 카운트를 확인하고 설정하는 프로퍼티
+    public int KillCount
+    {
+        get => killCount;
+        set
+        {
+            if(killCount != value)
+            {
+                killCount = value;
+                onKillCountChange?.Invoke(killCount);   // 값의 변경이 있을 때만 알림
+            }
+        }
+    }
+
     // 공격 가능 여부 프로퍼티 ( 쿨타임이 다 되면 true, 안 됐으면 false )
     bool IsAttackReady => remainsAttackCoolDown < 0;
 
@@ -80,6 +97,9 @@ public class Player : MonoBehaviour
     // 플레이어의 수명이 변경되었을 경우 실행될 델리게이트(float : 현재 수명 / 최대 수명)
     public Action<float> onLifeTimeChange = null;
     public Action onDie = null;
+
+    // 플레이어가 킬을 할 때마다 실행되는 델리게이트
+    public Action<int> onKillCountChange = null;
 
     private void Awake()
     {
@@ -129,6 +149,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        KillCount = 0;
         LifeTime = MaxLifeTime;    
     }
 
@@ -201,6 +222,7 @@ public class Player : MonoBehaviour
         isAttackValid = true;
         foreach(var slime in attackTargetList)
         {
+            EnemyKill(slime.LifeTimeBonus);
             slime.Die();
         }
         attackTargetList.Clear();
@@ -219,5 +241,15 @@ public class Player : MonoBehaviour
         onLifeTimeChange?.Invoke(0.0f);
         inputActions.Player.Disable();
         onDie?.Invoke();
+    }
+
+    /// <summary>
+    /// 적을 죽였을 때 실행할 함수
+    /// </summary>
+    /// <param name="bonus">적 보너스(남은 시간 증가)</param>
+    void EnemyKill(float bonus)
+    {
+        lifeTime += bonus;
+        KillCount++;
     }
 }

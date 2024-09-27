@@ -59,6 +59,11 @@ public class Slime : RecycleObject
         }
     }
 
+    public float LifeTimeBonus => lifeTimeBonus;
+
+    // 슬라임이 죽을 때 플레이어에게 주는 수명 보너스
+    public float lifeTimeBonus = 2.0f;
+
     // 이동 속도
     public float moveSpeed = 2.0f;
 
