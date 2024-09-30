@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 7728738797324483137}
   - component: {fileID: 2203841287120262928}
   - component: {fileID: 33270629709614347}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -228,6 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   attackCoolDown: 1
+  maxLifeTime: 5
 --- !u!1 &5164387689247442362
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class KillCount : MonoBehaviour
 {
+    public float countingSpeed = 5.0f;
+
+    float target;
+    float current;
+
     ImageNumber imageNumber;
+
+
 
     private void Awake()
     {
@@ -19,9 +26,19 @@ public class KillCount : MonoBehaviour
         player.onKillCountChange += OnKillCountChange;
     }
 
+    private void Update()
+    {
+        current += Time.deltaTime * countingSpeed;
+        if(current > target)
+        {
+            current = target;
+        }
+        imageNumber.Number = Mathf.FloorToInt(current);
+    }
+
     private void OnKillCountChange(int killCount)
     {
-        imageNumber.Number = killCount;
+        target = killCount;
     }
 
     // 숫자의 증가 속도 조절

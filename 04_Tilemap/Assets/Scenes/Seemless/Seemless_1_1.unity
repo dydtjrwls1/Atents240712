@@ -1133,8 +1133,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 1060082212}
     m_Modifications:
     - target: {fileID: 4771747830667364980, guid: cba6be03e8230f64f9824c259f6c8933, type: 3}
+      propertyPath: capacity
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771747830667364980, guid: cba6be03e8230f64f9824c259f6c8933, type: 3}
       propertyPath: interval
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7556814961878574026, guid: cba6be03e8230f64f9824c259f6c8933, type: 3}
       propertyPath: m_Name

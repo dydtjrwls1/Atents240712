@@ -122,7 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c19c98e35bfac24fafd3d2d26f35e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeTimeBonus: 1
   moveSpeed: 2
+  maxPathWaitTime: 1
   outlineThickness: 0.005
   phaseThickness: 0.05
   phaseDuration: 0.5

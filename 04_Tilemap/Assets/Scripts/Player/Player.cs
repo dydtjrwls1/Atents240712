@@ -46,6 +46,10 @@ public class Player : MonoBehaviour
     // 현재 속도
     float currentSpeed = 3.0f;
 
+    float playTime = 0.0f;
+
+    public float PlayTime => playTime;
+
     public float MaxLifeTime => maxLifeTime;
 
     float LifeTime
@@ -113,6 +117,7 @@ public class Player : MonoBehaviour
         {
             if (isAttackValid) // 공격이 유효할 때 범위 내에 들어올 경우 바로 사망
             {
+                EnemyKill(slime.LifeTimeBonus);
                 slime.Die();
             }
             else
@@ -157,6 +162,10 @@ public class Player : MonoBehaviour
     {
         remainsAttackCoolDown -= Time.deltaTime;
         LifeTime -= Time.deltaTime;
+        if (isAlive)
+        {
+            playTime += Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
