@@ -89,9 +89,6 @@ MonoBehaviour:
     - model: {fileID: 0}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 0}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614683}
       id: 0
       isStickyNote: 0
@@ -110,12 +107,6 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614717}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614732}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614734}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 0}
       id: 0
       isStickyNote: 0
@@ -123,12 +114,6 @@ MonoBehaviour:
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614741}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614762}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614765}
       id: 0
       isStickyNote: 0
     - model: {fileID: 0}
@@ -214,15 +199,6 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614896}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614898}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614901}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 0}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 0}
       id: 0
       isStickyNote: 0
@@ -251,7 +227,7 @@ MonoBehaviour:
     x: 429
     y: -588
     width: 3293
-    height: 4550
+    height: 4525
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -804,7 +780,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614583}
   - {fileID: 8926484042661614585}
   dataType: 0
-  capacity: 32
+  capacity: 4
   stripCapacity: 16
   particlePerStripCount: 16
   needsComputeBounds: 0
@@ -4929,8 +4905,8 @@ MonoBehaviour:
   - {fileID: 8926484042661614739}
   - {fileID: 8926484042661614762}
   dataType: 1
-  capacity: 90000
-  stripCapacity: 1000
+  capacity: 13500
+  stripCapacity: 150
   particlePerStripCount: 90
   needsComputeBounds: 0
   boundsMode: 0
@@ -7780,7 +7756,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 250
+      m_SerializableObject: 100
     m_Space: 2147483647
   m_Property:
     name: attractionSpeed
@@ -7814,7 +7790,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 200
+      m_SerializableObject: 30
     m_Space: 2147483647
   m_Property:
     name: attractionForce
