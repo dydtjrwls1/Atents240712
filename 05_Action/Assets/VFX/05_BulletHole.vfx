@@ -65,9 +65,6 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614941}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614990}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661615006}
       id: 0
       isStickyNote: 0
@@ -86,22 +83,7 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614946}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661615044}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614973}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661615051}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614977}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661615054}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661615067}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661615061}
@@ -111,18 +93,6 @@ MonoBehaviour:
       id: 2
       isStickyNote: 0
     - model: {fileID: 8926484042661614979}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661615070}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614987}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661615072}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661615075}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661615001}
@@ -160,15 +130,6 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614887}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614909}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614901}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614917}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614894}
       id: 0
       isStickyNote: 0
@@ -184,18 +145,6 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614680}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614748}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614758}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614770}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614873}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614850}
       id: 0
       isStickyNote: 0
@@ -205,13 +154,7 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614711}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614880}
-      id: 0
-      isStickyNote: 0
     - model: {fileID: 8926484042661614675}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614724}
       id: 0
       isStickyNote: 0
     - model: {fileID: 8926484042661614730}
@@ -226,7 +169,7 @@ MonoBehaviour:
   stickyNoteInfos: []
   categories:
   - name: Main
-    collapsed: 0
+    collapsed: 1
   - name: Hole
     collapsed: 1
   - name: Debris
@@ -558,7 +501,9 @@ MonoBehaviour:
   m_Label: Spawn system
   m_Data: {fileID: 8926484042661614595}
   m_InputFlowSlot:
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661615080}
+      slotIndex: 0
   - link: []
   m_OutputFlowSlot:
   - link:
@@ -2825,7 +2770,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614674}
   m_ExposedName: BaseColor
   m_Exposed: 1
-  m_Order: 6
+  m_Order: 5
   m_Category: Main
   m_Min:
     m_Type:
@@ -2922,7 +2867,9 @@ MonoBehaviour:
   m_Label: Spawn system
   m_Data: {fileID: 8926484042661614676}
   m_InputFlowSlot:
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661615080}
+      slotIndex: 0
   - link: []
   m_OutputFlowSlot:
   - link:
@@ -6140,7 +6087,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614851}
   m_ExposedName: DebrisPower
   m_Exposed: 1
-  m_Order: 7
+  m_Order: 6
   m_Category: Debris
   m_Min:
     m_Type:
@@ -7575,7 +7522,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614895}
   m_ExposedName: DebrisTexture
   m_Exposed: 1
-  m_Order: 8
+  m_Order: 7
   m_Category: Debris
   m_Min:
     m_Type:
@@ -7655,7 +7602,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614897}
   m_ExposedName: DebrisNormal
   m_Exposed: 1
-  m_Order: 9
+  m_Order: 8
   m_Category: Debris
   m_Min:
     m_Type:
@@ -8618,7 +8565,9 @@ MonoBehaviour:
   m_Label: Spawn system
   m_Data: {fileID: 8926484042661614942}
   m_InputFlowSlot:
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661615080}
+      slotIndex: 0
   - link: []
   m_OutputFlowSlot:
   - link:
@@ -9674,7 +9623,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614995}
   m_ExposedName: DustPower
   m_Exposed: 1
-  m_Order: 10
+  m_Order: 9
   m_Category: Dust
   m_Min:
     m_Type:
@@ -11638,7 +11587,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615062}
   m_ExposedName: DustTexture
   m_Exposed: 1
-  m_Order: 11
+  m_Order: 10
   m_Category: Dust
   m_Min:
     m_Type:
@@ -12237,7 +12186,13 @@ MonoBehaviour:
   m_InputFlowSlot:
   - link: []
   m_OutputFlowSlot:
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661614555}
+      slotIndex: 0
+    - context: {fileID: 8926484042661614675}
+      slotIndex: 0
+    - context: {fileID: 8926484042661614941}
+      slotIndex: 0
   eventName: OnStart
 --- !u!114 &8926484042661615081
 MonoBehaviour:
