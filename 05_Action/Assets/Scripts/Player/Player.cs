@@ -3,28 +3,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerInputController), typeof(PlayerMovement), typeof(PlayerAttack))]
 public class Player : MonoBehaviour
 {
-    CharacterController characterController;
+    CharacterController m_CharacterController;
 
-    PlayerInputController inputController;
+    PlayerInputController m_PlayerInputController;
 
-    // 입력된 이동방향
-    Vector3 inputDirection = Vector3.zero;
+    PlayerMovement m_PlayerMovement;
+
+    PlayerAttack m_PlayerAttack;
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        m_CharacterController = GetComponent<CharacterController>();
 
-        inputController = GetComponent<PlayerInputController>();
-        inputController.onMove += OnMoveInput;
-        inputController.onMoveModeChange += OnMoveModeChange;
+        m_PlayerInputController = GetComponent<PlayerInputController>();
+        m_PlayerInputController.onMove += OnMoveInput;
+        m_PlayerInputController.onMoveModeChange += OnMoveModeChange;
+
+        m_PlayerMovement = GetComponent<PlayerMovement>();
+        m_PlayerInputController.onMove += m_PlayerMovement.SetDirection;
+        m_PlayerInputController.onMoveModeChange += m_PlayerMovement.ToggleMoveMode;
+
+        m_PlayerAttack = GetComponent<PlayerAttack>();
+        m_PlayerInputController.onAttack += m_PlayerAttack.OnAttackInput;
     }
 
     // Update is called once per frame
     void Update()
     {
-        characterController.Move(Time.deltaTime * inputDirection); // 수동 움직임
+        // m_CharacterController.Move(Time.deltaTime * inputDirection); // 수동 움직임
         // characterController.SimpleMove(inputDirection); // 자동 움직임
     }
 

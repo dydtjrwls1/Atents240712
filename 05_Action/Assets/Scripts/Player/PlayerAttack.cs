@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(Animator))]
+public class PlayerAttack : MonoBehaviour
+{
+    // 애니메이션 재생 시간
+    const float AttackAnimationLength = 0.533f;
+
+    // 쿨타임 설정용 변수(콤보를 위해서 애니메이션 재생 시간보다 작아야한다.)
+    [Range(0, AttackAnimationLength)]
+    public float maxCoolTime = 0.3f;
+
+    // 현재 남아있는 쿨타임
+    float coolTime = 0.0f;
+
+    Animator m_Animator;
+
+    readonly int Attack_Hash = Animator.StringToHash("Attack");
+
+    private void Awake()
+    {
+        m_Animator = GetComponent<Animator>();
+    }
+
+    void Update()
+    {
+        coolTime -= Time.deltaTime;    
+    }
+
+    // 공격 입력이 들어오면 실행되는 함수
+    public void OnAttackInput()
+    {
+        Attack();
+    }
+
+    // 공격 한번을 하는 함수
+    void Attack()
+    {
+        if(coolTime < 0)
+        {
+            m_Animator.SetTrigger(Attack_Hash);
+            coolTime = maxCoolTime;
+        }
+    }
+}

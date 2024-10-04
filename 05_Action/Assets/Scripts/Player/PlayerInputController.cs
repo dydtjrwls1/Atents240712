@@ -13,6 +13,9 @@ public class PlayerInputController : MonoBehaviour
     // 이동 모드 변경 입력을 알리는 델리게이트
     public Action onMoveModeChange = null;
 
+    // 공격 입력을 알리는 델리게이트
+    public Action onAttack = null;
+
     private void Awake()
     {
         inputActions = new PlayerInputActions();
@@ -24,6 +27,7 @@ public class PlayerInputController : MonoBehaviour
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
         inputActions.Player.MoveModeChange.performed += OnMoveModeChange;
+        inputActions.Player.Attack.performed += OnAttack;
     }
 
     private void OnDisable()
@@ -43,5 +47,10 @@ public class PlayerInputController : MonoBehaviour
     private void OnMoveModeChange(UnityEngine.InputSystem.InputAction.CallbackContext _)
     {
         onMoveModeChange?.Invoke();
+    }
+
+    private void OnAttack(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        onAttack?.Invoke();
     }
 }
