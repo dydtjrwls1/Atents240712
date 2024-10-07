@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     MoveState m_CurrentMoveMode = MoveState.Run;
 
+    public MoveState MoveMode => m_CurrentMoveMode;
+
     // 애니메이터용 해시값 및 상수
     readonly int Speed_Hash = Animator.StringToHash("Speed");
     const float Animator_StopSpeed = 0f;
@@ -41,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // 모드 표시용 enum
-    enum MoveState : byte
+    public enum MoveState : byte
     {
         Stop,
         Walk,
@@ -75,9 +77,9 @@ public class PlayerMovement : MonoBehaviour
         {
             Quaternion camY = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0); // 카메라의 Y축 회전만 추출
 
-            direction = camY * direction; // 카메라의 Y축 회전만큼 회전한 방향에서 입력방향만큼 회전시키기
+            m_Direction = camY * direction; // 카메라의 Y축 회전만큼 회전한 방향에서 입력방향만큼 회전시키기
 
-            m_MoveRotation = Quaternion.LookRotation(direction);
+            m_MoveRotation = Quaternion.LookRotation(m_Direction);
 
             SetMoveSpeedAndAnimation(m_CurrentMoveMode);
         }
@@ -86,9 +88,7 @@ public class PlayerMovement : MonoBehaviour
             SetMoveSpeedAndAnimation(MoveState.Stop);
         }
 
-        direction = direction.normalized;
-        Debug.Log($"Press {isPress}, direction : {direction}");
-        m_Direction = direction;
+        m_Direction = m_Direction.normalized;
     }
 
     public void ToggleMoveMode()
@@ -97,11 +97,11 @@ public class PlayerMovement : MonoBehaviour
         {
             case MoveState.Walk:
                 m_CurrentMoveMode = MoveState.Run;
-                SetMoveSpeedAndAnimation(m_CurrentMoveMode);
+                SetMoveSpeedAndAnimation(MoveState.Run);
                 break;
             case MoveState.Run:
                 m_CurrentMoveMode = MoveState.Walk;
-                SetMoveSpeedAndAnimation(m_CurrentMoveMode);
+                SetMoveSpeedAndAnimation(MoveState.Walk);
                 break;
         }
     }

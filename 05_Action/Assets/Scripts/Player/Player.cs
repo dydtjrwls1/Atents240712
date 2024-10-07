@@ -19,8 +19,8 @@ public class Player : MonoBehaviour
         m_CharacterController = GetComponent<CharacterController>();
 
         m_PlayerInputController = GetComponent<PlayerInputController>();
-        m_PlayerInputController.onMove += OnMoveInput;
-        m_PlayerInputController.onMoveModeChange += OnMoveModeChange;
+        //m_PlayerInputController.onMove += OnMoveInput;
+        //m_PlayerInputController.onMoveModeChange += OnMoveModeChange;
 
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerInputController.onMove += m_PlayerMovement.SetDirection;

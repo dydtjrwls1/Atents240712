@@ -15,6 +15,7 @@ public class PlayerAttack : MonoBehaviour
     // 현재 남아있는 쿨타임
     float coolTime = 0.0f;
 
+    PlayerMovement m_PlayerMovement;
     Animator m_Animator;
 
     readonly int Attack_Hash = Animator.StringToHash("Attack");
@@ -22,6 +23,7 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {
         m_Animator = GetComponent<Animator>();
+        m_PlayerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -38,7 +40,8 @@ public class PlayerAttack : MonoBehaviour
     // 공격 한번을 하는 함수
     void Attack()
     {
-        if(coolTime < 0)
+        // 쿨타임 시간이 모두 지나고 달릴 때는 공격하지 않는다
+        if(coolTime < 0 && m_PlayerMovement.MoveMode != PlayerMovement.MoveState.Run)
         {
             m_Animator.SetTrigger(Attack_Hash);
             coolTime = maxCoolTime;
