@@ -30,19 +30,19 @@ public class Test05_Inventory : TestBase
 
     protected override void Test1_performed(InputAction.CallbackContext context)
     {
-        inven.AddItem(code, from);
+        inven.SlotSorting(ItemSortCriteria.Code);
         inven.Test_InventoryPrint();
     }
 
     protected override void Test2_performed(InputAction.CallbackContext context)
     {
-        inven.RemoveItem(from);
+        inven.SlotSorting(ItemSortCriteria.Name);
         inven.Test_InventoryPrint();
     }
 
     protected override void Test3_performed(InputAction.CallbackContext context)
     {
-        inven.ClearSlot(from);
+        inven.SlotSorting(ItemSortCriteria.Price);
         inven.Test_InventoryPrint();
     }
 

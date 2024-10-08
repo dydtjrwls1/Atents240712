@@ -63,6 +63,9 @@ public class Inventory
     // 인벤토리 정리
     // 테스트 : 인벤토리 내용 출력
 
+
+
+
     public bool AddItem(ItemCode code, uint index)
     {
         bool result = false;
@@ -276,6 +279,88 @@ public class Inventory
 
         return targetSlot != null;
     }
+
+    /// <summary>
+    /// 인벤토리를 정렬하는 함수
+    /// </summary>
+    /// <param name="sortCriteria">정렬 기준</param>
+    /// <param name="isAscending">true 면 오름차순, false 면 내림차순</param>
+    public void SlotSorting(ItemSortCriteria sortCriteria, bool isAscending = true)
+    {
+        List<InvenSlot> sortList = new List<InvenSlot>(slots); // 정렬용 리스트 만들기 (원본의 변형을 방지하지 위하여)
+
+        switch (sortCriteria)
+        {
+            case ItemSortCriteria.Code:
+                sortList.Sort((current, other) =>
+                {
+                    if (current.ItemData == null) // 빈 슬롯은 뒤로
+                        return 1;
+                    if (other.ItemData == null)
+                        return -1;
+                    if(isAscending)
+                    {
+                        return current.ItemData.code.CompareTo(other.ItemData.code);
+                    }
+                    else
+                    {
+                        return other.ItemData.code.CompareTo(current.ItemData.code);
+                    }
+                });
+                break;
+            case ItemSortCriteria.Name:
+                sortList.Sort((current, other) =>
+                {
+                    if (current.ItemData == null) // 빈 슬롯은 뒤로
+                        return 1;
+                    if (other.ItemData == null)
+                        return -1;
+                    if (isAscending)
+                    {
+                        return current.ItemData.name.CompareTo(other.ItemData.name);
+                    }
+                    else
+                    {
+                        return other.ItemData.name.CompareTo(current.ItemData.name);
+                    }
+                });
+                break;
+            case ItemSortCriteria.Price:
+                sortList.Sort((current, other) =>
+                {
+                    if (current.ItemData == null) // 빈 슬롯은 뒤로
+                        return 1;
+                    if (other.ItemData == null)
+                        return -1;
+                    if (isAscending)
+                    {
+                        return current.ItemData.price.CompareTo(other.ItemData.price);
+                    }
+                    else
+                    {
+                        return other.ItemData.price.CompareTo(current.ItemData.price);
+                    }
+                });
+                break;
+        }
+
+        // 정렬된 데이터만 저장하는 리스트 생성 (직접 sortList 사용 시 데이터가 섞이기 때문)
+        List<(ItemData, uint, bool)> sortedData = new List<(ItemData, uint, bool)>(SlotCount);
+
+        foreach(var slot in sortList)
+        {
+            sortedData.Add((slot.ItemData, slot.ItemCount, slot.IsEquipped));
+        }
+
+        int index = 0;
+        foreach(var data in sortedData)
+        {
+            slots[index].AssignSlotItem(data.Item1, data.Item2, data.Item3);
+            index++;
+        }
+    }
+
+
 #if UNITY_EDITOR
 
     public void Test_InventoryPrint()

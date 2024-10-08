@@ -5,3 +5,10 @@ public enum ItemCode : byte
     Emerald,
     Sapphire
 }
+
+public enum ItemSortCriteria : byte
+{
+    Code,
+    Name,
+    Price
+}
