@@ -53,6 +53,9 @@ public class InvenSlot
         }
     }
 
+    // 슬롯의 인덱스를 확인하기 위한 프로퍼티
+    public uint Index => m_SlotIndex;
+
     public bool IsEquipped
     {
         get => m_IsEquipped;
@@ -117,7 +120,7 @@ public class InvenSlot
         IsEquipped = false;
 
 #if PrintTestLog
-        Debug.Log($"인벤토리 [{m_SlotIndex}]번 슬롯에 [{ItemData.itemName}]아이템을 비운다.");
+        Debug.Log($"슬롯을 비운다.");
 #endif
     }
 

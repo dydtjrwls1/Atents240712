@@ -458,6 +458,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDatas:
   - {fileID: 11400000, guid: 99c050b1884f99241870ee8393012e05, type: 2}
+  - {fileID: 11400000, guid: 5e29bbe40d9b8184e863b1cb27f1d8dd, type: 2}
+  - {fileID: 11400000, guid: 03d8469bb5ef11f4a96e85192150acdb, type: 2}
+  - {fileID: 11400000, guid: c8126cdd98350da46821d6b15faec480, type: 2}
 --- !u!114 &1259784410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +517,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655dc10b2faf1c14fad9d6f2af2d9982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: -1
+  code: 0
+  from: 0
+  to: 0
 --- !u!4 &1382180584
 Transform:
   m_ObjectHideFlags: 0
