@@ -1,4 +1,4 @@
-#define PrintTestLog
+//#define PrintTestLog
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -191,7 +191,11 @@ public class Inventory
             // from 에는 반드시 아이템이 들어있어야 한다.
             if (!fromSlot.IsEmpty)
             {
-                TempSlot.FromIndex = toSlot is InvenTempSlot ? from : null; // toSlot 이 임시 슬롯이면 FromIndex에 돌아갈 위치 설정
+                //TempSlot.FromIndex = toSlot is InvenTempSlot ? from : null; // toSlot 이 임시 슬롯이면 FromIndex에 돌아갈 위치 설정
+                if(toSlot is InvenTempSlot)
+                {
+                    TempSlot.FromIndex = from;
+                }
 
                 if (fromSlot.ItemData == toSlot.ItemData)
                 {
@@ -208,30 +212,29 @@ public class Inventory
                     // 다른 아이템이 들어있는 경우
                     if(fromSlot is InvenTempSlot)
                     {
-                        Debug.LogWarning("UI 붙이고 확인할 부분");
-                        //// from 이 임시 슬롯이다(to 는 일반 슬롯이다)
-                        //// temp슬롯에서 to 슬롯으로 아이템을 옮기는 경우 (= 드래그가 끝나는 상황)
-                        //// (일반적인 아이템 이동 상황)
-                        //// 임시 슬롯에 있던 것이 to 로 들어가고 to 에 있던것이 drag 시작한 슬롯으로 돌아간다.
-                        //InvenSlot dragStartSlot = slots[TempSlot.FromIndex.Value]; 
+                        // from 이 임시 슬롯이다(to 는 일반 슬롯이다)
+                        // temp슬롯에서 to 슬롯으로 아이템을 옮기는 경우 (= 드래그가 끝나는 상황)
+                        // (일반적인 아이템 이동 상황)
+                        // 임시 슬롯에 있던 것이 to 로 들어가고 to 에 있던것이 drag 시작한 슬롯으로 돌아간다.
+                        InvenSlot dragStartSlot = slots[TempSlot.FromIndex.Value];
 
-                        //if (dragStartSlot.IsEmpty)
-                        //{
-                        //    // dragStartSlot 이 비어있다, (드래그로 아이템 옮기기)
-                        //    dragStartSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount, toSlot.IsEquipped);
-                        //    toSlot.AssignSlotItem(TempSlot.ItemData, TempSlot.ItemCount, TempSlot.IsEquipped);
-                        //    TempSlot.ClearSlotItem();
-                        //}
-                        //else
-                        //{
-                        //    // dragStartSlot 에 아이템이 있다. (시작 슬롯에서 아이템을 덜어낸 상황)
-                        //    if(dragStartSlot.ItemData == toSlot.ItemData)
-                        //    {
-                        //        dragStartSlot.IncreaseSlotItem(out uint overCount, toSlot.ItemCount);
-                        //        toSlot.DecreaseSlotItem(toSlot.ItemCount - overCount);
-                        //    }
-                        //    SwapSlot(TempSlot, toSlot);
-                        //}
+                        if (dragStartSlot.IsEmpty)
+                        {
+                            // dragStartSlot 이 비어있다, (드래그로 아이템 옮기기)
+                            dragStartSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount, toSlot.IsEquipped);
+                            toSlot.AssignSlotItem(TempSlot.ItemData, TempSlot.ItemCount, TempSlot.IsEquipped);
+                            TempSlot.ClearSlotItem();
+                        }
+                        else
+                        {
+                            // dragStartSlot 에 아이템이 있다. (시작 슬롯에서 아이템을 덜어낸 상황)
+                            if (dragStartSlot.ItemData == toSlot.ItemData)
+                            {
+                                dragStartSlot.IncreaseSlotItem(out uint overCount, toSlot.ItemCount);
+                                toSlot.DecreaseSlotItem(toSlot.ItemCount - overCount);
+                            }
+                            SwapSlot(TempSlot, toSlot);
+                        }
                     }
                     else
                     {

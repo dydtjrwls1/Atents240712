@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using System;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class InventoryUI : MonoBehaviour
@@ -54,10 +56,31 @@ public class InventoryUI : MonoBehaviour
         for(uint i = 0;  i < slotsUIs.Length; i++)
         {
             slotsUIs[i].InitializeSlot(inven[i]);
+            slotsUIs[i].onDragBegin += OnItemMoveBegin;
+            slotsUIs[i].onDragEnd += OnItemMoveEnd;
         }
         tempSlotUI.InitializeSlot(inven.TempSlot);
 
         //Close();
+    }
+
+    // 슬롯에서 드래그가 시작되었을 때 실행되는 함수
+    private void OnItemMoveBegin(uint index)
+    {
+        inven.MoveItem(index, tempSlotUI.Index);
+    }
+
+    // 드래그가 끝났을 때 실행되는 함수
+    private void OnItemMoveEnd(uint? index)
+    {
+        if (index.HasValue)
+        {
+            inven.MoveItem(tempSlotUI.Index, index.Value);
+        }
+        else
+        {
+
+        }
     }
 
     private void OnItemDrop(InputAction.CallbackContext _)
