@@ -137,38 +137,89 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         },
         {
             ""name"": ""UI"",
-            ""id"": ""1dc10d46-587b-4bfc-9c70-10c856181aab"",
+            ""id"": ""4ce32011-2a26-4d94-a0e0-260277ba82ce"",
             ""actions"": [
                 {
-                    ""name"": ""AnyInput"",
+                    ""name"": ""InvenOnOff"",
                     ""type"": ""Button"",
-                    ""id"": ""c0d6ddd5-212f-4e83-af4c-22548cc987a4"",
+                    ""id"": ""90efd50b-f516-4556-a8d7-70281a41028d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""5dc12a7d-b8cd-4b50-a766-a85d015abe44"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Wheel"",
+                    ""type"": ""Value"",
+                    ""id"": ""df2b2c70-1d05-4472-ac75-e590528fe7e0"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""04a366aa-c282-4824-9c34-342b1ba4b2d3"",
-                    ""path"": ""<Mouse>/press"",
+                    ""id"": ""79bfe889-df84-44ed-9f84-fe09e00b9636"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
-                    ""action"": ""AnyInput"",
+                    ""action"": ""InvenOnOff"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""91bd774f-d09c-4c21-a2a9-6cd8e30877c8"",
-                    ""path"": ""<Keyboard>/anyKey"",
+                    ""id"": ""0865c83b-f49d-47d2-ba7b-5dd1e193ffad"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
-                    ""action"": ""AnyInput"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4f1c5f0-afe6-4450-b9a3-1d83a662c8cd"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5fa9d274-8266-42d0-a90a-a5109429e0b9"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d9659e10-86cd-4b19-99a5-58d0a03644ca"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""Wheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -201,7 +252,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_MoveModeChange = m_Player.FindAction("MoveModeChange", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_AnyInput = m_UI.FindAction("AnyInput", throwIfNotFound: true);
+        m_UI_InvenOnOff = m_UI.FindAction("InvenOnOff", throwIfNotFound: true);
+        m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
+        m_UI_Wheel = m_UI.FindAction("Wheel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -325,12 +378,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_AnyInput;
+    private readonly InputAction m_UI_InvenOnOff;
+    private readonly InputAction m_UI_Click;
+    private readonly InputAction m_UI_Wheel;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
         public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @AnyInput => m_Wrapper.m_UI_AnyInput;
+        public InputAction @InvenOnOff => m_Wrapper.m_UI_InvenOnOff;
+        public InputAction @Click => m_Wrapper.m_UI_Click;
+        public InputAction @Wheel => m_Wrapper.m_UI_Wheel;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -340,16 +397,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @AnyInput.started += instance.OnAnyInput;
-            @AnyInput.performed += instance.OnAnyInput;
-            @AnyInput.canceled += instance.OnAnyInput;
+            @InvenOnOff.started += instance.OnInvenOnOff;
+            @InvenOnOff.performed += instance.OnInvenOnOff;
+            @InvenOnOff.canceled += instance.OnInvenOnOff;
+            @Click.started += instance.OnClick;
+            @Click.performed += instance.OnClick;
+            @Click.canceled += instance.OnClick;
+            @Wheel.started += instance.OnWheel;
+            @Wheel.performed += instance.OnWheel;
+            @Wheel.canceled += instance.OnWheel;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
         {
-            @AnyInput.started -= instance.OnAnyInput;
-            @AnyInput.performed -= instance.OnAnyInput;
-            @AnyInput.canceled -= instance.OnAnyInput;
+            @InvenOnOff.started -= instance.OnInvenOnOff;
+            @InvenOnOff.performed -= instance.OnInvenOnOff;
+            @InvenOnOff.canceled -= instance.OnInvenOnOff;
+            @Click.started -= instance.OnClick;
+            @Click.performed -= instance.OnClick;
+            @Click.canceled -= instance.OnClick;
+            @Wheel.started -= instance.OnWheel;
+            @Wheel.performed -= instance.OnWheel;
+            @Wheel.canceled -= instance.OnWheel;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -384,6 +453,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface IUIActions
     {
-        void OnAnyInput(InputAction.CallbackContext context);
+        void OnInvenOnOff(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
+        void OnWheel(InputAction.CallbackContext context);
     }
 }

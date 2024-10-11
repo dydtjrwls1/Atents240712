@@ -71,10 +71,10 @@ public class InvenSlot
     }
 
     // 슬롯의 아이템이 변경되었음을 알리는 델리게이트
-    public Action onSlotItemChange = null;
+    public event Action onSlotItemChange = null;
 
     // 아이템을 장비했음을 알리는 델리게이트 (InvenSlot : 장비한 아이템이 들어있는 슬롯)
-    public Action<InvenSlot> onItemEquip = null;
+    public event Action<InvenSlot> onItemEquip = null;
 
     public InvenSlot(uint index)
     {
