@@ -24,8 +24,11 @@ public class DetailInfoUI : MonoBehaviour
     Image icon;
 
     Coroutine fadeOutCoroutine = null;
+    Coroutine fadeInCoroutine = null;
 
     bool isClicked = false;
+
+    
 
     private void Awake()
     {
@@ -57,8 +60,6 @@ public class DetailInfoUI : MonoBehaviour
 
         if (data != null)
         {
-            StopRunningCoroutine();
-
             OnItemDetailInfoOpen(data);
         }
     }
@@ -67,22 +68,27 @@ public class DetailInfoUI : MonoBehaviour
     {
         if (!isEmpty)
         {
-            StopRunningCoroutine();
-
             group.alpha = 0.0f;
             isClicked = true;
         }
     }
 
-    public void OnItemDetailInfoMove(Vector2 position)
+    public void OnItemDetailInfoMove(Vector2 screen)
     {
-        if(position.x + rectTransform.rect.width > Screen.width)
+        if(group.alpha > 0.01f)
         {
-            transform.position = new Vector2(Screen.width - rectTransform.rect.width, position.y);
-        }
-        else
-        {
-            transform.position = position;
+            int over = (int)(screen.x + rectTransform.rect.width) - Screen.width;
+            screen.x -= Mathf.Max(0, over);
+            transform.position = screen;
+
+            //if (screen.x + rectTransform.rect.width > Screen.width)
+            //{
+            //    transform.position = new Vector2(Screen.width - rectTransform.rect.width, screen.y);
+            //}
+            //else
+            //{
+            //    transform.position = screen;
+            //}
         }
     }
 
@@ -90,13 +96,14 @@ public class DetailInfoUI : MonoBehaviour
     {
         if(data != null && !isClicked)
         {
-            StopRunningCoroutine();
+            StopRunningCoroutine(fadeOutCoroutine); // 현재 실행중인 FadeOut 코루틴 정지
 
-            group.alpha = 1.0f;
+            fadeInCoroutine = StartCoroutine(FadeIn());
 
+            // detailInfo 창 정보 업데이트
             icon.sprite = data.itemIcon;
             nameGUI.text = data.name;
-            priceGUI.text = data.price.ToString();
+            priceGUI.text = data.price.ToString("N0");
             descriptionGUI.text = data.itemDesc;
         }
     }
@@ -105,10 +112,22 @@ public class DetailInfoUI : MonoBehaviour
     {
         if (!isEmpty && !isClicked)
         {
-            StopRunningCoroutine();
+            StopRunningCoroutine(fadeInCoroutine); // FadeIn 중이라면 정지
 
             fadeOutCoroutine = StartCoroutine(FadeOut());
         }
+    }
+
+    IEnumerator FadeIn()
+    {
+        while (group.alpha < 1.0f)
+        {
+            group.alpha += Time.deltaTime * alphaChangeSpeed;
+            yield return null;
+        }
+
+        group.alpha = 1.0f;
+        fadeInCoroutine = null;
     }
 
     IEnumerator FadeOut()
@@ -125,11 +144,11 @@ public class DetailInfoUI : MonoBehaviour
         fadeOutCoroutine = null;
     }
 
-    private void StopRunningCoroutine()
+    private void StopRunningCoroutine(Coroutine coroutine)
     {
-        if(fadeOutCoroutine != null)
+        if(coroutine != null)
         {
-            StopCoroutine(fadeOutCoroutine);
+            StopCoroutine(coroutine);
         }
     }
 }
