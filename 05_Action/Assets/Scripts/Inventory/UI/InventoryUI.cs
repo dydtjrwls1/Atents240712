@@ -16,6 +16,8 @@ public class InventoryUI : MonoBehaviour
     // 임시 슬롯의 UI
     InvenTempSlotUI tempSlotUI;
 
+    DetailInfoUI detailInfoUI;
+
     // 입력 처리용
     PlayerInputActions inputActions;
 
@@ -32,6 +34,9 @@ public class InventoryUI : MonoBehaviour
         child = transform.GetChild(1);
         Button close = child.GetComponent<Button>();
         close.onClick.AddListener(Close);
+
+        child = transform.GetChild(3);
+        detailInfoUI = child.GetComponent<DetailInfoUI>();
 
         tempSlotUI = GetComponentInChildren<InvenTempSlotUI>();
     }
@@ -58,6 +63,11 @@ public class InventoryUI : MonoBehaviour
             slotsUIs[i].InitializeSlot(inven[i]);
             slotsUIs[i].onDragBegin += OnItemMoveBegin;
             slotsUIs[i].onDragEnd += OnItemMoveEnd;
+            slotsUIs[i].onPointerEnter += detailInfoUI.OnItemDetailInfoOpen;
+            slotsUIs[i].onPointerExit += detailInfoUI.OnItemDetailInfoClose;
+            slotsUIs[i].onPointerMove += detailInfoUI.OnItemDetailInfoMove;
+            slotsUIs[i].onPointerUp += detailInfoUI.OnItemDetailInfoUp;
+            slotsUIs[i].onPointerDown += detailInfoUI.OnItemDetailInfoDown;
         }
         tempSlotUI.InitializeSlot(inven.TempSlot);
 

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IPointerUpHandler, IPointerDownHandler
 {
     TextMeshProUGUI equipText;
 
@@ -15,6 +15,16 @@ public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDra
 
     // 드래그의 끝을 알리는 델리게이트(uint : 드랍을 성공했으면 인덱스를 보내고 실패했으면 null 을 보낸다.)
     public event Action<uint?> onDragEnd = null;
+
+    public event Action<ItemData> onPointerEnter = null;
+
+    public event Action<bool> onPointerExit = null;
+
+    public event Action<Vector2> onPointerMove = null;
+
+    public event Action<ItemData> onPointerUp = null;
+
+    public event Action<bool> onPointerDown = null;
 
     protected override void Awake()
     {
@@ -81,5 +91,30 @@ public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDra
             Debug.Log("어떤 UI도 없다.");
 #endif
         }
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        onPointerMove?.Invoke(eventData.position);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        onPointerExit?.Invoke(InvenSlot.IsEmpty);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        onPointerEnter?.Invoke(InvenSlot.ItemData);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        onPointerDown?.Invoke(InvenSlot.IsEmpty);
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        onPointerUp?.Invoke(InvenSlot.ItemData);
     }
 }
