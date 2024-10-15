@@ -65,9 +65,10 @@ public class InventoryUI : MonoBehaviour
             slotsUIs[i].onDragEnd += OnItemMoveEnd;
             slotsUIs[i].onPointerEnter += detailInfoUI.OnItemDetailInfoOpen;
             slotsUIs[i].onPointerExit += detailInfoUI.OnItemDetailInfoClose;
-            slotsUIs[i].onPointerMove += detailInfoUI.OnItemDetailInfoMove;
+            slotsUIs[i].onPointerMove += detailInfoUI.MovePosition;
             slotsUIs[i].onPointerUp += detailInfoUI.OnItemDetailInfoUp;
             slotsUIs[i].onPointerDown += detailInfoUI.OnItemDetailInfoDown;
+            slotsUIs[i].onPointerClick += OnItemMoveEnd;
         }
         tempSlotUI.InitializeSlot(inven.TempSlot);
 
@@ -86,10 +87,7 @@ public class InventoryUI : MonoBehaviour
         if (index.HasValue)
         {
             inven.MoveItem(tempSlotUI.Index, index.Value);
-        }
-        else
-        {
-
+            detailInfoUI.OnItemDetailInfoOpen(inven[index.Value].ItemData);
         }
     }
 

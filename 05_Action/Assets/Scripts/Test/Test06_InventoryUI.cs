@@ -23,6 +23,9 @@ public class Test06_InventoryUI : TestBase
         inven.AddItem(ItemCode.Emerald);
         inven.AddItem(ItemCode.Emerald);
         inven.AddItem(ItemCode.Emerald);
+        inven.AddItem(ItemCode.Emerald);
+        inven.AddItem(ItemCode.Emerald);
+        inven.AddItem(ItemCode.Emerald);
         inven.MoveItem(2, 3);
     }
 

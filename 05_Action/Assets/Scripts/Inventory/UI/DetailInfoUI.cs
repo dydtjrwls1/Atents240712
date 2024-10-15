@@ -54,14 +54,9 @@ public class DetailInfoUI : MonoBehaviour
         group.alpha = 0.0f;
     }
 
-    public void OnItemDetailInfoUp(ItemData data)
+    public void OnItemDetailInfoUp()
     {
         isClicked = false;
-
-        if (data != null)
-        {
-            OnItemDetailInfoOpen(data);
-        }
     }
 
     public void OnItemDetailInfoDown(bool isEmpty)
@@ -73,7 +68,7 @@ public class DetailInfoUI : MonoBehaviour
         }
     }
 
-    public void OnItemDetailInfoMove(Vector2 screen)
+    public void MovePosition(Vector2 screen)
     {
         if(group.alpha > 0.01f)
         {
@@ -99,6 +94,8 @@ public class DetailInfoUI : MonoBehaviour
             StopRunningCoroutine(fadeOutCoroutine); // 현재 실행중인 FadeOut 코루틴 정지
 
             fadeInCoroutine = StartCoroutine(FadeIn());
+
+            MovePosition(Mouse.current.position.value);
 
             // detailInfo 창 정보 업데이트
             icon.sprite = data.itemIcon;

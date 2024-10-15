@@ -6,7 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IPointerUpHandler, IPointerDownHandler
+public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
+
 {
     TextMeshProUGUI equipText;
 
@@ -22,9 +23,11 @@ public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDra
 
     public event Action<Vector2> onPointerMove = null;
 
-    public event Action<ItemData> onPointerUp = null;
+    public event Action onPointerUp = null;
 
     public event Action<bool> onPointerDown = null;
+
+    public event Action<uint?> onPointerClick = null;
 
     protected override void Awake()
     {
@@ -115,6 +118,11 @@ public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDra
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        onPointerUp?.Invoke(InvenSlot.ItemData);
+        onPointerUp?.Invoke();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        onPointerClick?.Invoke(InvenSlot.Index);
     }
 }
