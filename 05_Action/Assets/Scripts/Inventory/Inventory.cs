@@ -249,6 +249,18 @@ public class Inventory
         }
     }
 
+    // 인벤토리의 특정 슬롯에서 아이템을 일정량 덜어내어 임시 슬롯으로 보내는 함수.
+    public void SplitItem(uint slotIndex, uint count)
+    {
+        InvenSlot fromSlot = slots[slotIndex];
+        uint resultCount = fromSlot.ItemCount - count;
+
+        fromSlot.ItemCount = resultCount;
+
+        TempSlot.FromIndex = slotIndex;
+        TempSlot.ItemCount = count;
+    }
+
     /// <summary>
     /// 슬롯간에 스왑을 하는 함수
     /// </summary>

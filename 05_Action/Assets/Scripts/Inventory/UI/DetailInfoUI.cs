@@ -28,8 +28,6 @@ public class DetailInfoUI : MonoBehaviour
 
     bool isClicked = false;
 
-    
-
     private void Awake()
     {
         group = GetComponent<CanvasGroup>();
@@ -75,15 +73,6 @@ public class DetailInfoUI : MonoBehaviour
             int over = (int)(screen.x + rectTransform.rect.width) - Screen.width;
             screen.x -= Mathf.Max(0, over);
             transform.position = screen;
-
-            //if (screen.x + rectTransform.rect.width > Screen.width)
-            //{
-            //    transform.position = new Vector2(Screen.width - rectTransform.rect.width, screen.y);
-            //}
-            //else
-            //{
-            //    transform.position = screen;
-            //}
         }
     }
 
