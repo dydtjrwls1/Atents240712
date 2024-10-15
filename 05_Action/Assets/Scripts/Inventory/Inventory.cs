@@ -252,13 +252,14 @@ public class Inventory
     // 인벤토리의 특정 슬롯에서 아이템을 일정량 덜어내어 임시 슬롯으로 보내는 함수.
     public void SplitItem(uint slotIndex, uint count)
     {
-        InvenSlot fromSlot = slots[slotIndex];
-        uint resultCount = fromSlot.ItemCount - count;
+        if (IsValidIndex(slotIndex, out InvenSlot slot))
+        {
+            count = Math.Min(count, slot.ItemCount); // UI 상에선 있을수 없는 일이지만 데이터 상에서는 무슨일이 일어날지 모르므로 Count가 slot 의 개수보다 크다면 개수를 조절한다
 
-        fromSlot.ItemCount = resultCount;
-
-        TempSlot.FromIndex = slotIndex;
-        TempSlot.ItemCount = count;
+            TempSlot.AssignSlotItem(slot.ItemData, count); // 임시 슬롯에 정해진 대로 넣고
+            TempSlot.FromIndex = slotIndex;                // from 인덱스 저장
+            slot.DecreaseSlotItem(count);                  // count 만큼 원래 슬롯에서 뺀다.
+        }
     }
 
     /// <summary>

@@ -42,9 +42,10 @@ public class InventoryUI : MonoBehaviour
         child = transform.GetChild(3);
         detailInfoUI = child.GetComponent<DetailInfoUI>();
 
-        tempSlotUI = GetComponentInChildren<InvenTempSlotUI>();
+        child = transform.GetChild(4);
+        itemSpliterUI = child.GetComponent<ItemSpliterUI>();
 
-        itemSpliterUI = GetComponentInChildren<ItemSpliterUI>();
+        tempSlotUI = GetComponentInChildren<InvenTempSlotUI>();
     }
 
     private void OnEnable()
@@ -76,10 +77,16 @@ public class InventoryUI : MonoBehaviour
             slotsUIs[i].onPointerDown += detailInfoUI.OnItemDetailInfoDown;
             slotsUIs[i].onPointerClick += OnSlotClick;
         }
+
         tempSlotUI.InitializeSlot(inven.TempSlot);
+
+        itemSpliterUI.onOkClick += OnSpliterOK;
+        itemSpliterUI.onCancelClick += OnSpliterCancel;
 
         //Close();
     }
+
+    
 
     private void OnSlotClick(uint? index)
     {
@@ -87,16 +94,16 @@ public class InventoryUI : MonoBehaviour
         {
             OnItemMoveEnd(index);
         }
-        else
-        {
-            uint itemCount = slotsUIs[index.Value].InvenSlot.ItemCount;
+    }
 
-            // 쉬프트 버튼을 누르고 해당 UI 슬롯에 들어있는 아이템의 개수가 1 이상이면
-            if (itemCount > 1)
-            {
-                itemSpliterUI.Open(slotsUIs[index.Value].InvenSlot, itemCount);
-            }
-        }
+    private void OnSpliterCancel()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnSpliterOK(uint index, uint count)
+    {
+        inven.SplitItem(index, count);
     }
 
     // 슬롯에서 드래그가 시작되었을 때 실행되는 함수

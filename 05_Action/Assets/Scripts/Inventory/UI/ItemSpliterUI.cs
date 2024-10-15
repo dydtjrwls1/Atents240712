@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ItemSpliterUI : MonoBehaviour
@@ -12,39 +12,45 @@ public class ItemSpliterUI : MonoBehaviour
     // 열릴 때 쉬프트 클릭한 슬롯의 아이콘이 보여야한다.
     // OK 버튼을 누르면 나눈 개수만큼 원본슬롯에서 덜어서 임시 슬롯으로 보내고 닫힌다.
     // Cancel 버튼을 누르면 그냥 닫힌다.
+    PlayerInputActions inputActions;
+
     Image m_Icon;
 
     TMP_InputField m_InputField;
 
-    Button m_PlusButton;
-    Button m_MinusButton;
-
-    Button m_OKButton;
-    Button m_CancelButton;
-
     Slider m_Slider;
 
-    InvenSlot m_SplitedSlot;
+    // 아이템을 나눌 슬롯
+    InvenSlot targetSlot;
 
-    uint m_MaxCount;
+    // 아이템을 나눌 최소 개수
+    const uint MinItemCount = 1;
 
-    uint m_CurrentCount;
-    uint CurrentCount
+    // 아이템을 나눌 최대 개수를 설정하는 프로퍼티
+    uint MaxItemCount => targetSlot.ItemCount - 1;
+
+    // 나눌 개수
+    uint count = MinItemCount;
+
+    // 아이템을 나눌 개수를 설정하는 프로퍼티
+    uint Count
     {
-        get => m_CurrentCount;
+        get => count;
         set
         {
-            if (m_CurrentCount != value)
-            {
-                m_CurrentCount = value;
-                m_CurrentCount = (uint)Mathf.Clamp(m_CurrentCount, 1, m_MaxCount);
-                m_Slider.value = m_CurrentCount;
-                m_InputField.text = m_CurrentCount.ToString();
-            }
+            count = Math.Clamp(value, MinItemCount, MaxItemCount);
+            // 인풋 필드
+            m_InputField.text = count.ToString();
+            // 슬라이더
+            m_Slider.value = count;
         }
     }
 
-    
+    // ok 버튼 눌렸음을 알리는 델리게이트 (uint : 슬롯의 인덱스 , uint : 나눌 개수)
+    public event Action<uint, uint> onOkClick = null;
+
+    // Cancel 버튼이 눌렸음을 알리는 델리게이트
+    public event Action onCancelClick = null;
 
     private void Awake()
     {
@@ -53,53 +59,112 @@ public class ItemSpliterUI : MonoBehaviour
 
         child = transform.GetChild(1);
         m_InputField = child.GetComponent<TMP_InputField>();
+        m_InputField.onValueChanged.AddListener((text) => 
+        {
+            if( uint.TryParse(text, out uint result) )
+            {
+                Count = result; // 변환된 값으로 설정한다.
+            }
+            else
+            {
+                Count = MinItemCount; // 음수를 입력했으므로 최소값으로 설정한다.
+            }
+        });
+
 
         child = transform.GetChild(2);
-        m_PlusButton = child.GetComponent<Button>();
+        Button m_PlusButton = child.GetComponent<Button>();
+        m_PlusButton.onClick.AddListener(() => { Count++; });
 
         child = transform.GetChild(3);
-        m_MinusButton = child.GetComponent<Button>();
+        Button m_MinusButton = child.GetComponent<Button>();
+        m_MinusButton.onClick.AddListener(() => { Count--; });
 
         child = transform.GetChild(4);
         m_Slider = child.GetComponent<Slider>();
+        m_Slider.minValue = MinItemCount; // 슬라이더의 최소값은 1
+        m_Slider.onValueChanged.AddListener((value) => 
+        {
+            Count = (uint)value;
+        });
 
         child = transform.GetChild(5);
-        m_OKButton = child.GetComponent<Button>();
+        Button m_OkButton = child.GetComponent<Button>();
+        m_OkButton.onClick.AddListener(() =>
+        {
+            onOkClick?.Invoke(targetSlot.Index, Count);
+        });
 
         child = transform.GetChild(6);
-        m_CancelButton = child.GetComponent<Button>();
+        Button m_CancelButton = child.GetComponent<Button>();
+
+        Close();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        m_PlusButton.onClick.AddListener(PlusButtonClicked);
-        m_MinusButton.onClick.AddListener(MinusButtonClicekd);
-
-        m_Slider.onValueChanged.AddListener(SliderValueChanged);
+        inputActions.UI.Enable();
+        inputActions.UI.Click.performed += OnClick;
+        inputActions.UI.Wheel.performed += OnWheel;
     }
 
-    public void Open(InvenSlot slot, uint itemCount)
+    private void OnClick(InputAction.CallbackContext _)
     {
-        m_MaxCount = itemCount - 1;
-        m_SplitedSlot = slot;
-
-        m_Icon.sprite = slot.ItemData.itemIcon;
-        m_Slider.maxValue = m_MaxCount;
-        CurrentCount = 1;
+        // UI 밖을 클릭하면 닫힌다.
+        if (!MousePointInRect())
+        {
+            Close();
+        }
     }
 
-    private void PlusButtonClicked()
+    private void OnWheel(InputAction.CallbackContext context)
     {
-        CurrentCount++;
+        // 휠 움직임에 따라 카운트가 증가 감소한다.
+        if (MousePointInRect())
+        {
+            if(context.ReadValue<float>() > 0)
+            {
+                // 위로 올리기
+                Count++;
+            }
+            else
+            {
+                // 아래로 내리기
+                Count--;
+            }
+        }
     }
 
-    private void MinusButtonClicekd()
+    // 마우스 커서 위치가 UI 안이면 True 밖이면 False
+    bool MousePointInRect()
     {
-        CurrentCount--;
+        Vector2 screen = Mouse.current.position.ReadValue();
+        Vector2 diff = screen - (Vector2)transform.position;
+        
+        RectTransform rect = (RectTransform)transform;
+        return rect.rect.Contains(diff); // diff 가 피봇 기준으로 떨어져 있는지 아닌지 확인하는 함수
     }
 
-    private void SliderValueChanged(float value)
+    // 아이템 분리창을 여는 함수 (true 면 열었다, false 면 닫았다)
+    public bool Open(InvenSlot target)
     {
-        CurrentCount = (uint)value;
+        bool result = false;
+        if(!target.IsEmpty && target.ItemCount > MinItemCount) // target 슬롯에 아이템이 들어있고 개수가 1개 초과일 때만 연다.
+        {
+            targetSlot = target;
+            m_Icon.sprite = targetSlot.ItemData.itemIcon;
+            m_Slider.maxValue = MaxItemCount;
+            Count = targetSlot.ItemCount / 2;
+
+            result = true;
+            gameObject.SetActive(true);
+        }
+
+        return result;
+    }
+
+    void Close()
+    {
+        gameObject.SetActive(false);
     }
 }
