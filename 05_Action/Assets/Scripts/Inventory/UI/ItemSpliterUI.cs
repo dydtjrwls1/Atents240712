@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +13,8 @@ public class ItemSpliterUI : MonoBehaviour
     // 열릴 때 쉬프트 클릭한 슬롯의 아이콘이 보여야한다.
     // OK 버튼을 누르면 나눈 개수만큼 원본슬롯에서 덜어서 임시 슬롯으로 보내고 닫힌다.
     // Cancel 버튼을 누르면 그냥 닫힌다.
+    CanvasGroup m_CanvasGroup;
+
     Image m_Icon;
 
     TMP_InputField m_InputField;
@@ -24,7 +27,7 @@ public class ItemSpliterUI : MonoBehaviour
 
     Slider m_Slider;
 
-    InvenSlot m_SplitedSlot;
+    uint m_SplitedSlotIndex;
 
     uint m_MaxCount;
 
@@ -44,10 +47,12 @@ public class ItemSpliterUI : MonoBehaviour
         }
     }
 
-    
+    public Action<uint, uint> onOKButtonClicked = null;
 
     private void Awake()
     {
+        m_CanvasGroup = GetComponent<CanvasGroup>();
+
         Transform child = transform.GetChild(0);    
         m_Icon = child.GetComponent<Image>();
 
@@ -72,16 +77,22 @@ public class ItemSpliterUI : MonoBehaviour
 
     private void Start()
     {
+        DeactivateCanvas();
+
         m_PlusButton.onClick.AddListener(PlusButtonClicked);
         m_MinusButton.onClick.AddListener(MinusButtonClicekd);
+        m_OKButton.onClick.AddListener(OKButtonClicked);
+        m_CancelButton.onClick.AddListener(CancelButtonClicked);
 
         m_Slider.onValueChanged.AddListener(SliderValueChanged);
     }
 
     public void Open(InvenSlot slot, uint itemCount)
     {
+        ActivateCanvas();
+
         m_MaxCount = itemCount - 1;
-        m_SplitedSlot = slot;
+        m_SplitedSlotIndex = slot.Index;
 
         m_Icon.sprite = slot.ItemData.itemIcon;
         m_Slider.maxValue = m_MaxCount;
@@ -101,5 +112,31 @@ public class ItemSpliterUI : MonoBehaviour
     private void SliderValueChanged(float value)
     {
         CurrentCount = (uint)value;
+    }
+
+    private void OKButtonClicked()
+    {
+        DeactivateCanvas();
+
+        onOKButtonClicked?.Invoke(m_SplitedSlotIndex, CurrentCount);
+    }
+
+    private void CancelButtonClicked()
+    {
+        DeactivateCanvas();
+    }
+
+    private void ActivateCanvas()
+    {
+        m_CanvasGroup.alpha = 1.0f;
+        m_CanvasGroup.blocksRaycasts = true;
+        m_CanvasGroup.interactable = true;
+    }
+
+    private void DeactivateCanvas()
+    {
+        m_CanvasGroup.alpha = 0.0f;
+        m_CanvasGroup.blocksRaycasts = false;
+        m_CanvasGroup.interactable = false;
     }
 }

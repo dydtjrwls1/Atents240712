@@ -25,7 +25,7 @@ public class InventoryUI : MonoBehaviour
 
     CanvasGroup canvasGroup;
 
-    
+    bool isSplit = false;
 
     private void Awake()
     {
@@ -52,6 +52,8 @@ public class InventoryUI : MonoBehaviour
         inputActions.UI.Enable();
         inputActions.UI.InvenOnOff.performed += OnInvenOnOff;
         inputActions.UI.Click.canceled += OnItemDrop;
+        inputActions.UI.SpliterOnOff.performed += (_) => { isSplit = true; };
+        inputActions.UI.SpliterOnOff.canceled += (_) => { isSplit = false; };
     }
 
     private void OnDisable()
@@ -59,6 +61,11 @@ public class InventoryUI : MonoBehaviour
         inputActions.UI.Click.canceled -= OnItemDrop;
         inputActions.UI.InvenOnOff.performed -= OnInvenOnOff;
         inputActions.UI.Disable();
+    }
+
+    private void Start()
+    {
+        itemSpliterUI.onOKButtonClicked += inven.SplitItem;
     }
 
     public void InitializeInventory(Inventory inventory)
@@ -92,7 +99,7 @@ public class InventoryUI : MonoBehaviour
             uint itemCount = slotsUIs[index.Value].InvenSlot.ItemCount;
 
             // 쉬프트 버튼을 누르고 해당 UI 슬롯에 들어있는 아이템의 개수가 1 이상이면
-            if (itemCount > 1)
+            if (isSplit && itemCount > 1)
             {
                 itemSpliterUI.Open(slotsUIs[index.Value].InvenSlot, itemCount);
             }

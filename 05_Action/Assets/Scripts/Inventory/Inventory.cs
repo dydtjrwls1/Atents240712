@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SearchService;
 
@@ -258,7 +259,7 @@ public class Inventory
         fromSlot.ItemCount = resultCount;
 
         TempSlot.FromIndex = slotIndex;
-        TempSlot.ItemCount = count;
+        TempSlot.AssignSlotItem(fromSlot.ItemData, count, fromSlot.IsEquipped);
     }
 
     /// <summary>

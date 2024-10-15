@@ -143,6 +143,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SpliterOnOff",
+                    "type": "Button",
+                    "id": "09be68a5-b5c8-4432-9acd-be252a153ec4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -198,6 +207,17 @@
                     "processors": "",
                     "groups": "KM",
                     "action": "Wheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "809a82c3-4a00-4bce-a7c9-8d24fda1ecfd",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KM",
+                    "action": "SpliterOnOff",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

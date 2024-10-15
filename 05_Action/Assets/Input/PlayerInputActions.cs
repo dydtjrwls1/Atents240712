@@ -165,6 +165,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SpliterOnOff"",
+                    ""type"": ""Button"",
+                    ""id"": ""09be68a5-b5c8-4432-9acd-be252a153ec4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -222,6 +231,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Wheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""809a82c3-4a00-4bce-a7c9-8d24fda1ecfd"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KM"",
+                    ""action"": ""SpliterOnOff"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -255,6 +275,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_InvenOnOff = m_UI.FindAction("InvenOnOff", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         m_UI_Wheel = m_UI.FindAction("Wheel", throwIfNotFound: true);
+        m_UI_SpliterOnOff = m_UI.FindAction("SpliterOnOff", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -381,6 +402,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_InvenOnOff;
     private readonly InputAction m_UI_Click;
     private readonly InputAction m_UI_Wheel;
+    private readonly InputAction m_UI_SpliterOnOff;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -388,6 +410,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @InvenOnOff => m_Wrapper.m_UI_InvenOnOff;
         public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputAction @Wheel => m_Wrapper.m_UI_Wheel;
+        public InputAction @SpliterOnOff => m_Wrapper.m_UI_SpliterOnOff;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -406,6 +429,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Wheel.started += instance.OnWheel;
             @Wheel.performed += instance.OnWheel;
             @Wheel.canceled += instance.OnWheel;
+            @SpliterOnOff.started += instance.OnSpliterOnOff;
+            @SpliterOnOff.performed += instance.OnSpliterOnOff;
+            @SpliterOnOff.canceled += instance.OnSpliterOnOff;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -419,6 +445,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Wheel.started -= instance.OnWheel;
             @Wheel.performed -= instance.OnWheel;
             @Wheel.canceled -= instance.OnWheel;
+            @SpliterOnOff.started -= instance.OnSpliterOnOff;
+            @SpliterOnOff.performed -= instance.OnSpliterOnOff;
+            @SpliterOnOff.canceled -= instance.OnSpliterOnOff;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -456,5 +485,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInvenOnOff(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
         void OnWheel(InputAction.CallbackContext context);
+        void OnSpliterOnOff(InputAction.CallbackContext context);
     }
 }

@@ -915,6 +915,7 @@ GameObject:
   - component: {fileID: 1051858964}
   - component: {fileID: 1051858963}
   - component: {fileID: 1051858965}
+  - component: {fileID: 1051858966}
   m_Layer: 5
   m_Name: ItemSpliter
   m_TagString: Untagged
@@ -998,6 +999,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d27e3aea9284b4abd25439c8b33dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &1051858966
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051858961}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1116967587
 GameObject:
   m_ObjectHideFlags: 0
