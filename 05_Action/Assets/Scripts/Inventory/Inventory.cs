@@ -16,7 +16,7 @@ public class Inventory
     ItemDataManager m_ItemDataManager;
 
     // 인벤토리의 소유자
-    Player m_Owner;
+    PlayerInventory m_Owner;
 
     const int Default_Inventory_Size = 6;
 
@@ -24,7 +24,7 @@ public class Inventory
     int SlotCount => slots.Length;
 
     // 소유자 확인용 프로퍼티
-    public Player Owner => m_Owner;
+    public PlayerInventory Owner => m_Owner;
 
     /// <summary>
     /// 인벤토리 슬롯에 접근하기 위한 인덱서
@@ -40,7 +40,7 @@ public class Inventory
     /// </summary>
     /// <param name="owner">인벤토리의 소유자</param>
     /// <param name="size">인벤토리 크기</param>
-    public Inventory(Player owner, uint size = Default_Inventory_Size)
+    public Inventory(PlayerInventory owner, uint size = Default_Inventory_Size)
     {
         slots = new InvenSlot[size];
         for(uint i = 0; i < slots.Length; i++)
@@ -192,10 +192,10 @@ public class Inventory
             if (!fromSlot.IsEmpty)
             {
                 //TempSlot.FromIndex = toSlot is InvenTempSlot ? from : null; // toSlot 이 임시 슬롯이면 FromIndex에 돌아갈 위치 설정
-                if(toSlot is InvenTempSlot)
-                {
-                    TempSlot.FromIndex = from;
-                }
+                //if(toSlot is InvenTempSlot)
+                //{
+                //    TempSlot.FromIndex = from;
+                //}
 
                 if (fromSlot.ItemData == toSlot.ItemData)
                 {
@@ -216,6 +216,8 @@ public class Inventory
                         // temp슬롯에서 to 슬롯으로 아이템을 옮기는 경우 (= 드래그가 끝나는 상황)
                         // (일반적인 아이템 이동 상황)
                         // 임시 슬롯에 있던 것이 to 로 들어가고 to 에 있던것이 drag 시작한 슬롯으로 돌아간다.
+                        
+
                         InvenSlot dragStartSlot = slots[TempSlot.FromIndex.Value];
 
                         if (dragStartSlot.IsEmpty)
@@ -233,11 +235,16 @@ public class Inventory
                                 dragStartSlot.IncreaseSlotItem(out uint overCount, toSlot.ItemCount);
                                 toSlot.DecreaseSlotItem(toSlot.ItemCount - overCount);
                             }
+
                             SwapSlot(TempSlot, toSlot);
                         }
                     }
                     else
                     {
+                        if(toSlot is InvenTempSlot)
+                        {
+                            TempSlot.FromIndex = fromSlot.Index;
+                        }
                         // from 슬롯이 임시 슬롯이 아닌 경우
 #if PrintTestLog
                         Debug.Log($"아이템 이동 [{from}] 슬롯과 [{to}]슬롯을 서로 스왑.");
@@ -272,6 +279,8 @@ public class Inventory
         bool tempEquip = slotA.IsEquipped;
         slotA.AssignSlotItem(slotB.ItemData, slotB.ItemCount, slotB.IsEquipped);
         slotB.AssignSlotItem(tempData, tempCount, tempEquip);
+
+
     }
 
     /// <summary>
@@ -373,6 +382,28 @@ public class Inventory
         {
             slots[index].AssignSlotItem(data.Item1, data.Item2, data.Item3);
             index++;
+        }
+    }
+
+    // 인벤토리에서 같은 종류의 아이템을 최대한 합치는 함수
+    public void MergeItems()
+    {
+        uint count = (uint)(slots.Length - 1);
+        for(uint i = 0; i < count; i++)
+        {
+            InvenSlot slot = slots[i];
+            for(uint j = count; j > i; j--)
+            {
+                if(slot.ItemData == slots[j].ItemData)
+                {
+                    MoveItem(j, i); // 일단 J에 있는 아이템을 I에 추가한다.
+                    if (!slots[j].IsEmpty) // 추가했는데 J에 남은 아이템이 있을경우
+                    {
+                        SwapSlot(slots[i+1], slots[j]); // J에 남은 아이템을 I의 다음 슬롯으로 옮기고 이번 For 문을 종료하고 I 다음 슬롯부터 루프를 시작한다.
+                        break;
+                    }
+                }
+            }
         }
     }
 

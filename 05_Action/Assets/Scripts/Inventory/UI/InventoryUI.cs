@@ -20,6 +20,8 @@ public class InventoryUI : MonoBehaviour
 
     ItemSpliterUI itemSpliterUI;
 
+    SortPanelUI sortPanelUI;
+
     // 입력 처리용
     PlayerInputActions inputActions;
 
@@ -38,6 +40,9 @@ public class InventoryUI : MonoBehaviour
         child = transform.GetChild(1);
         Button close = child.GetComponent<Button>();
         close.onClick.AddListener(Close);
+
+        child = transform.GetChild(2);
+        sortPanelUI = child.GetComponent<SortPanelUI>();
 
         child = transform.GetChild(3);
         detailInfoUI = child.GetComponent<DetailInfoUI>();
@@ -73,7 +78,7 @@ public class InventoryUI : MonoBehaviour
             slotsUIs[i].onPointerEnter += detailInfoUI.OnItemDetailInfoOpen;
             slotsUIs[i].onPointerExit += detailInfoUI.OnItemDetailInfoClose;
             slotsUIs[i].onPointerMove += detailInfoUI.MovePosition;
-            slotsUIs[i].onPointerUp += detailInfoUI.OnItemDetailInfoUp;
+            slotsUIs[i].onPointerUp += detailInfoUI.ShowItemDetailInfo;
             slotsUIs[i].onPointerDown += detailInfoUI.OnItemDetailInfoDown;
             slotsUIs[i].onPointerClick += OnSlotClick;
         }
@@ -83,17 +88,38 @@ public class InventoryUI : MonoBehaviour
         itemSpliterUI.onOkClick += OnSpliterOK;
         itemSpliterUI.onCancelClick += OnSpliterCancel;
 
-        //Close();
+        sortPanelUI.onSortRequest += (sort) =>
+        {
+            bool isAcsending = true;
+            if (sort == ItemSortCriteria.Price)
+            {
+                isAcsending = false;
+            }
+
+            inven.MergeItems();
+            inven.SlotSorting(sort, isAcsending);
+        };
+
+        Close();
     }
 
     
 
-    private void OnSlotClick(uint? index)
+    private void OnSlotClick(uint index)
     {
-        if (!tempSlotUI.InvenSlot.IsEmpty)
+        if (tempSlotUI.InvenSlot.IsEmpty)
+        {
+            bool isShiftPress = Keyboard.current.shiftKey.ReadValue() > 0; // 쉬프트 키를 눌렀습니까?
+            if (isShiftPress)
+            {
+                ItemSpliterOpen(index);
+            }
+        }
+        else
         {
             OnItemMoveEnd(index);
         }
+        
     }
 
     private void OnSpliterCancel()
@@ -118,7 +144,11 @@ public class InventoryUI : MonoBehaviour
         if (index.HasValue)
         {
             inven.MoveItem(tempSlotUI.Index, index.Value);
-            detailInfoUI.OnItemDetailInfoOpen(inven[index.Value].ItemData);
+
+            if (tempSlotUI.InvenSlot.IsEmpty)
+            {
+                detailInfoUI.OnItemDetailInfoOpen(inven[index.Value].ItemData);
+            }
         }
     }
 
@@ -152,5 +182,19 @@ public class InventoryUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-
+    void ItemSpliterOpen(uint index)
+    {
+        InvenSlotUI target = slotsUIs[index];
+        itemSpliterUI.transform.position = target.transform.position + Vector3.up * 100;
+        if (itemSpliterUI.Open(target.InvenSlot))
+        {
+            detailInfoUI.HideItemDetailInfo();
+        }
+    }
+#if UNITY_EDITOR
+    public void Test_Open()
+    {
+        Open();
+    }
+#endif
 }

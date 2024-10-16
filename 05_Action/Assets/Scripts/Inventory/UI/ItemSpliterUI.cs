@@ -27,7 +27,7 @@ public class ItemSpliterUI : MonoBehaviour
     const uint MinItemCount = 1;
 
     // 아이템을 나눌 최대 개수를 설정하는 프로퍼티
-    uint MaxItemCount => targetSlot.ItemCount - 1;
+    uint MaxItemCount => targetSlot != null ? targetSlot.ItemCount - 1 : MinItemCount;
 
     // 나눌 개수
     uint count = MinItemCount;
@@ -54,6 +54,8 @@ public class ItemSpliterUI : MonoBehaviour
 
     private void Awake()
     {
+        inputActions = new PlayerInputActions();
+
         Transform child = transform.GetChild(0);    
         m_Icon = child.GetComponent<Image>();
 
@@ -93,6 +95,7 @@ public class ItemSpliterUI : MonoBehaviour
         m_OkButton.onClick.AddListener(() =>
         {
             onOkClick?.Invoke(targetSlot.Index, Count);
+            Close();
         });
 
         child = transform.GetChild(6);

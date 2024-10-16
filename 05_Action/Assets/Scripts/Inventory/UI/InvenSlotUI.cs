@@ -27,7 +27,7 @@ public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDra
 
     public event Action<bool> onPointerDown = null;
 
-    public event Action<uint?> onPointerClick = null;
+    public event Action<uint> onPointerClick = null;
 
     protected override void Awake()
     {

@@ -52,9 +52,14 @@ public class DetailInfoUI : MonoBehaviour
         group.alpha = 0.0f;
     }
 
-    public void OnItemDetailInfoUp()
+    public void ShowItemDetailInfo()
     {
         isClicked = false;
+    }
+
+    public void HideItemDetailInfo()
+    {
+        isClicked = true;
     }
 
     public void OnItemDetailInfoDown(bool isEmpty)

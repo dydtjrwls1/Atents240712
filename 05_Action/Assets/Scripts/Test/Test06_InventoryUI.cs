@@ -16,7 +16,6 @@ public class Test06_InventoryUI : TestBase
     private void Start()
     {
         inven = new Inventory(null);
-        inventoryUI.InitializeInventory(inven);
         inven.AddItem(ItemCode.Ruby);
         inven.AddItem(ItemCode.Sapphire);
         inven.AddItem(ItemCode.Sapphire);
@@ -27,6 +26,9 @@ public class Test06_InventoryUI : TestBase
         inven.AddItem(ItemCode.Emerald);
         inven.AddItem(ItemCode.Emerald);
         inven.MoveItem(2, 3);
+
+        inventoryUI.InitializeInventory(inven);
+        inventoryUI.Test_Open();
     }
 
     protected override void Test1_performed(InputAction.CallbackContext context)

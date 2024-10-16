@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInputController), typeof(PlayerMovement), typeof(PlayerAttack))]
+[RequireComponent(typeof(PlayerInputController))]
+[RequireComponent(typeof(PlayerMovement), typeof(PlayerAttack), typeof(PlayerInventory))]
 public class Player : MonoBehaviour
 {
+    public Inventory Inventory => m_PlayerInventory.Inventory;
+
     CharacterController m_CharacterController;
 
     PlayerInputController m_PlayerInputController;
@@ -13,6 +16,8 @@ public class Player : MonoBehaviour
     PlayerMovement m_PlayerMovement;
 
     PlayerAttack m_PlayerAttack;
+
+    PlayerInventory m_PlayerInventory;
 
     private void Awake()
     {
@@ -28,6 +33,8 @@ public class Player : MonoBehaviour
 
         m_PlayerAttack = GetComponent<PlayerAttack>();
         m_PlayerInputController.onAttack += m_PlayerAttack.OnAttackInput;
+
+        m_PlayerInventory = GetComponent<PlayerInventory>();
     }
 
     // Update is called once per frame
@@ -41,6 +48,16 @@ public class Player : MonoBehaviour
     private void OnMoveInput(Vector2 input, bool isPress)
     {
         // 카메라 기준으로 앞뒤좌우로 이동한다.
+    }
+
+    // 초기화 순서를 정해서 꼬이는 일이 없게하기 위함
+    public void Initialize()
+    {
+        IInitializable[] inits = GetComponents<IInitializable>();
+        foreach(var init in inits)
+        {
+            init.Initialize();
+        }
     }
 
     private void OnMoveModeChange()
