@@ -4816,7 +4816,8 @@ GameObject:
   m_Component:
   - component: {fileID: 300741024832180005}
   - component: {fileID: 2498957223180722175}
-  m_Layer: 0
+  - component: {fileID: 8624495018367401742}
+  m_Layer: 6
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4832,7 +4833,7 @@ Transform:
   m_GameObject: {fileID: 6646295671319886710}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4851,6 +4852,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb78e9604d13d6249951e264cd187e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &8624495018367401742
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6646295671319886710}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6743173132330547123
 GameObject:
   m_ObjectHideFlags: 0

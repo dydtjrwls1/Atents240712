@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: -1
-  item: 0
-  spawnCount: 5
+  item: 1
+  spawnCount: 1
   spawnPosition: {fileID: 1993670490}
   useNoise: 1
 --- !u!1 &203844586
