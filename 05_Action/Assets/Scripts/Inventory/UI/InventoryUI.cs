@@ -16,6 +16,8 @@ public class InventoryUI : MonoBehaviour
     // 임시 슬롯의 UI
     InvenTempSlotUI tempSlotUI;
 
+    MoneyPanelUI moneyPanelUI;
+
     DetailInfoUI detailInfoUI;
 
     ItemSpliterUI itemSpliterUI;
@@ -45,9 +47,12 @@ public class InventoryUI : MonoBehaviour
         sortPanelUI = child.GetComponent<SortPanelUI>();
 
         child = transform.GetChild(3);
-        detailInfoUI = child.GetComponent<DetailInfoUI>();
+        moneyPanelUI = child.GetComponent<MoneyPanelUI>();
 
         child = transform.GetChild(4);
+        detailInfoUI = child.GetComponent<DetailInfoUI>();
+
+        child = transform.GetChild(5);
         itemSpliterUI = child.GetComponent<ItemSpliterUI>();
 
         tempSlotUI = GetComponentInChildren<InvenTempSlotUI>();
