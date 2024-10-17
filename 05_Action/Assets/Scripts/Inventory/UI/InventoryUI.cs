@@ -29,7 +29,7 @@ public class InventoryUI : MonoBehaviour
 
     CanvasGroup canvasGroup;
 
-    
+    public Player Owner => inven.Owner;
 
     private void Awake()
     {
@@ -159,6 +159,15 @@ public class InventoryUI : MonoBehaviour
 
     private void OnItemDrop(InputAction.CallbackContext _)
     {
+        Vector2 screen = Mouse.current.position.ReadValue();
+        Vector2 diff = screen - (Vector2)transform.position;
+
+        RectTransform rectTransform = (RectTransform)transform;
+        if (!rectTransform.rect.Contains(diff)) // 인벤토리 영역 밖이라면
+        {
+            // 아이템 드랍
+            tempSlotUI.ItemDrop(screen); // 임시 슬롯에 있는 아이템을 버린다
+        }
     }
 
     private void OnInvenOnOff(InputAction.CallbackContext _)

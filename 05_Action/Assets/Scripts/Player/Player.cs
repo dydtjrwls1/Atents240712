@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
 
     PlayerInventory m_PlayerInventory;
 
+    public float ItemPickUpRange => m_PlayerInventory.pickUpRange;
+
     private void Awake()
     {
         m_CharacterController = GetComponent<CharacterController>();
