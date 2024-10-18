@@ -212,4 +212,10 @@ public class InvenSlot
     {
 
     }
+
+    public void ClearDelegates()
+    {
+        onSlotItemChange = null;
+        onItemEquip = null;
+    }
 }

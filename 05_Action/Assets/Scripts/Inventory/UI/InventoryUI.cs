@@ -93,6 +93,9 @@ public class InventoryUI : MonoBehaviour
         itemSpliterUI.onOkClick += OnSpliterOK;
         itemSpliterUI.onCancelClick += OnSpliterCancel;
 
+        Owner.PlayerInventory.onMoneyChange += moneyPanelUI.Refresh;
+        moneyPanelUI.Refresh(Owner.PlayerInventory.Money);
+
         sortPanelUI.onSortRequest += (sort) =>
         {
             bool isAcsending = true;

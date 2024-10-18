@@ -7,8 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement), typeof(PlayerAttack), typeof(PlayerInventory))]
 public class Player : MonoBehaviour
 {
-    public Inventory Inventory => m_PlayerInventory.Inventory;
-
     CharacterController m_CharacterController;
 
     PlayerInputController m_PlayerInputController;
@@ -19,8 +17,12 @@ public class Player : MonoBehaviour
 
     PlayerInventory m_PlayerInventory;
 
+    public Inventory InventoryData => m_PlayerInventory.Inventory;
+
     public float ItemPickUpRange => m_PlayerInventory.pickUpRange;
 
+    public PlayerInventory PlayerInventory => m_PlayerInventory;
+        
     private void Awake()
     {
         m_CharacterController = GetComponent<CharacterController>();

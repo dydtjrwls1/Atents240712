@@ -17,7 +17,7 @@ public class TestBase : MonoBehaviour
     protected TestInputAction inputActions;
 
     IEnumerator test;
-    private void Awake() // 스크립트가 생성되면 실행되는 함수
+    protected virtual void Awake() // 스크립트가 생성되면 실행되는 함수
     {
         inputActions = new TestInputAction(); // Testinputaction 을 새로 생성.
 

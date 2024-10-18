@@ -35,8 +35,8 @@ public class SlotUI_Base : MonoBehaviour
         this.slot = slot;
 
         // 이벤트 중복 발생을 방지하기 위해 일단 빼고 다시 더해준다.
-        InvenSlot.onSlotItemChange -= Refresh;
-        InvenSlot.onSlotItemChange += Refresh;
+        this.slot.ClearDelegates();
+        this.slot.onSlotItemChange += Refresh;
 
         Refresh();
     }

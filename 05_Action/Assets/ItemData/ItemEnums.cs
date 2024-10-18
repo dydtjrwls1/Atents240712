@@ -3,7 +3,10 @@ public enum ItemCode : byte
     Misc = 0,
     Ruby,
     Emerald,
-    Sapphire
+    Sapphire,
+    CopperCoin,
+    SilverCoin,
+    GoldCoin
 }
 
 public enum ItemSortCriteria : byte

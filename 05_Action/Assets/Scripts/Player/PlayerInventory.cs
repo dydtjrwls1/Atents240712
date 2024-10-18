@@ -1,16 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour, IInitializable
+public class PlayerInventory : MonoBehaviour, IInitializable, IMoneyContainer
 {
     Inventory inventory;
     public Inventory Inventory => inventory;
 
     public float pickUpRange = 1.5f;
 
-    int ItemLayerMask; 
+    int money = 0;
+
+    int ItemLayerMask;
+
+    public int Money
+    {
+        get => money;
+        set
+        {
+            if(money != value)
+            {
+                money = value;
+                onMoneyChange?.Invoke(money);
+            }
+        }
+    }
+
+    public event Action<int> onMoneyChange = null;
 
     public void Initialize()
     {
@@ -33,9 +51,19 @@ public class PlayerInventory : MonoBehaviour, IInitializable
 
                 if(obj != null)
                 {
-                    if (inventory.AddItem(obj.Data.code))
+                    IConsumable consumable = obj.Data as IConsumable;
+
+                    if (consumable != null)
                     {
-                        obj.CollectedItem(); // 아이템 추가 성공했으면 비활성화 하기
+                        consumable.Consume(gameObject);
+                        obj.CollectedItem();
+                    }
+                    else
+                    {
+                        if (inventory.AddItem(obj.Data.code))
+                        {
+                            obj.CollectedItem(); // 아이템 추가 성공했으면 비활성화 하기
+                        }
                     }
                 }
             }

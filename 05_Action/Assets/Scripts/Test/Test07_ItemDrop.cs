@@ -19,19 +19,19 @@ public class Test07_ItemDrop : TestBase
     private void Start()
     {
         player = GameManager.Instance.Player;
-        player.Inventory.AddItem(ItemCode.Ruby);
-        player.Inventory.AddItem(ItemCode.Ruby);
+        player.InventoryData.AddItem(ItemCode.Ruby);
+        player.InventoryData.AddItem(ItemCode.Ruby);
 
-        player.Inventory.AddItem(ItemCode.Ruby);
-        player.Inventory.AddItem(ItemCode.Sapphire);
-        player.Inventory.AddItem(ItemCode.Sapphire);
-        player.Inventory.AddItem(ItemCode.Emerald);
-        player.Inventory.AddItem(ItemCode.Emerald);
-        player.Inventory.AddItem(ItemCode.Emerald);
-        player.Inventory.AddItem(ItemCode.Emerald);
-        player.Inventory.AddItem(ItemCode.Emerald);
-        player.Inventory.AddItem(ItemCode.Emerald);
-        player.Inventory.MoveItem(2, 3);
+        player.InventoryData.AddItem(ItemCode.Ruby);
+        player.InventoryData.AddItem(ItemCode.Sapphire);
+        player.InventoryData.AddItem(ItemCode.Sapphire);
+        player.InventoryData.AddItem(ItemCode.Emerald);
+        player.InventoryData.AddItem(ItemCode.Emerald);
+        player.InventoryData.AddItem(ItemCode.Emerald);
+        player.InventoryData.AddItem(ItemCode.Emerald);
+        player.InventoryData.AddItem(ItemCode.Emerald);
+        player.InventoryData.AddItem(ItemCode.Emerald);
+        player.InventoryData.MoveItem(2, 3);
     }
 
     protected override void Test1_performed(InputAction.CallbackContext context)

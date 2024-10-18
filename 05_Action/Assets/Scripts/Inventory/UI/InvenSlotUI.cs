@@ -36,6 +36,12 @@ public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDra
         equipText = child.GetComponent<TextMeshProUGUI>();
     }
 
+    public override void InitializeSlot(InvenSlot slot)
+    {
+        ClearDelegates();
+        base.InitializeSlot(slot);
+    }
+
     protected override void OnRefresh()
     {
         if(InvenSlot.IsEquipped)
@@ -124,5 +130,18 @@ public class InvenSlotUI : SlotUI_Base, IDragHandler, IBeginDragHandler, IEndDra
     public void OnPointerClick(PointerEventData eventData)
     {
         onPointerClick?.Invoke(InvenSlot.Index);
+    }
+
+    public void ClearDelegates()
+    {
+        onPointerClick = null;
+        onPointerDown = null;
+        onPointerUp = null;
+        onPointerExit = null;
+        onPointerEnter = null;
+        onPointerMove = null;
+        onDragBegin = null;
+        onDragEnd = null;
+        
     }
 }
