@@ -14,6 +14,9 @@ public class PlayerStatus : MonoBehaviour
     public int maxHP = 10;
     public int maxMP = 5;
 
+    public float increaseInterval = 0.5f;
+    public int increaseTime = 5;
+
     int currentHP;
     int currentMP;
 
@@ -25,6 +28,7 @@ public class PlayerStatus : MonoBehaviour
             if(currentHP != value)
             {
                 currentHP = Mathf.Clamp(value, 0, maxHP);
+                Debug.Log(currentHP);
             }
         }
     }
@@ -37,7 +41,34 @@ public class PlayerStatus : MonoBehaviour
             if (currentMP != value)
             {
                 currentMP = Mathf.Clamp(value, 0, maxMP);
+                Debug.Log(currentMP);
             }
+        }
+    }
+
+    public void IncreseHP()
+    {
+        StopAllCoroutines();
+        StartCoroutine(UpdateHpOverTime());
+    }
+
+    IEnumerator UpdateHpOverTime()
+    {
+        float elapsedTime = 0.0f;
+        int currentIncreaseTime = 0;
+
+        while( currentIncreaseTime <  increaseTime )
+        {
+            elapsedTime += Time.deltaTime;
+
+            if( elapsedTime > increaseInterval )
+            {
+                currentIncreaseTime++;
+                elapsedTime = 0.0f;
+                HP += 1;
+            }
+
+            yield return null;
         }
     }
 }
