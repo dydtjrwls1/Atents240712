@@ -6,7 +6,9 @@ public enum ItemCode : byte
     Sapphire,
     CopperCoin,
     SilverCoin,
-    GoldCoin
+    GoldCoin,
+    Apple,
+    Bread
 }
 
 public enum ItemSortCriteria : byte

@@ -10,13 +10,13 @@ public class Test07_ItemDrop : TestBase
     public Transform spawnPosition;
     public bool useNoise = false;
 
-    Player player;
+    protected Player player;
 
 
 
 
 #if UNITY_EDITOR
-    private void Start()
+    protected virtual void Start()
     {
         player = GameManager.Instance.Player;
         player.InventoryData.AddItem(ItemCode.Ruby);
