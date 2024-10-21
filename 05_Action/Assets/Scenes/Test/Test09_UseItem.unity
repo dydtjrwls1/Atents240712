@@ -632,43 +632,13 @@ PrefabInstance:
     - target: {fileID: 115091425422819529, guid: 106de84135f9c8d409da7fc43398d7b0,
         type: 3}
       propertyPath: itemDatas.Array.size
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 115091425422819529, guid: 106de84135f9c8d409da7fc43398d7b0,
         type: 3}
-      propertyPath: itemDatas.Array.data[4]
+      propertyPath: itemDatas.Array.data[11]
       value: 
-      objectReference: {fileID: 11400000, guid: a8edf84dc5573b843a84ba064c3df564,
-        type: 2}
-    - target: {fileID: 115091425422819529, guid: 106de84135f9c8d409da7fc43398d7b0,
-        type: 3}
-      propertyPath: itemDatas.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: d83cf20c5f3d6b14db9637ed42a15a20,
-        type: 2}
-    - target: {fileID: 115091425422819529, guid: 106de84135f9c8d409da7fc43398d7b0,
-        type: 3}
-      propertyPath: itemDatas.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: 2f09b1f67375b09488ce4abce49c6a9b,
-        type: 2}
-    - target: {fileID: 115091425422819529, guid: 106de84135f9c8d409da7fc43398d7b0,
-        type: 3}
-      propertyPath: itemDatas.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: 977d84c7574c00e4ab5da6584b57c1cb,
-        type: 2}
-    - target: {fileID: 115091425422819529, guid: 106de84135f9c8d409da7fc43398d7b0,
-        type: 3}
-      propertyPath: itemDatas.Array.data[8]
-      value: 
-      objectReference: {fileID: 11400000, guid: ed7d006971bea474aa26cbbe6e336bc1,
-        type: 2}
-    - target: {fileID: 115091425422819529, guid: 106de84135f9c8d409da7fc43398d7b0,
-        type: 3}
-      propertyPath: itemDatas.Array.data[9]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1bb4b74358cf0e44493988918158d882,
+      objectReference: {fileID: 11400000, guid: a18cabd5fe06a8a46be3e1584969b86f,
         type: 2}
     - target: {fileID: 5735311849485560430, guid: 106de84135f9c8d409da7fc43398d7b0,
         type: 3}
@@ -1203,7 +1173,7 @@ GameObject:
   - component: {fileID: 1572415294}
   - component: {fileID: 1572415295}
   m_Layer: 0
-  m_Name: Test08_ConsumeItem
+  m_Name: Test09_UseItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1234,13 +1204,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1572415293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7385829b13c38eb46b828ce8045311be, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d1aeb3b097f3234194ec40a5d1f1594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   seed: -1
-  item: 0
-  spawnCount: 1
-  spawnPosition: {fileID: 0}
+  item: 10
+  spawnCount: 5
+  spawnPosition: {fileID: 990501770}
   useNoise: 0
 --- !u!224 &1735038690 stripped
 RectTransform:

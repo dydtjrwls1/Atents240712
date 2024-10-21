@@ -118,9 +118,16 @@ public class InventoryUI : MonoBehaviour
         if (tempSlotUI.InvenSlot.IsEmpty)
         {
             bool isShiftPress = Keyboard.current.shiftKey.ReadValue() > 0; // 쉬프트 키를 눌렀습니까?
+
             if (isShiftPress)
             {
                 ItemSpliterOpen(index);
+            }
+            else
+            {
+                // 쉬프트를 누르지 않았다면 아이템 사용이 목적
+                InvenSlot slot = inven[index];
+                inven[index].UseItem(Owner.gameObject);
             }
         }
         else

@@ -210,7 +210,12 @@ public class InvenSlot
     /// <param name="target">아이템의 효과를 받을 대상</param>
     public void UseItem(GameObject target)
     {
-
+        IUsable usable = ItemData as IUsable;
+        if (usable != null)
+        {
+            usable.Use(target);
+            DecreaseSlotItem();
+        }
     }
 
     public void ClearDelegates()
