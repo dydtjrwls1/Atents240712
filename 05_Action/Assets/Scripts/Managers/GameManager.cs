@@ -8,6 +8,10 @@ public class GameManager : SingleTon<GameManager>
 
     public Player Player => m_Player;
 
+    PlayerStatus m_Status;
+
+    public PlayerStatus Status => m_Status;
+
     ItemDataManager m_ItemDataManager;
 
     public ItemDataManager ItemData => m_ItemDataManager;
@@ -25,6 +29,7 @@ public class GameManager : SingleTon<GameManager>
     protected override void OnInitialize()
     {
         m_Player = FindAnyObjectByType<Player>();
+        m_Status = Player.GetComponent<PlayerStatus>();
         m_InventoryUI = FindAnyObjectByType<InventoryUI>();
 
         m_Player?.Initialize();

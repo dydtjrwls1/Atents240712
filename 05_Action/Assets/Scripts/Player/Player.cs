@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public float ItemPickUpRange => m_PlayerInventory.pickUpRange;
 
     public PlayerInventory PlayerInventory => m_PlayerInventory;
+
         
     private void Awake()
     {
