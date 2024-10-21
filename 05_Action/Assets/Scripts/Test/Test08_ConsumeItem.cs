@@ -23,4 +23,9 @@ public class Test08_ConsumeItem : Test07_ItemDrop
     {
         status.HealthHeal(-50.0f);
     }
+
+    protected override void Test3_performed(InputAction.CallbackContext context)
+    {
+        status.ManaHeal(-90.0f);
+    }
 }

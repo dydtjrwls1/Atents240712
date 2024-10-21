@@ -8,7 +8,8 @@ public enum ItemCode : byte
     SilverCoin,
     GoldCoin,
     Apple,
-    Bread
+    Bread,
+    Water
 }
 
 public enum ItemSortCriteria : byte
