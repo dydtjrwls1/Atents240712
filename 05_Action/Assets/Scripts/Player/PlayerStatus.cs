@@ -13,11 +13,26 @@ public class PlayerStatus : MonoBehaviour, IHealth, IMana
     // Drink 는 즉시회복
     // 인스팩터 창에서 아이콘 표시하기
 
+    // 플레이어의 기본 공격력
+    public float baseAttackPower = 5.0f;
+
+    // 플레이어의 기본 방어력
+    public float baseDefencePower = 1.0f;
+
     float hp = 100.0f;
     float maxHP = 100.0f;
 
     float mp = 100.0f;
     float maxMP = 100.0f;
+
+    // 현재 공격력
+    float attackEquipPower = 0.0f;
+
+    // 현재 방어력
+    float defenceEquipPower = 0.0f;
+
+    public float AttackPower => baseAttackPower + attackEquipPower;
+    public float DefencePower => baseDefencePower + defenceEquipPower;
 
     public float HP
     {
@@ -133,5 +148,22 @@ public class PlayerStatus : MonoBehaviour, IHealth, IMana
     public void ManaHeal(float heal)
     {
         MP += heal;
+    }
+
+    // 장비의 능력치를 적용하는 함수
+    public void SetEquipPower(EquipType type, float power)
+    {
+        switch (type)
+        {
+            case EquipType.Weapon:
+                attackEquipPower = power;
+                break;
+            case EquipType.Shield:
+                defenceEquipPower = power;
+                break;
+        }
+
+        Debug.Log($"Attack Power : {AttackPower}");
+        Debug.Log($"Defence Power : {DefencePower}");
     }
 }

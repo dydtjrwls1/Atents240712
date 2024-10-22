@@ -199,7 +199,11 @@ public class InvenSlot
     /// <param name="target">아이템을 장비할 대상</param>
     public void EquipItem(GameObject target)
     {
-
+        IEquipable equiptable = ItemData as IEquipable;
+        if(equiptable != null)
+        {
+            equiptable.ToggleEquip(target, this);
+        }
     }
 
     // 아이템 사용

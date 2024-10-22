@@ -128,6 +128,7 @@ public class InventoryUI : MonoBehaviour
                 // 쉬프트를 누르지 않았다면 아이템 사용이 목적
                 InvenSlot slot = inven[index];
                 inven[index].UseItem(Owner.gameObject);
+                inven[index].EquipItem(Owner.gameObject);
             }
         }
         else

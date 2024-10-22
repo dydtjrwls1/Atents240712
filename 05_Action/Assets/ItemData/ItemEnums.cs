@@ -11,7 +11,12 @@ public enum ItemCode : byte
     Bread,
     Water,
     HealingPotion,
-    ManaPotion
+    ManaPotion,
+    IronSword,
+    SilverSword,
+    GoldSword,
+    WoodShield,
+    Shield
 }
 
 public enum ItemSortCriteria : byte
@@ -19,4 +24,10 @@ public enum ItemSortCriteria : byte
     Code,
     Name,
     Price
+}
+
+public enum EquipType : byte
+{
+    Weapon,
+    Shield,
 }
