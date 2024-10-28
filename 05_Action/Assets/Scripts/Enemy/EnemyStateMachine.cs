@@ -11,8 +11,17 @@ using UnityEditor;
 
 public class EnemyStateMachine : MonoBehaviour
 {
+    // 공용 변수 및 플퍼티들 ==================================
+
+    [Header("공용")]
+    [SerializeField]
+    float moveSpeed = 3.0f;
+
+    // =====================================================
+
     // 대기 상태용 변수들 =====================================
 
+    [Header("대기상태용")]
     // 대기 상태 유지 시간
     [SerializeField]
     float waitTime = 1.0f;
@@ -23,6 +32,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     // 플레이어 탐색용 변수들 =================================
 
+    [Header("원거리 탐색용")]
     // 원거리 시야범위
     [SerializeField]
     float farSightRange = 10.0f;
@@ -40,6 +50,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     // 순찰 상태용 변수들 =====================================
 
+    [Header("순찰 상태용")]
     [SerializeField]
     Waypoints waypoints;
 
@@ -56,6 +67,8 @@ public class EnemyStateMachine : MonoBehaviour
     StateWait wait;
     StatePatrol patrol;
     StateChase chase;
+    StateAttack attack;
+    StateDie die;
 
     NavMeshAgent agent;
 
@@ -65,10 +78,15 @@ public class EnemyStateMachine : MonoBehaviour
 
     public Animator Animator => animator;
 
+    // 사망상태 확인용 프로퍼티
+    public bool IsAlive => state != die;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+             
+        agent.speed = moveSpeed;
     }
 
     private void Start()
@@ -76,6 +94,8 @@ public class EnemyStateMachine : MonoBehaviour
         wait = new StateWait(this);
         patrol = new StatePatrol(this);
         chase = new StateChase(this);
+        attack = new StateAttack(this);
+        die = new StateDie(this);
 
         state = wait;
     }
@@ -109,6 +129,16 @@ public class EnemyStateMachine : MonoBehaviour
     public void TransitionToWait()
     {
         TransitionTo(wait);
+    }
+
+    public void TransitionToAttack()
+    {
+        TransitionTo(attack);
+    }
+
+    public void TransitionToDie()
+    {
+        TransitionTo(die);
     }
 
     // 플레이어를 탐색하는 함수

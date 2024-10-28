@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5429863514812856233}
+  - {fileID: 6612403005930326208}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7907331904659784763
@@ -71,6 +72,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed7d006971bea474aa26cbbe6e336bc1, type: 2}
   - {fileID: 11400000, guid: 1bb4b74358cf0e44493988918158d882, type: 2}
   - {fileID: 11400000, guid: d3fa25d7e4c863d47895a7693c99c0a8, type: 2}
+  - {fileID: 11400000, guid: a18cabd5fe06a8a46be3e1584969b86f, type: 2}
+  - {fileID: 11400000, guid: 39b0bd71a34b35049af416464fb230a1, type: 2}
+  - {fileID: 11400000, guid: e5ceeaae6267113418e1ac78d07fded6, type: 2}
+  - {fileID: 11400000, guid: 6f053b01e972f4e4c8138b0443fed4c9, type: 2}
+  - {fileID: 11400000, guid: 5a27926dff15ff14599dfaa7349d46d5, type: 2}
+  - {fileID: 11400000, guid: 8654c278a04ee03439464c185e54ba77, type: 2}
 --- !u!114 &1492010124760316521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,4 +136,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6646295671319886710, guid: 8779e0611936c0d4b8e06f25a44b68e5, type: 3}
+  poolSize: 64
+--- !u!1 &8095286764787226034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6612403005930326208}
+  - component: {fileID: 5276302274933834150}
+  m_Layer: 0
+  m_Name: DamageTextPol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6612403005930326208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095286764787226034}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6936228098111612518}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5276302274933834150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095286764787226034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f576176fafc7e534a938a6c6143926d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1726776471712022893, guid: 7156f75f5a283c5438b3d26f0c799063, type: 3}
   poolSize: 64

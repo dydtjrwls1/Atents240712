@@ -11,6 +11,8 @@ public class Factory : SingleTon<Factory>
 
     ItemPool itemPool;
 
+    DamageTextPool damageTextPool;
+
     protected override void OnPreInitialize()
     {
         base.OnPreInitialize();
@@ -22,6 +24,10 @@ public class Factory : SingleTon<Factory>
         Transform child = transform.GetChild(0);
         itemPool = child.GetComponent<ItemPool>();
         itemPool?.Initialize();
+
+        child = transform.GetChild(1);
+        damageTextPool = child.GetComponent<DamageTextPool>();
+        damageTextPool?.Initialize();
     }
 
     /// <summary>
@@ -85,5 +91,12 @@ public class Factory : SingleTon<Factory>
             items[i] = MakeItem(code, position, useNoise);
         }
         return items;
+    }
+
+    public DamageText GetDamageText(Vector3 position, int damage)
+    {
+        DamageText damageText = damageTextPool.GetObject(position);
+        damageText.SetDamageText(damage);
+        return damageText;
     }
 }
