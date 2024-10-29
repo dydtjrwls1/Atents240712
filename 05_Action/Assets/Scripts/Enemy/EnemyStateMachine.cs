@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.AI;
+using System;
+
 
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-public class EnemyStateMachine : MonoBehaviour
+public class EnemyStateMachine : MonoBehaviour, IBattle
 {
     // 공용 변수 및 플퍼티들 ==================================
 
@@ -58,10 +60,31 @@ public class EnemyStateMachine : MonoBehaviour
 
     // =====================================================
 
+    // 적 공격 상태용 변수들 ==================================
+
+    [Header("공격 상태용")]
+    [SerializeField]
+    float attackPower = 10.0f;
+
+    [SerializeField]
+    float defencePower = 3.0f;
+
+    [SerializeField]
+    float attackInterval = 1.0f;
+
+    [SerializeField]
+    float attackRange = 1.5f;
+
+    IBattle attackTarget = null;
+
+    // =====================================================
+
     // 현재상태
     IState state;
 
     Animator animator;
+
+    EnemyHealth health;
 
     // 전체 상태들
     StateWait wait;
@@ -72,6 +95,11 @@ public class EnemyStateMachine : MonoBehaviour
 
     NavMeshAgent agent;
 
+    readonly int Attack_Hash = Animator.StringToHash("Attack");
+    readonly int Hit_Hash = Animator.StringToHash("Hit");
+
+    public event Action<int> onHit;
+
     public NavMeshAgent Agent => agent;
 
     public IState State => state;
@@ -81,11 +109,18 @@ public class EnemyStateMachine : MonoBehaviour
     // 사망상태 확인용 프로퍼티
     public bool IsAlive => state != die;
 
+    public float AttackPower => attackPower;
+
+    public float DefencePower => defencePower;
+
+    public float AttackInterval => attackInterval;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
              
+        health = GetComponent<EnemyHealth>();
         agent.speed = moveSpeed;
     }
 
@@ -206,6 +241,40 @@ public class EnemyStateMachine : MonoBehaviour
                 result = true;
             }
         }
+
+        return result;
+    }
+
+    public void Attack(IBattle target)
+    {
+        target.Defence(AttackPower);
+        animator.SetTrigger(Attack_Hash);
+    }
+
+    public void Defence(float damage)
+    {
+        if (health.IsAlive)
+        {
+            animator.SetTrigger(Hit_Hash);
+
+            float final = Mathf.Max(1f, damage - defencePower);
+            health.GetDamage(final);
+            onHit?.Invoke(Mathf.RoundToInt(final));
+        }
+    }
+
+    public bool IsInAttackRange()
+    {
+        bool result = false;
+        attackTarget = null;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, LayerMask.GetMask("Player"));
+        if (colliders.Length > 0)
+        {
+            attackTarget = colliders[0].GetComponent<IBattle>();
+            result = true;
+        }
+        attack.SetTarget(attackTarget);
 
         return result;
     }

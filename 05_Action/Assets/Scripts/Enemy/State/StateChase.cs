@@ -25,7 +25,12 @@ public class StateChase : IState
 
     public void Update()
     {
-        if (stateMachine.SearchPlayer(out Vector3 target))
+        if (stateMachine.IsInAttackRange())
+        {
+            // 플레이어가 공격범위 안에 있으면 공격으로 전환
+            stateMachine.TransitionToAttack();
+        }
+        else if (stateMachine.SearchPlayer(out Vector3 target))
         {
             // 플레이어 발견 시 계속 추적
             stateMachine.Agent.SetDestination(target);

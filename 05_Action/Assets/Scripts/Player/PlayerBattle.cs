@@ -1,10 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class PlayerAttack : MonoBehaviour
+public class PlayerBattle : MonoBehaviour, IBattle
 {
+    [SerializeField]
+    float attackPower;
+
+    [SerializeField]
+    float defencePower;
+    
     // 애니메이션 재생 시간
     const float AttackAnimationLength = 0.533f;
 
@@ -20,6 +27,12 @@ public class PlayerAttack : MonoBehaviour
 
     readonly int Attack_Hash = Animator.StringToHash("Attack");
 
+    public event Action<int> onHit;
+
+    public float AttackPower => attackPower;
+
+    public float DefencePower => defencePower;
+
     private void Awake()
     {
         m_Animator = GetComponent<Animator>();
@@ -34,17 +47,21 @@ public class PlayerAttack : MonoBehaviour
     // 공격 입력이 들어오면 실행되는 함수
     public void OnAttackInput()
     {
-        Attack();
+        Attack(null);
     }
 
-    // 공격 한번을 하는 함수
-    void Attack()
+    public void Attack(IBattle target)
     {
         // 쿨타임 시간이 모두 지나고 달릴 때는 공격하지 않는다
-        if(coolTime < 0 && m_PlayerMovement.MoveMode != PlayerMovement.MoveState.Run)
+        if (coolTime < 0 && m_PlayerMovement.MoveMode != PlayerMovement.MoveState.Run)
         {
             m_Animator.SetTrigger(Attack_Hash);
             coolTime = maxCoolTime;
         }
+    }
+
+    public void Defence(float damage)
+    {
+        Debug.Log($"{damage} 의 피해를 입었습니다.");
     }
 }

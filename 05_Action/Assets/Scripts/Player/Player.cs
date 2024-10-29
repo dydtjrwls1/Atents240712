@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputController))]
-[RequireComponent(typeof(PlayerMovement), typeof(PlayerAttack), typeof(PlayerInventory))]
+[RequireComponent(typeof(PlayerMovement), typeof(PlayerBattle), typeof(PlayerInventory))]
 public class Player : MonoBehaviour
 {
     CharacterController m_CharacterController;
@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
     PlayerMovement m_PlayerMovement;
 
-    PlayerAttack m_PlayerAttack;
+    PlayerBattle m_PlayerAttack;
 
     PlayerInventory m_PlayerInventory;
 
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         m_PlayerMovement = GetComponent<PlayerMovement>();
        
 
-        m_PlayerAttack = GetComponent<PlayerAttack>();
+        m_PlayerAttack = GetComponent<PlayerBattle>();
         m_PlayerInputController.onAttack += m_PlayerAttack.OnAttackInput;
 
         m_PlayerInventory = GetComponent<PlayerInventory>();
