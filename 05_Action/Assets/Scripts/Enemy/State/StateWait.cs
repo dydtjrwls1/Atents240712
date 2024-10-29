@@ -17,6 +17,9 @@ public class StateWait : IState
     {
         waitCountDown = stateMachine.WaitTime;
         stateMachine.Animator.SetTrigger("Stop");
+        stateMachine.Agent.isStopped = true;
+        stateMachine.Agent.velocity = Vector3.zero;
+
     }
 
     public void Exit()

@@ -25,7 +25,7 @@ public class StateChase : IState
 
     public void Update()
     {
-        if (stateMachine.IsInAttackRange())
+        if (stateMachine.PlayerInAttackRange() != null)
         {
             // 플레이어가 공격범위 안에 있으면 공격으로 전환
             stateMachine.TransitionToAttack();

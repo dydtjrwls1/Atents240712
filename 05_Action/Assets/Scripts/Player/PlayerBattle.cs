@@ -62,6 +62,7 @@ public class PlayerBattle : MonoBehaviour, IBattle
 
     public void Defence(float damage)
     {
+        onHit?.Invoke((int)damage);
         Debug.Log($"{damage} 의 피해를 입었습니다.");
     }
 }

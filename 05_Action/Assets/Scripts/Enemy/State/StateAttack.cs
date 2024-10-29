@@ -4,19 +4,18 @@ public class StateAttack : IState
 {
     private EnemyStateMachine stateMachine;
 
-    float attackInterval = 0.0f;
-    float attackCoolDown = 0.0f;
+    EnemyBattle battle;
 
-    IBattle attackTarget = null;
-
-    public StateAttack(EnemyStateMachine enemyStateMachine)
+    public StateAttack(EnemyStateMachine enemyStateMachine, EnemyBattle enemyBattle)
     {
         stateMachine = enemyStateMachine;
-        attackInterval = enemyStateMachine.AttackInterval;
+        battle = enemyBattle;
     }
     public void Enter()
     {
-        Debug.Log("상태 진입 - Attack");
+        battle.ResetAttackCoolTime();
+        stateMachine.Agent.isStopped = true;
+        stateMachine.Agent.velocity = Vector3.zero;
     }
 
     public void Exit()
@@ -26,23 +25,15 @@ public class StateAttack : IState
 
     public void Update()
     {
-        if (stateMachine.IsInAttackRange())
+        IBattle attackTarget = stateMachine.PlayerInAttackRange(); // 공격 범위 안에있는 플레이어 받아오기
+
+        if (attackTarget != null)
         {
-            attackCoolDown -= Time.deltaTime;
-            if (attackCoolDown <= 0.0f)
-            {
-                stateMachine.Attack(attackTarget);
-                attackCoolDown = attackInterval;
-            }
+            battle.TryAttackAndLook(attackTarget); // 공격 대상이 있으면 공격 시도
         }
         else
         {
-            stateMachine.TransitionToChase();
+            stateMachine.TransitionToChase(); // 공격 대상이 없으면 추적 상태로 전환
         }
-    }
-
-    public void SetTarget(IBattle target)
-    {
-        attackTarget = target;
     }
 }

@@ -9,8 +9,7 @@ public class Test13_EnemyHitAndAttack : TestBase
     public float damage = 30.0f;
 
     EnemyHealth health;
-
-    //EnemyBattle battle;
+    EnemyBattle battle;
 
     private void Start()
     {
@@ -21,7 +20,7 @@ public class Test13_EnemyHitAndAttack : TestBase
         PlayerMovement movement = player.GetComponent<PlayerMovement>();
         movement.ToggleMoveMode();
 
-        //battle = slime.GetComponent<EnemyBattle>();
+        battle = slime.GetComponent<EnemyBattle>();
         health = slime.GetComponent<EnemyHealth>(); 
     }
 
@@ -37,6 +36,6 @@ public class Test13_EnemyHitAndAttack : TestBase
 
     protected override void Test3_performed(InputAction.CallbackContext context)
     {
-        //battle.Defence(damage);
+        battle.Defence(damage);
     }
 }
